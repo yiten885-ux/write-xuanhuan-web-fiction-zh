@@ -1,0 +1,38 @@
+{
+  "name": "xuanhuan-storyforge",
+  "version": "1.0.0",
+  "description": "中文玄幻网文的规划、创作、续写、重写与机械审校工作流。",
+  "author": {
+    "name": "yiten885-ux",
+    "url": "https://github.com/yiten885-ux"
+  },
+  "keywords": [
+    "中文写作",
+    "玄幻",
+    "仙侠",
+    "网文",
+    "小说创作",
+    "前三章"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "玄章天工｜Xuanhuan Storyforge",
+    "shortDescription": "系统规划、创作、续写与审校中文玄幻网文",
+    "longDescription": "面向中文玄幻、仙侠、王朝修仙与系统流网文的完整创作工作流，覆盖故事圣经、世界与力量体系、人物弧、卷章规划、前三章正文、续写重写、连续性检查，以及正文净字数与编辑污染的机械审计。",
+    "developerName": "yiten885-ux",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "从零设计一部中文玄幻网文，先生成故事圣经、力量体系与前三章章纲。",
+      "根据我给出的设定，直接生成前三章完整正文并保存同一份最终版本。",
+      "审校这三章的钩子、爽点、角色动机与连续性，只给证据和改法。"
+    ],
+    "brandColor": "#B5472F",
+    "composerIcon": "./assets/composer-icon.png",
+    "logo": "./assets/logo.png",
+    "logoDark": "./assets/logo-dark.png"
+  }
+}

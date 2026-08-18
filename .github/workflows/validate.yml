@@ -1,0 +1,26 @@
+name: validate
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  skill-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate JSON manifests
+        run: |
+          python3 -m json.tool .agents/plugins/marketplace.json >/dev/null
+          python3 -m json.tool plugins/xuanhuan-storyforge/.codex-plugin/plugin.json >/dev/null
+      - name: Run Skill contract tests
+        run: >-
+          python3 -m unittest discover
+          -s plugins/xuanhuan-storyforge/skills/write-xuanhuan-web-fiction-zh/tests
+          -v

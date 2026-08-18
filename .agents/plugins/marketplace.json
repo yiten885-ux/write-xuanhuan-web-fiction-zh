@@ -1,0 +1,20 @@
+{
+  "name": "xuanhuan-storyforge",
+  "interface": {
+    "displayName": "玄章天工｜Xuanhuan Storyforge"
+  },
+  "plugins": [
+    {
+      "name": "xuanhuan-storyforge",
+      "source": {
+        "source": "local",
+        "path": "./plugins/xuanhuan-storyforge"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}
