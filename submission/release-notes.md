@@ -1,5 +1,13 @@
 # Release notes
 
+## 1.0.1
+
+- 同步最新版 `write-xuanhuan-web-fiction-zh`，将前三万字留存合同由六项扩展为九项，并保持既有规则累积生效。
+- 新增核心外挂稀缺性、滚动六章情绪峰值配比和章尾安全区禁令，减少能力同质化、连续算计疲劳与弱钩子收尾。
+- 加固正文污染审计，覆盖更多 Markdown、HTML、Unicode、隐藏内容和跨章凑字绕过，同时避免常见小说语句误伤。
+- 保持逐章 2000–3000 个净正文有效字符门禁；内部规则 ID、自检标签和 QA 控制文字不得进入读者正文。
+- QA JSON 默认只记录源文件名与 SHA-256，不暴露使用者本机绝对路径。
+
 ## 1.0.0
 
 - 首次以 skills-only Codex Plugin 形式封装 `write-xuanhuan-web-fiction-zh`。

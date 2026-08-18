@@ -39,9 +39,9 @@ class LeanSkillContractTests(unittest.TestCase):
         text_files = list(ROOT.rglob("*.txt"))
         self.assertLessEqual(len(markdown), 7)
         self.assertEqual([], text_files)
-        self.assertLess(sum(path.stat().st_size for path in markdown), 80_000)
+        self.assertLess(sum(path.stat().st_size for path in markdown), 95_000)
         # v1 与 v2 必须并存；上限只防无关膨胀，不能倒逼删除任一合同。
-        self.assertLess((ROOT / "SKILL.md").stat().st_size, 40_000)
+        self.assertLess((ROOT / "SKILL.md").stat().st_size, 45_000)
         self.assertLessEqual(len(list((ROOT / "references").glob("*.md"))), 4)
 
     def test_frontmatter_is_minimal_and_valid(self) -> None:
@@ -145,13 +145,13 @@ class LeanSkillContractTests(unittest.TestCase):
             "必须完整读取并执行 [references/opening-retention-six-locks.md]",
             skill,
         )
-        self.assertIn("六项是默认硬锁，不是可选建议", skill)
+        self.assertIn("九项留存硬锁是默认硬锁，不是可选建议", skill)
         self.assertIn(
-            "六项与七条前三章合同、v1、既有 v2、01–10、正文隔离锁及逐章净字数锁并列累积",
+            "九项与七条前三章合同、v1、既有 v2、01–10、正文隔离锁及逐章净字数锁并列累积",
             skill,
         )
         self.assertIn(
-            "本文件六项硬锁与 `SKILL.md` 中的七条前三章合同、v1、既有 v2、01–10、正文隔离锁和逐章净字数锁并列累积",
+            "本文件九项硬锁与 `SKILL.md` 中的七条前三章合同、v1、既有 v2、01–10、正文隔离锁和逐章净字数锁并列累积",
             retention,
         )
         self.assertIn("不得替换、放宽或择一执行", retention)
@@ -171,6 +171,12 @@ class LeanSkillContractTests(unittest.TestCase):
             "比例不得低于 1:3",
             "第 3 章结束前",
             "第 10 章结束前",
+            "核心外挂的 3 个本质功能",
+            "至少一项必须是作者能一句话说明的根本偏移",
+            "情绪失控系数 = 意外型翻盘次数",
+            "意外型翻盘与算计型翻盘的数量比必须落在 2:1 至 3:1",
+            "每章结尾时，主角不得同时满足三项",
+            "章尾焦虑值 = 未解决威胁数 × 2",
         ):
             with self.subTest(marker=marker):
                 self.assertIn(marker, retention)
@@ -181,6 +187,9 @@ class LeanSkillContractTests(unittest.TestCase):
             "每章最后 3 句同时包含动作压力",
             "任意滚动 2 章至少一次",
             "第 10 章结束前完成",
+            "核心外挂在“做什么、怎么做、代价是什么”三项中",
+            "任意滚动 6 章内",
+            "每章结尾不得同时处于安全区",
         ):
             with self.subTest(marker=marker):
                 self.assertIn(marker, skill)
@@ -197,8 +206,11 @@ class LeanSkillContractTests(unittest.TestCase):
             "主角意外行为频次 = 合格第四方案数 ÷ 主角关键决策总数",
             "章尾信息熵增量 = 改写因果的新信息数 ÷ 当前钩子所调用的已埋伏笔或相关前提数",
             "场景滞留惯性`按连续 3 章未完成主要场景转移的滚动窗口数计入扣分",
+            "设定稀缺性评分`按内部相似度排除计算",
+            "情绪失控系数 = 意外型翻盘次数 ÷ 全部翻盘次数",
+            "章尾安全区违规次数`按每章结尾三项同时成立次数计入扣分",
             "五项逐章检查",
-            "一项跨章周期检查",
+            "四项跨章/设定周期检查",
             "不是经市场验证的预测模型",
         ):
             with self.subTest(marker=marker):
@@ -206,10 +218,13 @@ class LeanSkillContractTests(unittest.TestCase):
         self.assertIn("每章必须独立达到 2000–3000 个净正文有效字符", skill)
 
     def test_retention_future_gate_cannot_be_prematurely_passed(self) -> None:
+        skill = self.read("SKILL.md")
         retention = self.read("references/opening-retention-six-locks.md")
         self.assertIn("第 3 章场景转移必须已经在正文落地", retention)
         self.assertIn("第 10 章门槛记为“尚未到期，已规划”", retention)
         self.assertIn("不得提前登记通过", retention)
+        self.assertIn("不足 6 章的交付只登记已规划峰值，不得提前写通过", retention)
+        self.assertIn("未满 6 章时规划账不得写成已通过", skill)
 
     def test_retention_templates_require_semantic_evidence(self) -> None:
         card = self.read("assets/chapter-card-template.md")
@@ -222,7 +237,10 @@ class LeanSkillContractTests(unittest.TestCase):
             "本章正面用途 / 惊奇 / 美感 / 便利 / 公共价值场景",
             "第 3 章结束前实际离开的动作与正文证据",
             "第 10 章门槛状态（尚未到期 / 已到期）",
-            "六项留存锁 QA 侧车记录",
+            "核心外挂的 3 个本质功能",
+            "情绪失控系数（目标 ≥ 0.6）",
+            "章尾焦虑值（目标 ≥ 4）",
+            "九项留存锁 QA 侧车记录",
         ):
             with self.subTest(marker=marker):
                 self.assertIn(marker, card)
@@ -233,7 +251,10 @@ class LeanSkillContractTests(unittest.TestCase):
             "章尾动作与信息双钩子账",
             "世界观双向展示账",
             "场景转移与首个副本闭环账",
-            "六项留存锁状态账",
+            "设定稀缺性账",
+            "情绪峰值类型配比账",
+            "章尾安全区账",
+            "九项留存锁状态账",
         ):
             with self.subTest(marker=marker):
                 self.assertIn(marker, bible)
@@ -241,7 +262,7 @@ class LeanSkillContractTests(unittest.TestCase):
     def test_agent_metadata_mentions_new_six_without_replacing_old_contracts(self) -> None:
         metadata = self.read("agents/openai.yaml")
         self.assertLess(len(metadata), 600)
-        self.assertIn("既有五锁、06–10及前三万字六项留存锁", metadata)
+        self.assertIn("既有五锁、06–10及前三万字九项留存锁", metadata)
         self.assertIn("逐章净正文2000–3000字符", metadata)
         self.assertIn("约束ID和自检只写独立QA侧车", metadata)
         self.assertIn("示例不进入通用门禁", metadata)

@@ -242,7 +242,7 @@ class OpeningThreeGateTests(unittest.TestCase):
         limitations = " ".join(report["limitations"])
         self.assertIn("cannot verify the seven-rule opening contract", limitations)
         self.assertIn("protagonist setup", limitations)
-        self.assertIn("six retention semantics", limitations)
+        self.assertIn("retention semantics", limitations)
         self.assertIn("irreversible stakes", limitations)
         self.assertIn("unexpected fourth choice", limitations)
         self.assertIn("scene-transfer/dungeon loop", limitations)
@@ -491,12 +491,19 @@ class OpeningThreeGateTests(unittest.TestCase):
             "节奏与副本周期",
             "场景转移与副本周期锁",
             "前三万字六项留存硬锁",
+            "前三万字九项留存硬锁",
+            "设定稀缺性",
+            "情绪峰值类型配比",
+            "情绪失控系数",
+            "章尾安全区禁令",
             "开篇**情感**锚定",
             "章尾<span>动作与信息</span>双钩子",
             "世界观双\u200b向展示",
             "[节奏与副本周期](https://example.invalid)",
             "六项留存<!--hidden-->硬锁",
+            "九项留存<!--hidden-->硬锁",
             "世界观双向\n展示",
+            "设定稀缺\n性",
         )
         for variant in variants:
             with self.subTest(variant=variant):
@@ -521,9 +528,18 @@ class OpeningThreeGateTests(unittest.TestCase):
             "爽点密度 = 2.5",
             "主角意外指数：0.7",
             "爆款留存率 = 8.1",
+            "设定稀缺性评分 = 6.0",
+            "情绪失控系数：0.66",
+            "章尾焦虑值：4",
             "常规选择一：求饶",
             "第四方案：反向设局",
             "六项留存检查：",
+            "九项留存检查：",
+            "核心外挂稀缺性：已排除",
+            "意外型翻盘：2",
+            "算计型翻盘：1",
+            "滚动6章窗口：",
+            "安全区禁令：通过",
             "本章落袋微爽点：已完成",
             "改写前文因果判断的新事实：身份有误",
             "第10章门槛状态：尚未到期",
@@ -570,6 +586,9 @@ class OpeningThreeGateTests(unittest.TestCase):
             "爽点密度<br>=2.5",
             "第四\n方案：反向设局",
             "第四<br>方案：反向设局",
+            "设定稀缺性<br>评分：6",
+            "情绪失控<br>系数：0.66",
+            "章尾安全区<br>禁令：通过",
             "Q\nA报告\n纯净：通过",
             "Q<br>A报告\n纯净：通过",
         )

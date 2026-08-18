@@ -71,8 +71,10 @@ EDITORIAL_RULE_NAME_RE = re.compile(
     r"家族谜题信息延迟)(?:律|锁)|"
     r"(?:开篇情感锚定|主角差异性行为|爽点频率与间隔|"
     r"章尾动作与信息双钩子|章尾双钩子|章尾信息悬停|"
-    r"世界观双向展示|节奏与副本周期|场景转移与副本周期)"
-    r"(?:律|锁)?|(?:前三万字)?六项留存硬锁)"
+    r"世界观双向展示|节奏与副本周期|场景转移与副本周期|"
+    r"设定稀缺性|情绪峰值(?:类型配比)?|情绪失控系数|"
+    r"章尾安全区禁令)"
+    r"(?:律|锁)?|(?:前三万字)?(?:六项|九项)留存硬锁)"
 )
 RETENTION_RULE_NAMES = (
     "开篇情感锚定",
@@ -84,8 +86,16 @@ RETENTION_RULE_NAMES = (
     "世界观双向展示",
     "节奏与副本周期",
     "场景转移与副本周期",
+    "设定稀缺性",
+    "情绪峰值类型配比",
+    "情绪峰值",
+    "情绪失控系数",
+    "章尾安全区禁令",
+    "章尾安全区",
     "六项留存硬锁",
     "前三万字六项留存硬锁",
+    "九项留存硬锁",
+    "前三万字九项留存硬锁",
 )
 SOFTBREAK_RETENTION_RULE_NAME_RE = re.compile(
     "|".join(
@@ -102,6 +112,10 @@ RETENTION_AUDIT_TOKENS = (
     "节奏加速系数",
     "爆款留存率",
     "综合得分",
+    "设定稀缺性评分",
+    "情绪失控系数",
+    "章尾焦虑值",
+    "章尾安全区违规次数",
     "常规选择一",
     "常规选择二",
     "常规选择三",
@@ -111,11 +125,22 @@ RETENTION_AUDIT_TOKENS = (
     "第四方案",
     "六项留存检查",
     "六项留存自检",
+    "九项留存检查",
+    "九项留存自检",
     "本章落袋微爽点",
     "滚动三章窗口",
     "改写前文因果判断的新事实",
     "滚动两章窗口",
     "第10章门槛状态",
+    "核心外挂稀缺性",
+    "内部相似度排除",
+    "真实近三年Top100检索",
+    "翻盘类型配比",
+    "意外型翻盘",
+    "算计型翻盘",
+    "滚动6章窗口",
+    "安全区禁令",
+    "安全规则穿透证据",
     "QA报告",
     "QA结果",
 )
@@ -135,6 +160,10 @@ RETENTION_FORMULA_TOKENS = (
     "节奏加速系数",
     "爆款留存率",
     "综合得分",
+    "设定稀缺性评分",
+    "情绪失控系数",
+    "章尾焦虑值",
+    "章尾安全区违规次数",
 )
 SOFTBREAK_RETENTION_FORMULA_RE = re.compile(
     r"(" + "|".join(re.escape(token) for token in RETENTION_FORMULA_TOKENS)
@@ -175,18 +204,28 @@ LAYER_AUDIT_RE = re.compile(
 )
 RETENTION_AUDIT_RE = re.compile(
     r"(?:开篇锚|主角意外指数|爽点密度|章尾钩子强度|"
-    r"世界观吸引力值|节奏加速系数|爆款留存率|综合得分)\s*[=:：]|"
+    r"世界观吸引力值|节奏加速系数|爆款留存率|综合得分|"
+    r"设定稀缺性评分|情绪失控系数|章尾焦虑值|"
+    r"章尾安全区违规次数)\s*[=:：]|"
     r"^(?:[-+*]\s*)?(?:常规选择[一二三123]|第四方案|"
-    r"六项留存(?:检查|自检|锁)|不可逆程度内部评分|"
+    r"(?:六项|九项)留存(?:检查|自检|锁)|不可逆程度内部评分|"
     r"本章落袋微爽点|滚动三章窗口|改写前文因果判断的新事实|"
-    r"滚动两章窗口|第\s*10\s*章门槛状态)\s*(?:[:：]|$)"
+    r"滚动两章窗口|第\s*10\s*章门槛状态|核心外挂稀缺性|"
+    r"内部相似度排除|真实近三年\s*Top100\s*检索|翻盘类型配比|"
+    r"意外型翻盘|算计型翻盘|滚动\s*6\s*章窗口|安全区禁令|"
+    r"安全规则穿透证据)\s*(?:[:：]|$)"
 )
 RETENTION_AUDIT_COMPACT_RE = re.compile(
     r"(?:开篇锚|主角意外指数|爽点密度|章尾钩子强度|"
-    r"世界观吸引力值|节奏加速系数|爆款留存率|综合得分)[=:：]|"
-    r"(?:常规选择[一二三123]|第四方案|六项留存(?:检查|自检|锁)|"
+    r"世界观吸引力值|节奏加速系数|爆款留存率|综合得分|"
+    r"设定稀缺性评分|情绪失控系数|章尾焦虑值|"
+    r"章尾安全区违规次数)[=:：]|"
+    r"(?:常规选择[一二三123]|第四方案|(?:六项|九项)留存(?:检查|自检|锁)|"
     r"不可逆程度内部评分|本章落袋微爽点|滚动三章窗口|"
-    r"改写前文因果判断的新事实|滚动两章窗口|第10章门槛状态)[:：]"
+    r"改写前文因果判断的新事实|滚动两章窗口|第10章门槛状态|"
+    r"核心外挂稀缺性|内部相似度排除|真实近三年Top100检索|"
+    r"翻盘类型配比|意外型翻盘|算计型翻盘|滚动6章窗口|"
+    r"安全区禁令|安全规则穿透证据)[:：]"
 )
 DOCUMENT_QA_HEADING_RE = re.compile(
     r"^[ \t]*(?:#{1,6}[ \t]*)?"
@@ -1661,7 +1700,7 @@ def build_report(args: argparse.Namespace) -> dict[str, Any]:
             "Length gates are evaluated independently for every explicit H1..H6 or plain-text chapter heading; aggregate length cannot compensate for a short or long chapter.",
             "The audit cannot verify whether titles were locked before drafting, copied exactly from a user prompt, or assigned non-invented chapter numbers.",
             "The opening-three gate checks chapter order, its configured per-chapter net-fiction range (default 2000..3000), and whether each final sentence has 1..15 effective characters; it cannot verify the seven-rule opening contract, including the early crisis, background cost, ability effect/cost/boundary, protagonist setup, antagonist precedent, banked stage victory, and prior visibility of key settings.",
-            "The audit cannot verify the six retention semantics: irreversible stakes, a fair but unexpected fourth choice, micro/major payoff meaning, causal reinterpretation at chapter endings, positive worldbuilding value, or a completed scene-transfer/dungeon loop; those require separate evidence review and do not establish reader retention or market performance.",
+            "The audit cannot verify the nine retention semantics: irreversible stakes, a fair but unexpected fourth choice, micro/major payoff meaning, causal reinterpretation at chapter endings, positive worldbuilding value, completed scene-transfer/dungeon loop, setting scarcity, surprise/calculation payoff ratio, or unsafe chapter-ending anxiety; those require separate evidence review and do not establish reader retention or market performance.",
             "Rule IDs, OUTPUT CHECK blocks, and audit/control language are rejected by the fiction-purity gate and excluded from net-fiction counts; a separate sidecar report must carry audit details.",
             "The paragraph-average gate treats each non-empty prose source line as a paragraph and uses effective letters/numbers; manual review is required for wrapped Markdown, abbreviations, and semantic paragraph boundaries.",
             "The outside-dialogue gate excludes text inside paired quotation marks; quotation marks do not prove that the quoted span is character dialogue, and malformed or nested quotes require manual review.",
