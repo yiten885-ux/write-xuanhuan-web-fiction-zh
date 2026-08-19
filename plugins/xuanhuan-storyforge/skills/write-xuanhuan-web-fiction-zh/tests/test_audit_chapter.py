@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import importlib.util
 import subprocess
 import sys
 import tempfile
@@ -10,6 +11,11 @@ from pathlib import Path
 
 SKILL_ROOT = Path(__file__).resolve().parents[1]
 AUDIT = SKILL_ROOT / "scripts" / "audit_chapter.py"
+AUDIT_SPEC = importlib.util.spec_from_file_location("xuanhuan_audit_chapter", AUDIT)
+assert AUDIT_SPEC is not None and AUDIT_SPEC.loader is not None
+AUDIT_MODULE = importlib.util.module_from_spec(AUDIT_SPEC)
+sys.modules[AUDIT_SPEC.name] = AUDIT_MODULE
+AUDIT_SPEC.loader.exec_module(AUDIT_MODULE)
 
 
 def make_batch(labels: list[tuple[str, str]], lengths: list[int]) -> str:
@@ -25,6 +31,17 @@ def make_batch(labels: list[tuple[str, str]], lengths: list[int]) -> str:
 
 
 class OpeningThreeGateTests(unittest.TestCase):
+    def direct_purity_and_counts(self, text: str) -> tuple[dict, list[int]]:
+        purity = AUDIT_MODULE.fiction_purity_gate(text)
+        sections = AUDIT_MODULE.split_chapter_sections(text)
+        if not sections:
+            sections = [{"text": text}]
+        counts: list[int] = []
+        for section in sections:
+            cleaned, _ = AUDIT_MODULE.clean_markdown(section["text"])
+            counts.append(AUDIT_MODULE.effective_count(cleaned))
+        return purity, counts
+
     def run_audit(
         self,
         text: str,
@@ -610,6 +627,178 @@ class OpeningThreeGateTests(unittest.TestCase):
                 )
                 self.assertFalse(report["length_gate"]["passed"])
 
+    def test_platform_and_four_beat_control_blocks_fail_and_cannot_pad(self) -> None:
+        variants = (
+            "## 平台爽点适配",
+            "## 起点向硬规则",
+            "番茄爽点逻辑：即时情绪+翻页率",
+            "| 平台 | 爽点逻辑 | 特点 |",
+            "打脸四拍：压—扬—打—收",
+            "第一拍：压\n第二拍：扬\n第三拍：打\n第四拍：收",
+            "黄金三章公式：",
+            "爽点公式 = （压抑×期待）÷释放时间",
+            "期待感公式 = 目标清晰+阻力强大",
+            "章节钩子公式 = 新危机",
+            "番茄快节奏开头模板",
+            "起点升级文模板",
+            "身份反差装逼打脸模板",
+            "起点卖的是‘成长期待+长期追读’，番茄卖的是‘即时情绪+翻页率’。",
+            "起点、番茄等平台的爽点逻辑分别是什么？",
+            "起点爽点关键词：期待、成长、升级",
+            "番茄爽点关键词：即时打脸、身份反差",
+            "### 1. 起点：付费订阅向",
+            "### 1. 起点：付费订阅向，核心是‘期待感+成长线’",
+            "### 2. 番茄：免费广告向，核心是‘即时情绪+高刺激’",
+            "起点重成长，番茄重情绪。",
+            "飞卢：开局核爆、每章打脸。",
+            "压->扬->打->收",
+            "压➡扬➡打➡收",
+            "压/扬/打/收",
+        )
+        for variant in variants:
+            with self.subTest(variant=variant.splitlines()[0]):
+                text = make_batch([("第一章", "净稿")], [1900])
+                text += "\n" + variant + "\n" + "审计填充" * 100 + "\n"
+                purity, counts = self.direct_purity_and_counts(text)
+                self.assertFalse(purity["passed"])
+                self.assertEqual(counts, [1900])
+
+    def test_deai_control_blocks_fail_purity_and_cannot_pad(self) -> None:
+        variants = (
+            "[角色设定]",
+            "[写作宪法——AI味硬规则]",
+            "去AI味系统指令",
+            "AI味检测与改写层",
+            "去AI味检测与改写：",
+            "AI味版本：",
+            "去AI味版本：",
+            "禁用词词库：仿佛、似乎、然而",
+            "AI高频词清单：仿佛、似乎、然而",
+            "对话占比至少30%",
+            "环境描写不超过15%",
+            "抽象词密度低于5%",
+            "平均句长不超过25字",
+            "每300字内至少出现一个具体感官细节",
+            "每500字内至少出现一个具体动作",
+            "连续心理独白不超过3句",
+            "请检查以下小说片段，找出AI味问题",
+            "改写要求：",
+            "## 写作前：风格注入层",
+            "## 写作中：硬规则约束层",
+            "### 1. 词汇层",
+            "### 2. 句式层",
+            "### 3. 内容层",
+            "### 4. 节奏层",
+            "### 5. 情感层",
+            "### 1. 场景公式",
+            "### 2. 描写公式",
+            "### 3. 对话公式",
+            "### 4. 情绪公式",
+            "### 5. 段落节奏公式",
+            "### 6. 开头公式",
+            "### 7. 结尾公式",
+            "## 四、后处理‘去AI味’检测与改写指令",
+            "禁用或尽量少用以下AI高频词：仿佛、似乎",
+            "禁止连续使用排比句。",
+            "禁止直接告诉读者情绪。",
+            "对话必须像人话。",
+            "不要总结升华。",
+        )
+        for variant in variants:
+            with self.subTest(variant=variant):
+                text = make_batch([("第一章", "净稿")], [1900])
+                text += "\n" + variant + "\n" + "审计填充" * 100 + "\n"
+                purity, counts = self.direct_purity_and_counts(text)
+                self.assertFalse(purity["passed"])
+                self.assertEqual(counts, [1900])
+
+    def test_new_craft_control_markers_obfuscated_fail_and_cannot_pad(self) -> None:
+        variants = (
+            "打脸**四拍**：压—扬—打—收",
+            "[打脸四拍](https://example.invalid)：压—扬—打—收",
+            "打脸<span>四拍</span>：压—扬—打—收",
+            "打脸<!--hidden-->四拍：压—扬—打—收",
+            "打脸\u200b四拍：压—扬—打—收",
+            "打脸<br>四拍：压—扬—打—收",
+            "打脸**\n**四拍：压—扬—打—收",
+            "打[脸](https://example.invalid)\n四拍：压—扬—打—收",
+            "去**AI**味自检：",
+            "去AI<br>味自检：",
+            "去AI\n味自检：",
+            "起点向<br>硬规则",
+            "起点向\n硬规则",
+            "打\n脸\n四\n拍：压—扬—打—收",
+            "打脸\n\n\n四拍：压—扬—打—收",
+            "去\nAI\n味\n自检：",
+            "起\n点\n向\n硬\n规\n则",
+        )
+        for variant in variants:
+            with self.subTest(variant=variant.splitlines()[0]):
+                text = make_batch([("第一章", "净稿")], [1900])
+                text += "\n" + variant + "\n" + "审计填充" * 100 + "\n"
+                purity, counts = self.direct_purity_and_counts(text)
+                self.assertFalse(purity["passed"])
+                self.assertEqual(counts, [1900])
+
+    def test_craft_control_block_resets_at_next_chapter_boundary(self) -> None:
+        text = make_batch(
+            [("第一章", "短章"), ("第二章", "正常章")],
+            [1900, 2000],
+        )
+        text = text.replace(
+            "\n# 第二章 正常章\n",
+            "\n## 去AI味检测与改写\n"
+            + "审计填充" * 100
+            + "\n# 第二章 正常章\n",
+        )
+        purity, counts = self.direct_purity_and_counts(text)
+        self.assertFalse(purity["passed"])
+        self.assertEqual(counts, [1900, 2000])
+
+    def test_craft_near_neighbor_prose_is_not_misclassified(self) -> None:
+        variants = (
+            "起点在北门外，番茄摊挨着药铺。",
+            "七只猫从晋江渡口窜过。",
+            "他压住刀背，扬腕打飞铁钉，收刀时没看身后。",
+            "少年抬手打了自己一耳光，又在门上拍了四下。",
+            "器灵自称AI，却尝不出酒里的铁锈味。",
+            "他从供词上划掉‘仿佛’二字，墨还没干。",
+            "掌柜把禁用的药名写进词库，免得伙计抓错药。",
+            "三十人里至少来了九个，院中只占三成。",
+        )
+        for variant in variants:
+            with self.subTest(variant=variant):
+                text = make_batch([("第一章", "净稿")], [2000]) + "\n" + variant
+                purity, counts = self.direct_purity_and_counts(text)
+                self.assertTrue(purity["passed"])
+                self.assertGreaterEqual(counts[0], 2000)
+                self.assertLessEqual(counts[0], 3000)
+
+    def test_watchlist_hit_is_candidate_not_a_failing_style_gate(self) -> None:
+        text = make_batch([("第一章", "净稿")], [2000])
+        text += "\n他仿佛听见井底有人敲了两下。\n"
+        result, report = self.run_audit(
+            text, opening=False, minimum=2000, maximum=3000
+        )
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertTrue(report["style_gates"]["passed"])
+        self.assertTrue(
+            any(hit["term"] == "仿佛" for hit in report["watchlist_hits"])
+        )
+
+    def test_craft_control_cli_smoke_fails_and_cannot_pad(self) -> None:
+        text = make_batch([("第一章", "净稿")], [1900])
+        text += "\n## 去AI味检测与改写\n" + "审计填充" * 100 + "\n"
+        result, report = self.run_audit(
+            text, opening=False, minimum=2000, maximum=3000
+        )
+        self.assertEqual(result.returncode, 1)
+        self.assertFalse(report["fiction_purity_gate"]["passed"])
+        self.assertEqual(
+            report["length_gate"]["chapters"][0]["effective_prose_chars"],
+            1900,
+        )
+
     def test_standalone_status_and_generic_selfcheck_blocks_are_excluded(self) -> None:
         variants = (
             "01 PASS\n" + "审计填充" * 100,
@@ -1052,6 +1241,116 @@ class OpeningThreeGateTests(unittest.TestCase):
         gate = report["style_gates"]["paragraph_sentence_average"]
         self.assertFalse(gate["passed"])
         self.assertEqual(gate["violations"][0]["average_effective_chars"], 19)
+
+    def test_continuity_control_blocks_fail_purity_and_cannot_pad_length(self) -> None:
+        markers = (
+            "【正文前检查】",
+            "## 正文后状态更新",
+            "【设定库更新】",
+            "[新增设定]",
+            "【生成前复述】",
+            "【章前状态卡】",
+            "【章后状态增量】",
+            "【人物状态机】",
+            "【剧情阶段状态机】",
+            "【时间线账本】",
+            "【伏笔账本】",
+            "【关键帧计划】",
+            "【回溯校验】",
+            "【章节自问自答】",
+            "【锚点提醒】",
+            "【纠偏指令】",
+            "【对抗性自检】",
+            "【全局一致性检查】",
+            "【行为约束伪代码】",
+        )
+        for marker in markers:
+            with self.subTest(marker=marker):
+                text = "# 第一章 净稿\n" + "甲" * 1900 + "\n" + marker + "\n" + "审计填充" * 100
+                purity, counts = self.direct_purity_and_counts(text)
+                self.assertFalse(purity["passed"])
+                self.assertEqual(counts, [1900])
+
+    def test_r_locks_status_and_obfuscated_controls_cannot_pad_length(self) -> None:
+        markers = (
+            "R1：事实锁",
+            "R2：人物锁",
+            "R7：视角锁",
+            "R10：空间锁",
+            "R**1**：PASS",
+            "R<span>1</span>：FAIL",
+            "R<!--x-->1：PASS",
+            "R\u200b1：检查",
+            "Ｒ１：ＰＡＳＳ",
+            "R<br>1：PASS",
+            "R\n1：PASS",
+            "P\nA\nS\nS",
+            "F<br>A<br>I<br>L",
+            "正\n文\n前\n检\n查",
+            "正<br>文<br>后<br>状<br>态<br>更<br>新",
+            "设\u200b定<!--x-->库<span>更</span>新",
+            "[新**增**设定](https://example.invalid)",
+        )
+        for marker in markers:
+            with self.subTest(marker=marker):
+                text = "# 第一章 净稿\n" + "甲" * 1900 + "\n" + marker + "\n" + "审计填充" * 100
+                purity, counts = self.direct_purity_and_counts(text)
+                self.assertFalse(purity["passed"])
+                self.assertEqual(counts, [1900])
+
+    def test_structured_state_json_yaml_and_tables_cannot_pad_length(self) -> None:
+        markers = (
+            "场景：客栈\n时间：黄昏\n地点：城南\n人物状态：受伤",
+            "【场景】客栈 【时间】黄昏 【地点】城南 【人物状态】受伤",
+            "场景=客栈；时间=黄昏；地点=城南；状态=受伤",
+            "| 场景 | 时间 | 地点 | 人物状态 |\n|---|---|---|---|",
+            "| 场景 | 时间 | 地点 | 状态 |\n|---|---|---|---|",
+            "| **场景** | **时间** | **地点** | **角色状态** |\n|---|---|---|---|",
+            "｜场景｜时间｜地点｜当前状态｜",
+            '{"场景":"青石巷","时间":"子时","地点":"南门","状态":"重伤"}',
+            "<table><tr><th>场景</th><th>时间</th><th>地点</th><th>状态</th></tr></table>",
+            "<table><tr><th>scene</th><th>time</th><th>location</th><th>state</th></tr></table>",
+            '{"characters": [], "timeline": [], "knowledge": []}',
+            "characters:\n  - character_id: c1\nscene: inn\ntime: dusk\nlocation: south\nstate: hurt",
+            "```json\n{\"facts\": [], \"characters\": []}\n审计填充审计填充\n```",
+            "<!-- {\"chapter_transactions\": [], \"keyframes\": []} -->",
+        )
+        for marker in markers:
+            with self.subTest(marker=marker):
+                text = "# 第一章 净稿\n" + "甲" * 1900 + "\n" + marker + "\n" + "审计填充" * 100
+                purity, counts = self.direct_purity_and_counts(text)
+                self.assertFalse(purity["passed"])
+                self.assertEqual(counts, [1900])
+
+    def test_continuity_controls_reset_at_next_chapter_and_nearby_prose_passes(self) -> None:
+        text = (
+            "# 第一章 净稿\n"
+            + "甲" * 1900
+            + "\n【正文后状态更新】\n"
+            + "审计填充" * 100
+            + "\n# 第二章 正文\n"
+            + "乙" * 2000
+        )
+        purity, counts = self.direct_purity_and_counts(text)
+        self.assertFalse(purity["passed"])
+        self.assertEqual(counts, [1900, 2000])
+
+        normal_lines = (
+            "这个事实他早就知道。",
+            "他的状态很差，仍提刀往前。",
+            "时间不多了。",
+            "地点在城南。",
+            "眼前场景让他想起旧宅。",
+            "正文前，他检查了一遍落款。",
+            "正文后，状态更新得很慢。",
+            "R1号傀儡撞破木门。",
+            "他失败了三次，第四次才通过山门。",
+            "账簿第三页写着地点和时间，墨迹还没干。",
+        )
+        for line in normal_lines:
+            with self.subTest(line=line):
+                normal = "# 第一章 净稿\n" + "甲" * 2000 + "\n" + line
+                self.assertTrue(AUDIT_MODULE.fiction_purity_gate(normal)["passed"])
 
 
 if __name__ == "__main__":

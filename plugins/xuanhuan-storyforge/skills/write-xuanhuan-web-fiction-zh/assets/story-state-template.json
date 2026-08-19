@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.1",
+  "state_version": 0,
+  "previous_state_sha256": "",
+  "text_sha256": "",
+  "canon_revision": "uninitialized",
+  "facts": [],
+  "characters": [],
+  "items": [],
+  "locations": [],
+  "knowledge": [],
+  "timeline": [],
+  "foreshadowing": [],
+  "plot_states": [],
+  "chapter_transactions": [],
+  "keyframes": [],
+  "unresolved_conflicts": []
+}

@@ -1,6 +1,6 @@
 # 玄章天工｜Xuanhuan Storyforge
 
-`write-xuanhuan-web-fiction-zh` 是面向中文玄幻、仙侠、王朝修仙和系统流网文的 Codex Skill。它覆盖从零规划、故事圣经、人物与力量体系、前三章、续写、重写、连续性审校和机械质量门禁。
+`write-xuanhuan-web-fiction-zh` 是面向中文玄幻、仙侠、王朝修仙和系统流网文的 Codex Skill。它覆盖从零规划、故事圣经、人物与力量体系、前三章、续写、重写、长篇状态事务、连续性审校和机械质量门禁。
 
 市场展示名为 **玄章天工｜Xuanhuan Storyforge**；稳定的 Skill 技术 ID 仍为 `write-xuanhuan-web-fiction-zh`，以兼容现有调用。
 
@@ -18,6 +18,18 @@ python3 -m unittest discover \
   -s plugins/xuanhuan-storyforge/skills/write-xuanhuan-web-fiction-zh/tests \
   -v
 ```
+
+对有已提交事件的长篇状态文件，可额外校验最终正文哈希、来源锚、关键帧和相邻版本链：
+
+```bash
+python3 plugins/xuanhuan-storyforge/skills/write-xuanhuan-web-fiction-zh/scripts/validate_story_state.py \
+  current.state.json \
+  --prose final.md \
+  --previous previous.state.json \
+  --json-out current.qa.json
+```
+
+正文、`.state.json` 状态和 `.qa.json` 审计必须保持三文件隔离；状态或审计文字不得进入读者正文或补足章节字数。
 
 Codex 插件清单还应使用当前 Codex 安装自带的 `validate_plugin.py` 验证。公开市场的最终上线状态以 OpenAI 审核通过、开发者主动发布和公共详情页可安装为准。
 

@@ -227,6 +227,183 @@ RETENTION_AUDIT_COMPACT_RE = re.compile(
     r"翻盘类型配比|意外型翻盘|算计型翻盘|滚动6章窗口|"
     r"安全区禁令|安全规则穿透证据)[:：]"
 )
+CRAFT_CONTROL_NAMES = (
+    "平台爽点模式",
+    "平台爽点适配",
+    "平台爽点与打脸四拍",
+    "起点向硬规则",
+    "番茄向硬规则",
+    "起点爽点逻辑",
+    "番茄爽点逻辑",
+    "打脸四拍",
+    "黄金三章公式",
+    "爽点公式",
+    "期待感公式",
+    "章节钩子公式",
+    "番茄快节奏开头模板",
+    "起点升级文模板",
+    "身份反差装逼打脸模板",
+    "AI味硬规则",
+    "去AI味系统指令",
+    "AI味检测与改写层",
+    "去AI味检测与改写",
+    "去AI味自检",
+    "AI味版本",
+    "去AI味版本",
+    "禁用词词库",
+    "AI高频词清单",
+    "正文去模板化审校",
+    "平台长线期待与即时兑现账",
+    "打脸四拍账",
+    "正文风格卡",
+    "去模板化复检账",
+    "写作前风格注入层",
+    "写作中硬规则约束层",
+    "后处理去AI味检测与改写指令",
+    "起点爽点关键词",
+    "番茄爽点关键词",
+)
+CRAFT_CONTROL_NAME_RE = re.compile(
+    "|".join(re.escape(name) for name in CRAFT_CONTROL_NAMES),
+    re.IGNORECASE,
+)
+CRAFT_AUDIT_LINE_RE = re.compile(
+    r"^\s*(?:#{1,6}\s*)?(?:[一二三四五六七八九十0-9]+[.、]\s*)?(?:"
+    r"\[?角色设定\]?|\[?写作宪法(?:[-—–]+)?AI味硬规则\]?|"
+    r"第一拍\s*[:：]\s*压|第二拍\s*[:：]\s*扬|"
+    r"第三拍\s*[:：]\s*打|第四拍\s*[:：]\s*收|"
+    r"对话占比(?:至少|目标)?\s*30\s*%|"
+    r"环境描写(?:不超过|目标)?\s*15\s*%|"
+    r"抽象词密度(?:低于|目标)?\s*5\s*%|"
+    r"平均句长(?:不超过|目标)?\s*25\s*字?|"
+    r"每\s*300\s*字内至少出现|每\s*500\s*字内至少出现|"
+    r"连续心理独白不超过\s*3\s*句|"
+    r"请检查以下小说片段[,，]找出AI味问题|改写要求|"
+    r"写作前\s*[:：]?\s*风格注入层|"
+    r"写作中\s*[:：]?\s*硬规则约束层|"
+    r"后处理[‘’“”\"']*去AI味[‘’“”\"']*检测与改写指令|"
+    r"(?:[一二三四五六七八九十0-9]+[.、]\s*)?(?:词汇|句式|内容|节奏|情感)层|"
+    r"(?:[一二三四五六七八九十0-9]+[.、]\s*)?(?:场景|描写|对话|情绪|段落节奏|开头|结尾)公式|"
+    r"起点\s*[:：]\s*付费订阅向(?:[,，][^\r\n]{0,120})?|"
+    r"番茄\s*[:：]\s*免费广告向(?:[,，][^\r\n]{0,120})?|"
+    r"起点[,，、/]番茄等平台的爽点逻辑分别是什么|"
+    r"起点卖的是[^\r\n]{1,80}番茄卖的是[^\r\n]{1,80}|"
+    r"起点重成长[,，]番茄重情绪[。.]*|"
+    r"飞卢\s*[:：]\s*开局核爆[,，、]每章打脸[。.]*|"
+    r"禁用或尽量少用以下AI高频词[^\r\n]{0,120}|"
+    r"禁止连续使用排比句[^\r\n]{0,60}|禁止直接告诉读者情绪[^\r\n]{0,60}|"
+    r"对话必须像人话[^\r\n]{0,60}|不要总结升华[^\r\n]{0,60}"
+    r")\s*(?:[:：]|$)",
+    re.IGNORECASE,
+)
+CRAFT_AUDIT_COMPACT_RE = re.compile(
+    r"(?:压(?:→|➡|➜|⇒|->|[-—–/])+扬(?:→|➡|➜|⇒|->|[-—–/])+打(?:→|➡|➜|⇒|->|[-—–/])+收|"
+    r"\|平台\|爽点逻辑\|特点\||"
+    r"对话占比(?:至少|目标)?30%|环境描写(?:不超过|目标)?15%|"
+    r"抽象词密度(?:低于|目标)?5%|平均句长(?:不超过|目标)?25字?|"
+    r"每300字内至少出现|每500字内至少出现|"
+    r"连续心理独白不超过3句|请检查以下小说片段[,，]找出AI味问题|"
+    r"写作前[:：]?风格注入层|写作中[:：]?硬规则约束层|"
+    r"后处理[‘’“”\"']*去AI味[‘’“”\"']*检测与改写指令|"
+    r"起点[,，、/]番茄等平台的爽点逻辑分别是什么|"
+    r"起点卖的是.{1,80}番茄卖的是.{1,80}|起点重成长[,，]番茄重情绪[。.]*|"
+    r"飞卢[:：]开局核爆[,，、]每章打脸[。.]*|"
+    r"禁用或尽量少用以下AI高频词.{0,120}|禁止连续使用排比句.{0,60}|"
+    r"禁止直接告诉读者情绪.{0,60}|对话必须像人话.{0,60}|不要总结升华.{0,60})",
+    re.IGNORECASE,
+)
+CONTINUITY_CONTROL_NAMES = (
+    "正文前检查",
+    "正文后状态更新",
+    "设定库更新",
+    "生成前复述",
+    "章前状态卡",
+    "章后状态增量",
+    "连续性状态事务",
+    "连续性状态更新",
+    "人物状态机",
+    "剧情阶段状态机",
+    "逐角色知情账",
+    "角色知情账",
+    "时间线账本",
+    "伏笔账本",
+    "关键帧计划",
+    "回溯校验",
+    "章节自问自答",
+    "锚点提醒",
+    "纠偏指令",
+    "对抗性自检",
+    "全局一致性检查",
+    "行为约束伪代码",
+    "长篇连续性与防跳脱合同",
+    "R1-R10执行清单",
+    "新增设定",
+)
+CONTINUITY_CONTROL_NAME_RE = re.compile(
+    "|".join(re.escape(name) for name in CONTINUITY_CONTROL_NAMES),
+    re.IGNORECASE,
+)
+CONTINUITY_AUDIT_LINE_RE = re.compile(
+    r"^\s*(?:#{1,6}\s*)?(?:【|\[)?(?:铁律层|状态卡|本章关键帧|"
+    r"正文前检查|正文后状态更新|设定库更新|生成前复述|"
+    r"人物状态机|剧情阶段状态机|时间线账本|伏笔账本|"
+    r"回溯校验|章节自问自答|自检流程|锚点提醒|纠偏指令|"
+    r"对抗性自检|全局一致性检查|写作计划|行为约束伪代码)"
+    r"(?:】|\])?\s*(?:[:：]|$)|"
+    r"^\s*(?:#{1,6}\s*)?(?:[-+*]\s*)?R\s*(?:10|[1-9])\s*"
+    r"(?:[.、:：-]+)\s*(?:事实锁|人物锁|世界锁|主线锁|因果禁区|"
+    r"冲突仲裁(?:锁)?|视角锁|信息锁|时间锁|空间锁|PASS|FAIL|"
+    r"检查|更新|事实|人物|世界|主线|视角|信息|时间|空间)",
+    re.IGNORECASE,
+)
+R_LOCK_COMPACT_RE = re.compile(
+    r"(?<![A-Za-z0-9])R(?:10|[1-9])(?:[.、:：-]+)?(?:"
+    r"事实锁|人物锁|世界锁|主线锁|因果禁区|冲突仲裁锁?|"
+    r"视角锁|信息锁|时间锁|空间锁|PASS|FAIL|检查|更新|"
+    r"事实|人物|世界|主线|视角|信息|时间|空间)",
+    re.IGNORECASE,
+)
+CONTROL_STATUS_COMPACT_RE = re.compile(
+    r"(?<![A-Za-z0-9])(?:PASS|FAIL)(?![A-Za-z0-9])",
+    re.IGNORECASE,
+)
+STRUCTURED_STATE_LINE_RE = re.compile(
+    r"^\s*(?:[-+*]\s*)?[{\[]?\s*(?:[\"']?(?:chapter_?state|characters|"
+    r"facts|items|locations|knowledge|timeline|foreshadowing|plot_?states|"
+    r"chapter_?transactions|unresolved_?conflicts|keyframes|text_?sha256|"
+    r"scene|time|location|state|"
+    r"人物|事实|物品|地点|知情|时间线|伏笔|剧情阶段|章节事务|未解决冲突)"
+    r"[\"']?\s*[:=]|"
+    r"(?:【|\[)(?:场景|时间|地点|人物状态|角色状态)(?:】|\])|"
+    r"(?:场景|时间|地点|人物状态|角色状态|当前时间|当前地点|当前状态|"
+    r"事实[_ ]?delta|人物[_ ]?delta|物品[_ ]?delta|地点[_ ]?delta|"
+    r"knowledge[_ ]?delta|timeline[_ ]?delta|foreshadow[_ ]?delta)\s*[:=])|"
+    r"^\s*\|?\s*(?:场景|scene)\s*\|\s*(?:时间|time)\s*\|\s*"
+    r"(?:地点|location)\s*\|\s*(?:人物状态|角色状态|当前状态|状态|state)\s*\|?",
+    re.IGNORECASE,
+)
+STRUCTURED_STATE_MULTIKEY_RE = re.compile(
+    r"^(?=.*(?:场景|scene)\s*[:=])(?=.*(?:时间|time)\s*[:=])"
+    r"(?=.*(?:地点|location)\s*[:=])(?=.*(?:状态|state)\s*[:=]).*$",
+    re.IGNORECASE,
+)
+STRUCTURED_STATE_COMPACT_RE = re.compile(
+    r"[\"']?(?:chapterstate|characters|facts|items|locations|knowledge|timeline|"
+    r"foreshadowing|plotstates|chaptertransactions|unresolvedconflicts|keyframes|"
+    r"textsha256)[\"']?[:=]",
+    re.IGNORECASE,
+)
+STRUCTURED_STATE_FOUR_KEY_COMPACT_RE = re.compile(
+    r"(?:"
+    r"场景(?:[\"']?[:=|]|<).{0,120}"
+    r"时间(?:[\"']?[:=|]|<).{0,120}"
+    r"地点(?:[\"']?[:=|]|<).{0,120}"
+    r"(?:人物状态|角色状态|当前状态|状态)(?:[\"']?[:=|]|<)?|"
+    r"场景时间地点(?:人物状态|角色状态|当前状态|状态)|"
+    r"scenetimelocation(?:characterstate|personstate|currentstate|state)"
+    r")",
+    re.IGNORECASE,
+)
 DOCUMENT_QA_HEADING_RE = re.compile(
     r"^[ \t]*(?:#{1,6}[ \t]*)?"
     r"Q[ \t\r\n]*A[ \t\r\n]*(?:报[ \t\r\n]*告|结[ \t\r\n]*果)"
@@ -1021,6 +1198,10 @@ def editorial_meta_kind(line: str) -> str | None:
             return "rule_constraint_id"
         if EDITORIAL_RULE_NAME_RE.search(compact):
             return "rule_constraint_name"
+        if CRAFT_CONTROL_NAME_RE.search(compact):
+            return "craft_control_name"
+        if CONTINUITY_CONTROL_NAME_RE.search(compact):
+            return "continuity_control_name"
         if EDITORIAL_BLOCK_HEADING_RE.search(normalized):
             return "audit_block_heading"
         if EDITORIAL_STATUS_LINE_RE.search(normalized):
@@ -1031,6 +1212,22 @@ def editorial_meta_kind(line: str) -> str | None:
             return "layer_audit_label"
         if RETENTION_AUDIT_RE.search(normalized):
             return "retention_audit_label"
+        if CRAFT_AUDIT_LINE_RE.search(normalized):
+            return "craft_audit_label"
+        if CRAFT_AUDIT_COMPACT_RE.search(compact):
+            return "craft_audit_label"
+        if CONTINUITY_AUDIT_LINE_RE.search(normalized):
+            return "continuity_audit_label"
+        if R_LOCK_COMPACT_RE.search(compact):
+            return "continuity_rule_label"
+        if STRUCTURED_STATE_LINE_RE.search(normalized):
+            return "structured_state_block"
+        if STRUCTURED_STATE_MULTIKEY_RE.search(normalized):
+            return "structured_state_block"
+        if STRUCTURED_STATE_COMPACT_RE.search(compact):
+            return "structured_state_block"
+        if STRUCTURED_STATE_FOUR_KEY_COMPACT_RE.search(compact):
+            return "structured_state_block"
     return None
 
 
@@ -1104,6 +1301,20 @@ def fiction_purity_gate(text: str) -> dict[str, Any]:
             document_kind = "rule_constraint_name"
         elif RETENTION_AUDIT_COMPACT_RE.search(compact):
             document_kind = "retention_audit_label"
+        elif CRAFT_CONTROL_NAME_RE.search(compact):
+            document_kind = "craft_control_name"
+        elif CRAFT_AUDIT_COMPACT_RE.search(compact):
+            document_kind = "craft_audit_label"
+        elif CONTINUITY_CONTROL_NAME_RE.search(compact):
+            document_kind = "continuity_control_name"
+        elif R_LOCK_COMPACT_RE.search(compact):
+            document_kind = "continuity_rule_label"
+        elif STRUCTURED_STATE_COMPACT_RE.search(compact):
+            document_kind = "structured_state_block"
+        elif STRUCTURED_STATE_FOUR_KEY_COMPACT_RE.search(compact):
+            document_kind = "structured_state_block"
+        elif CONTROL_STATUS_COMPACT_RE.search(compact):
+            document_kind = "audit_instruction"
         elif DOCUMENT_QA_HEADING_RE.search(rendered):
             document_kind = "audit_block_heading"
         elif re.search(r"OUTPUTCHECK", compact, re.IGNORECASE):
@@ -1131,7 +1342,17 @@ def fiction_purity_gate(text: str) -> dict[str, Any]:
 def clean_markdown(text: str) -> tuple[str, list[tuple[int, str]]]:
     """Return net fiction prose while excluding structure and audit metadata."""
 
-    text = HTML_COMMENT_RE.sub("", text.lstrip("\ufeff"))
+    def clean_comment(match: re.Match[str]) -> str:
+        # A complete control block hidden in a comment still starts an excluded
+        # editorial block. Ordinary comments disappear while preserving line
+        # count; comments used only to split a visible token are removed so the
+        # rendered token can be reconstructed and detected below.
+        replacement = ""
+        if editorial_meta_kind(match.group(0)) is not None:
+            replacement = "OUTPUT CHECK"
+        return replacement + "\n" * match.group(0).count("\n")
+
+    text = HTML_COMMENT_RE.sub(clean_comment, text.lstrip("\ufeff"))
     text = html_text_content(text)
     text = SOFTBREAK_OUTPUT_CHECK_RE.sub("OUTPUT CHECK", text)
     text = SOFTBREAK_RETENTION_RULE_NAME_RE.sub(
@@ -1144,6 +1365,38 @@ def clean_markdown(text: str) -> tuple[str, list[tuple[int, str]]]:
         lambda match: match.group(1) + match.group(2), text
     )
     lines = strip_frontmatter(text.splitlines())
+    # Map the whitespace-free rendered document back to source lines. This
+    # catches a strong control label even when every character is separated by
+    # arbitrary soft breaks or blank lines. Starting the block at the mapped
+    # first character also prevents the split fragments from padding length.
+    flattened_parts: list[str] = []
+    flattened_line_map: list[int] = []
+    for line_number, raw in enumerate(lines, start=1):
+        normalized = normalize_unicode_scan(unwrap_markdown_links(raw))
+        compact = re.sub(r"\s+", "", normalized)
+        flattened_parts.append(compact)
+        flattened_line_map.extend([line_number] * len(compact))
+    flattened_document = "".join(flattened_parts)
+    document_control_starts: set[int] = set()
+    document_patterns = (
+        EDITORIAL_RULE_ID_RE,
+        EDITORIAL_RULE_NAME_RE,
+        RETENTION_AUDIT_COMPACT_RE,
+        CRAFT_CONTROL_NAME_RE,
+        CRAFT_AUDIT_COMPACT_RE,
+        CONTINUITY_CONTROL_NAME_RE,
+        R_LOCK_COMPACT_RE,
+        CONTROL_STATUS_COMPACT_RE,
+        STRUCTURED_STATE_COMPACT_RE,
+        STRUCTURED_STATE_FOUR_KEY_COMPACT_RE,
+    )
+    for pattern in document_patterns:
+        for match in pattern.finditer(flattened_document):
+            if match.start() < len(flattened_line_map):
+                document_control_starts.add(flattened_line_map[match.start()])
+    for match in re.finditer(r"OUTPUTCHECK", flattened_document, re.IGNORECASE):
+        if match.start() < len(flattened_line_map):
+            document_control_starts.add(flattened_line_map[match.start()])
     prose_lines: list[tuple[int, str]] = []
     in_fence = False
     fence_char = ""
@@ -1171,6 +1424,9 @@ def clean_markdown(text: str) -> tuple[str, list[tuple[int, str]]]:
         )
         if in_editorial_block and heading is not None:
             in_editorial_block = False
+        if line_number in document_control_starts:
+            in_editorial_block = True
+            continue
         if editorial_meta_kind(raw) is not None:
             in_editorial_block = True
             continue
@@ -1212,17 +1468,33 @@ def clean_markdown(text: str) -> tuple[str, list[tuple[int, str]]]:
 def split_chapter_sections(text: str) -> list[dict[str, Any]]:
     """Split explicit H1..H6 or plain chapter headings for per-chapter gates."""
 
-    without_comments = HTML_COMMENT_RE.sub("", text.lstrip("\ufeff"))
-    rendered = html_text_content(without_comments)
-    lines = mask_fenced_lines(strip_frontmatter(rendered.splitlines()))
+    without_bom = text.lstrip("\ufeff")
+    source_lines = strip_frontmatter(without_bom.splitlines())
+    comments_masked = HTML_COMMENT_RE.sub(
+        lambda match: "\n" * match.group(0).count("\n"), without_bom
+    )
+    structure_lines = strip_frontmatter(comments_masked.splitlines())
+    # Comment replacement preserves line count. If malformed input still
+    # produces a mismatch, fail closed by padding the shorter structural view.
+    if len(structure_lines) < len(source_lines):
+        structure_lines.extend([""] * (len(source_lines) - len(structure_lines)))
+    elif len(structure_lines) > len(source_lines):
+        structure_lines = structure_lines[: len(source_lines)]
+    scan_lines = mask_fenced_lines(structure_lines)
     sections: list[dict[str, Any]] = []
     current_line: int | None = None
     current_title: str | None = None
     current_heading_level: int | None = None
     current_lines: list[str] = []
 
-    for line_number, raw in enumerate(lines, start=1):
-        heading = None if INDENTED_CODE_RE.match(raw) else chapter_heading_value(raw)
+    for line_number, (scan_raw, source_raw) in enumerate(
+        zip(scan_lines, source_lines), start=1
+    ):
+        heading = (
+            None
+            if INDENTED_CODE_RE.match(source_raw)
+            else chapter_heading_value(scan_raw)
+        )
         if heading is not None:
             if current_line is not None:
                 sections.append(
@@ -1235,9 +1507,9 @@ def split_chapter_sections(text: str) -> list[dict[str, Any]]:
                 )
             current_line = line_number
             current_title, current_heading_level = heading
-            current_lines = [raw]
+            current_lines = [source_raw]
         elif current_line is not None:
-            current_lines.append(raw)
+            current_lines.append(source_raw)
 
     if current_line is not None:
         sections.append(

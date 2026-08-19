@@ -18,14 +18,18 @@ class LeanSkillContractTests(unittest.TestCase):
             "agents/openai.yaml",
             "assets/chapter-card-template.md",
             "assets/story-bible-template.md",
+            "assets/story-state-template.json",
             "references/story-design.md",
             "references/character-emotion.md",
             "references/revision-continuity.md",
             "references/opening-retention-six-locks.md",
+            "references/prose-style.md",
             "references/zh-style-watchlist.json",
             "scripts/audit_chapter.py",
+            "scripts/validate_story_state.py",
             "tests/test_audit_chapter.py",
             "tests/test_skill_contract.py",
+            "tests/test_story_state.py",
         }
         actual = {
             str(path.relative_to(ROOT))
@@ -37,12 +41,13 @@ class LeanSkillContractTests(unittest.TestCase):
     def test_markdown_inventory_stays_lean(self) -> None:
         markdown = list(ROOT.rglob("*.md"))
         text_files = list(ROOT.rglob("*.txt"))
-        self.assertLessEqual(len(markdown), 7)
+        self.assertLessEqual(len(markdown), 8)
         self.assertEqual([], text_files)
-        self.assertLess(sum(path.stat().st_size for path in markdown), 95_000)
+        # 连续性引擎是独立的高密度参考；上限仍只防无关材料膨胀。
+        self.assertLess(sum(path.stat().st_size for path in markdown), 140_000)
         # v1 与 v2 必须并存；上限只防无关膨胀，不能倒逼删除任一合同。
-        self.assertLess((ROOT / "SKILL.md").stat().st_size, 45_000)
-        self.assertLessEqual(len(list((ROOT / "references").glob("*.md"))), 4)
+        self.assertLess((ROOT / "SKILL.md").stat().st_size, 48_000)
+        self.assertLessEqual(len(list((ROOT / "references").glob("*.md"))), 5)
 
     def test_frontmatter_is_minimal_and_valid(self) -> None:
         skill = self.read("SKILL.md")
@@ -74,6 +79,7 @@ class LeanSkillContractTests(unittest.TestCase):
                 ROOT / "references/character-emotion.md",
                 ROOT / "references/revision-continuity.md",
                 ROOT / "references/opening-retention-six-locks.md",
+                ROOT / "references/prose-style.md",
             ]
         )
         self.assertNotIn("project-lock-", runtime)
@@ -608,6 +614,177 @@ class LeanSkillContractTests(unittest.TestCase):
         self.assertIn("--min-effective 2000", skill)
         self.assertIn("--max-effective 3000", skill)
         self.assertIn("审计控制文字判为正文污染", skill)
+
+    def test_platform_modes_and_four_beat_are_cumulative_not_replacements(self) -> None:
+        skill = self.read("SKILL.md")
+        design = self.read("references/story-design.md")
+        self.assertIn(
+            "规划全书、世界、力量、金手指、地图、秘境、高潮、命名、平台爽点模式或打脸四拍",
+            skill,
+        )
+        for marker in (
+            "订阅成长向",
+            "免费滑读向",
+            "超快脑洞向",
+            "情感关系向",
+            "通用平衡",
+            "平台名称在本 Skill 中只代表用户选择的编辑模式",
+            "不代表官方算法、当前推荐政策或市场保证",
+            "压 → 扬 → 打 → 收",
+            "四拍不能替代反派拆解及其副作用",
+            "章末新危机只能在更高层继续施压",
+            "黄金三章的平台适配",
+        ):
+            with self.subTest(marker=marker):
+                self.assertIn(marker, design)
+        self.assertIn("平台爽点与正文去模板化默认合同", skill)
+        self.assertIn("与既有全部合同并列累积", skill)
+
+    def test_prose_style_reference_is_mandatory_and_three_layered(self) -> None:
+        skill = self.read("SKILL.md")
+        style = self.read("references/prose-style.md")
+        self.assertIn(
+            "必须完整读取并执行 [references/prose-style.md]",
+            skill,
+        )
+        self.assertIn("正文风格默认目标生效", skill)
+        self.assertIn("风格目标可由风格卡按具体语境覆盖", skill)
+        for marker in (
+            "写前风格注入",
+            "写中约束",
+            "写后检测与改写",
+            "重新验收",
+            "候选命中不是错误，更不是作者身份判断",
+            "具体物件 + 动态动词 + 一项感官 + 人物主观滤镜",
+            "触发事件 → 生理反应 → 行为冲动 → 抑制或爆发 → 环境或关系反馈",
+            "风格白名单",
+            "平均有效句长目标不超过 25 个字符",
+            "对话目标占读者可见正文约 30% 以上",
+            "环境描写目标不超过约 15%",
+            "抽象词候选密度目标低于约 5%",
+            "不能说“检测证明不是 AI 写的”",
+        ):
+            with self.subTest(marker=marker):
+                self.assertIn(marker, style)
+
+    def test_platform_and_style_evidence_stay_in_sidecar_templates(self) -> None:
+        card = self.read("assets/chapter-card-template.md")
+        bible = self.read("assets/story-bible-template.md")
+        for marker in (
+            "目标平台 / 爽点模式",
+            "去模板化强度（标准 / 强约束 / 自定义）与风格白名单",
+            "平台爽点与打脸四拍",
+            "正文去模板化审校",
+        ):
+            with self.subTest(marker=marker):
+                self.assertIn(marker, card)
+        for marker in (
+            "平台长线期待与即时兑现账",
+            "打脸四拍账",
+            "正文风格卡",
+            "去模板化复检账",
+        ):
+            with self.subTest(marker=marker):
+                self.assertIn(marker, bible)
+
+    def test_style_watchlist_is_candidate_only_and_extensible(self) -> None:
+        watchlist = self.read("references/zh-style-watchlist.json")
+        for marker in (
+            '"schema_version": "1.1"',
+            '"abstract_uplift"',
+            '"cliche_simile"',
+            '"summary_ending"',
+            "候选",
+            "不能据此判断作者身份",
+        ):
+            with self.subTest(marker=marker):
+                self.assertIn(marker, watchlist)
+
+    def test_agent_metadata_routes_platform_and_style_without_exposing_controls(self) -> None:
+        metadata = self.read("agents/openai.yaml")
+        self.assertLess(len(metadata), 600)
+        self.assertIn("按目标平台选择爽点模式", metadata)
+        self.assertIn("完成去模板化审校", metadata)
+        self.assertIn("约束ID和自检只写独立QA侧车", metadata)
+        self.assertIn("四拍拆解也须隔离", metadata)
+
+    def test_longform_continuity_contract_is_cumulative_and_internal_only(self) -> None:
+        skill = self.read("SKILL.md")
+        continuity = self.read("references/revision-continuity.md")
+        card = self.read("assets/chapter-card-template.md")
+        bible = self.read("assets/story-bible-template.md")
+        metadata = self.read("agents/openai.yaml")
+        self.assertIn(
+            "必须完整读取并执行 [references/revision-continuity.md]",
+            skill,
+        )
+        self.assertIn("长篇连续性与防跳脱合同（与既有全部合同并列累积）", skill)
+        for marker in (
+            "### R1 事实锁",
+            "### R2 人物锁",
+            "### R3 世界锁",
+            "### R4 主线锁",
+            "### R5 因果禁区",
+            "### R6 冲突仲裁锁",
+            "### R7 视角锁",
+            "### R8 信息锁",
+            "### R9 时间锁",
+            "### R10 空间锁",
+            "载入状态 N → 章前预检 → 场景生成 → 章后增量",
+            "正向回放",
+            "逆向举证",
+            "正文文件：只含标题和小说正文",
+            "状态文件：保存结构化状态",
+            "QA 侧车：保存规则证据",
+        ):
+            with self.subTest(marker=marker):
+                self.assertIn(marker, continuity)
+        for marker in (
+            "场景 POV / 可感知边界",
+            "人物当前状态 → 允许状态 / 所需触发事件",
+            "章后状态增量与回溯",
+            "最终正文哈希 / 输出状态版本",
+        ):
+            self.assertIn(marker, card)
+        for marker in (
+            "事实版本账",
+            "人物状态机",
+            "逐角色知情账",
+            "统一时间线",
+            "人物位置与移动账",
+            "唯一物品持有与转移账",
+            "未解决连续性冲突",
+        ):
+            self.assertIn(marker, bible)
+        self.assertIn("连续性状态事务", metadata)
+        self.assertIn("正文、state、QA三分离", metadata)
+
+    def test_story_state_validator_and_template_are_routed_without_quality_overclaim(self) -> None:
+        skill = self.read("SKILL.md")
+        continuity = self.read("references/revision-continuity.md")
+        validator = self.read("scripts/validate_story_state.py")
+        state_template = self.read("assets/story-state-template.json")
+        self.assertIn("scripts/validate_story_state.py <当前.state.json>", skill)
+        self.assertIn("非初始状态必须同时提供 `--previous`", skill)
+        self.assertIn("--prose <最终正文.md>", skill)
+        self.assertIn("story-state-template.json", continuity)
+        for marker in (
+            '"text_sha256"',
+            '"keyframes"',
+            '"chapter_transactions"',
+            '"unresolved_conflicts"',
+        ):
+            self.assertIn(marker, state_template)
+        for marker in (
+            "previous_state_required",
+            "unresolved_hard_conflict",
+            "current_keyframe_binding_invalid",
+            "ownership_model",
+            ".qa.json",
+        ):
+            self.assertIn(marker, validator)
+        self.assertIn("它不证明数量守恒", continuity)
+        self.assertIn("它不证明数量守恒、自由文本时间先后、人物动机", continuity)
 
 
 if __name__ == "__main__":
