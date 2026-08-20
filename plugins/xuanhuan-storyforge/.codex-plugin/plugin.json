@@ -1,6 +1,6 @@
 {
   "name": "xuanhuan-storyforge",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "中文玄幻网文的规划、创作、续写、重写与机械审校工作流。",
   "author": {
     "name": "yiten885-ux",
@@ -18,7 +18,7 @@
   "interface": {
     "displayName": "玄章天工｜Xuanhuan Storyforge",
     "shortDescription": "系统规划、创作、续写与审校中文玄幻网文",
-    "longDescription": "面向中文玄幻、仙侠、王朝修仙与系统流网文的完整创作工作流，覆盖故事圣经、世界与力量体系、人物弧、卷章规划、前三章正文、逐章节奏三十项硬锁、续写重写、长篇状态事务、视角与知情链，以及正文净字数、目标篇幅与编辑污染的机械审计。",
+    "longDescription": "面向中文玄幻、仙侠、王朝修仙与系统流网文的完整创作工作流，覆盖故事圣经、世界与力量体系、人物弧、卷章规划、前三章正文、逐章节奏六十项累积硬锁、续写重写、长篇状态事务、视角与知情链，以及正文净字数、目标篇幅与编辑污染的机械审计；规则证据与执行报告独立保存在 QA 侧车。",
     "developerName": "yiten885-ux",
     "category": "Productivity",
     "capabilities": [

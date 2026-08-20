@@ -25,6 +25,7 @@ class LeanSkillContractTests(unittest.TestCase):
             "references/opening-retention-six-locks.md",
             "references/chapter-rhythm-twenty-locks.md",
             "references/chapter-rhythm-rules-21-30.md",
+            "references/chapter-rhythm-rules-31-60.md",
             "references/prose-style.md",
             "references/zh-style-watchlist.json",
             "scripts/audit_chapter.py",
@@ -43,14 +44,16 @@ class LeanSkillContractTests(unittest.TestCase):
     def test_markdown_inventory_stays_lean(self) -> None:
         markdown = list(ROOT.rglob("*.md"))
         text_files = list(ROOT.rglob("*.txt"))
-        self.assertLessEqual(len(markdown), 10)
+        self.assertLessEqual(len(markdown), 11)
         self.assertEqual([], text_files)
         # 连续性引擎是独立的高密度参考；上限仍只防无关材料膨胀。
-        self.assertLess(sum(path.stat().st_size for path in markdown), 190_000)
+        self.assertLess(sum(path.stat().st_size for path in markdown), 240_000)
         # v1 与 v2 必须并存；上限只防无关膨胀，不能倒逼删除任一合同。
         self.assertLess((ROOT / "SKILL.md").stat().st_size, 48_000)
         self.assertLess(len((ROOT / "SKILL.md").read_text(encoding="utf-8").splitlines()), 500)
-        self.assertLessEqual(len(list((ROOT / "references").glob("*.md"))), 7)
+        reference_markdown = list((ROOT / "references").glob("*.md"))
+        self.assertLessEqual(len(reference_markdown), 8)
+        self.assertLess(sum(path.stat().st_size for path in reference_markdown), 160_000)
 
     def test_frontmatter_is_minimal_and_valid(self) -> None:
         skill = self.read("SKILL.md")
@@ -84,12 +87,20 @@ class LeanSkillContractTests(unittest.TestCase):
                 ROOT / "references/opening-retention-six-locks.md",
                 ROOT / "references/chapter-rhythm-twenty-locks.md",
                 ROOT / "references/chapter-rhythm-rules-21-30.md",
+                ROOT / "references/chapter-rhythm-rules-31-60.md",
                 ROOT / "references/prose-style.md",
             ]
         )
         self.assertNotIn("project-lock-", runtime)
         self.assertNotIn("/Users/", runtime)
+        self.assertNotIn("attachments/", runtime)
         self.assertNotIn("outputs/", runtime)
+        self.assertIsNone(
+            re.search(
+                r"任务(?:引用|涉及)[^\n]{0,120}(?:正文核心实体|这组前三章时)",
+                runtime,
+            )
+        )
         self.assertIn("默认只是帮助理解规则的素材", runtime)
         self.assertIn("不得把它们写入 Skill 描述、触发路由、门禁、模板、测试或通用参考", runtime)
 
@@ -799,17 +810,17 @@ class LeanSkillContractTests(unittest.TestCase):
             "必须完整读取并合取执行 [references/chapter-rhythm-twenty-locks.md]",
             skill,
         )
-        self.assertIn("三十项节奏锁与既有全部合同并列累积", skill)
+        self.assertIn("六十项节奏锁与既有全部合同并列累积", skill)
         self.assertIn("未触发项只能写 `未触发：具体原因`，不得登记 PASS", skill)
         self.assertIn(
-            "全部已触发、已到期三十项节奏锁也必须全部 PASS",
+            "全部已触发、已到期六十项节奏锁也必须全部 PASS",
             skill,
         )
         self.assertIn(
             "与 `SKILL.md` 的七条前三章合同、v1、既有 v2、01–10、九项留存锁",
             rhythm,
         )
-        self.assertIn("逐章节奏三十项硬锁", metadata)
+        self.assertIn("逐章节奏六十项硬锁", metadata)
         self.assertIn("逐章净正文2000–3200字符", metadata)
         self.assertIn("显式目标另取正负20%交集", metadata)
         rule_names = (
@@ -860,7 +871,7 @@ class LeanSkillContractTests(unittest.TestCase):
         card = self.read("assets/chapter-card-template.md")
         bible = self.read("assets/story-bible-template.md")
         for marker in (
-            "逐章节奏三十项 QA 侧车记录",
+            "逐章节奏六十项 QA 侧车记录",
             "有效节拍位置与最大间隔",
             "核心能力 3 项本质功能 + 1 项",
             "宏观谜题 T1、T2、T3",
@@ -873,7 +884,7 @@ class LeanSkillContractTests(unittest.TestCase):
             "反派、能力与宏观谜题账",
             "战斗、战力、配角与修炼账",
             "支线、悬念、章间衔接与名词账",
-            "三十项节奏锁触发与复检账",
+            "六十项节奏锁触发与复检账",
         ):
             with self.subTest(marker=marker):
                 self.assertIn(marker, bible)
@@ -923,7 +934,7 @@ class LeanSkillContractTests(unittest.TestCase):
                 self.assertIn(marker, extra)
         self.assertNotIn("即使没有状态变化，也记录空增量", continuity)
         self.assertIn("规则二十六让主角", continuity)
-        self.assertIn("逐章节奏三十项硬锁", metadata)
+        self.assertIn("逐章节奏六十项硬锁", metadata)
 
     def test_rules_21_to_30_evidence_is_in_sidecars_and_ledgers(self) -> None:
         card = self.read("assets/chapter-card-template.md")
@@ -950,6 +961,203 @@ class LeanSkillContractTests(unittest.TestCase):
         ):
             with self.subTest(marker=marker):
                 self.assertIn(marker, bible)
+
+    def test_rules_31_to_60_are_additive_exact_and_isolated(self) -> None:
+        skill = self.read("SKILL.md")
+        first_twenty = self.read("references/chapter-rhythm-twenty-locks.md")
+        rules_21_to_30 = self.read("references/chapter-rhythm-rules-21-30.md")
+        rules_31_to_60 = self.read("references/chapter-rhythm-rules-31-60.md")
+        metadata = self.read("agents/openai.yaml")
+
+        self.assertIn(
+            "必须完整读取并合取执行 [references/chapter-rhythm-rules-31-60.md]",
+            skill,
+        )
+        self.assertIn("六十项节奏锁与既有全部合同并列累积", skill)
+        self.assertIn("逐章节奏六十项硬锁", metadata)
+        self.assertIn(
+            "只新增规则三十一至六十，不替换、不删减、不放宽前二十项和规则二十一至三十",
+            rules_31_to_60,
+        )
+        self.assertIn("chapter-rhythm-twenty-locks.md", rules_31_to_60)
+        self.assertIn("chapter-rhythm-rules-21-30.md", rules_31_to_60)
+
+        rule_names = (
+            "滚动一千五百字新术语密度协议",
+            "功能解释五百至八百字延迟协议",
+            "概念父子链协议",
+            "双危机或三千字冲突后泄压协议",
+            "代价关系角色可见协议",
+            "牺牲型策略非战斗截断协议",
+            "普通线索N+3触碰协议",
+            "章尾四型轮换协议",
+            "对话L1/L2/L3单一主功能协议",
+            "亲密表达反套话协议",
+            "长期感官损失异质代偿协议",
+            "滚动三章代价清点协议",
+            "新场景环境三锚协议",
+            "场景中段物件过渡协议",
+            "重大冲突三波协议",
+            "规则博弈前三百字显化协议",
+            "红黄绿线配比协议",
+            "红线新信息百字重估协议",
+            "配角连续三章自利决策协议",
+            "反派三行动私人压力泄漏协议",
+            "紧密第三人称限知视角协议",
+            "不可直知信息迹象推断协议",
+            "角色动作签名协议",
+            "动作观察判断执行协议",
+            "物件跨章状态台账协议",
+            "活跃物件三章触碰协议",
+            "章内峰谷协议",
+            "缓场实体展开协议",
+            "三轮对话动作穿插协议",
+            "纯动作三百字认知插针协议",
+        )
+        self.assertEqual(30, len(rule_names))
+        self.assertEqual(30, len(set(rule_names)))
+        positions = []
+        for name in rule_names:
+            with self.subTest(name=name):
+                self.assertIn(name, rules_31_to_60)
+                positions.append(rules_31_to_60.index(name))
+        self.assertEqual(sorted(positions), positions)
+
+        # 新增层不能靠删除旧层换取空间；旧二十项与 21–30 的精确合同仍在。
+        self.assertIn("节奏控制协议", first_twenty)
+        self.assertIn("世界观名词首次出现即锚定协议", first_twenty)
+        self.assertIn("名词首次出现即锚定协议（强化版）", rules_21_to_30)
+        self.assertIn("生成后执行报告协议", rules_21_to_30)
+
+    def test_rules_31_to_60_arbitrate_existing_locks_without_relaxing_them(self) -> None:
+        rules = self.read("references/chapter-rhythm-rules-31-60.md")
+        for marker in (
+            "任意滚动 1500 个净正文有效字符内，新术语最多 2 个",
+            "首次锚定、可操作边界与安全限制不得延迟",
+            "完整功能解释延迟到首次效果展示后的 500–800 个有效字符",
+            "父概念 → 子概念 → 实例",
+            "连续 2 次危机升级",
+            "冲突累计达到 3000 个净正文有效字符",
+            "关系角色可在当前 POV 中观察到的动作",
+            "不得切换 POV",
+            "普通线索首现章记为 N",
+            "N+3 章结束前",
+            "事件、认知、情感、感官",
+            "L1、L2、L3 中只能有一个主功能",
+            "异质代偿",
+            "任意滚动 3 章",
+            "不超过 80 个净正文有效字符",
+            "温度、声场、气味或触感",
+            "中段过渡物",
+            "三波",
+            "前 300 个净正文有效字符内",
+            "1–2 条可操作规则",
+            "红线约 60%",
+            "黄线 20%–30%",
+            "绿线不超过 10%",
+            "红线新信息出现后 100 个净正文有效字符内",
+            "任意连续 3 章",
+            "自利主动决策",
+            "同章出现至少 3 个独立行动",
+            "私人压力",
+            "紧密第三人称限知",
+            "可见迹象 + 明示推断",
+            "动作签名",
+            "观察 → 判断 → 执行",
+            "物件跨章状态台账",
+            "活跃物件",
+            "3 章内至少触碰一次",
+            "峰段最长不得超过 800 个净正文有效字符",
+            "谷段至少 150 个净正文有效字符",
+            "身体状态或环境的二次展开",
+            "每 3 轮对话",
+            "连续纯动作达到 300 个净正文有效字符前",
+        ):
+            with self.subTest(marker=marker):
+                self.assertIn(marker, rules)
+
+        for arbitration in (
+            "规则二十、二十一、二十二合取后取更严的单章关键新专名最多 4 个",
+            "规则三十二不延迟规则二十、二十一要求的首次同段锚定",
+            "规则三十七不替代重大伏笔的 N+1 / N+3 双提醒",
+            "规则四十三只使用当前 POV 仍可用的感官",
+            "规则五十一禁止用规则三十六制造真实视角切换",
+            "规则五十五的台账只进入状态文件或 QA 侧车",
+        ):
+            with self.subTest(arbitration=arbitration):
+                self.assertIn(arbitration, rules)
+
+    def test_rules_31_to_60_evidence_is_in_sidecars_and_continuity_ledgers(self) -> None:
+        card = self.read("assets/chapter-card-template.md")
+        bible = self.read("assets/story-bible-template.md")
+        continuity = self.read("references/revision-continuity.md")
+        metadata = self.read("agents/openai.yaml")
+
+        for marker in (
+            "规则 31–60 QA 侧车证据",
+            "滚动1500字新术语窗口",
+            "功能解释首次效果位置 / 500–800字到期",
+            "父概念 / 子概念 / 实例",
+            "危机次数 / 冲突累计字数 / 泄压证据",
+            "代价关系见证动作",
+            "普通线索首现 N / N+3 触碰",
+            "章尾钩子主型",
+            "对话 L1/L2/L3 主功能",
+            "长期感官损失 / 异质代偿 / 危机判断",
+            "红黄绿线占比",
+            "当前 POV / 可见迹象 / 明示推断",
+            "角色动作签名",
+            "关键动作观察 / 判断 / 执行",
+            "活跃物件三章触碰",
+            "峰段 / 谷段",
+        ):
+            with self.subTest(marker=marker):
+                self.assertIn(marker, card)
+
+        for marker in (
+            "规则三十一至六十滚动账",
+            "术语、概念链与功能解释账",
+            "危机泄压、代价见证与牺牲截断账",
+            "线索、钩子、对话与亲密表达账",
+            "感官损失代偿与代价清点账",
+            "场景锚点、过渡物与冲突三波账",
+            "红黄绿线、配角与反派压力账",
+            "POV、信息迹象与动作签名账",
+            "物件状态、活跃期限与章内峰谷账",
+        ):
+            with self.subTest(marker=marker):
+                self.assertIn(marker, bible)
+
+        for marker in (
+            "紧密第三人称限知",
+            "不可直知信息",
+            "当前 POV 可见迹象",
+            "角色动作签名",
+            "物件跨章状态",
+            "已接受正文来源锚",
+        ):
+            with self.subTest(marker=marker):
+                self.assertIn(marker, continuity)
+        self.assertIn("逐章节奏六十项硬锁", metadata)
+        self.assertIn("正文、state、QA三分离", metadata)
+
+    def test_rules_31_to_60_reports_and_internal_labels_never_pollute_prose(self) -> None:
+        skill = self.read("SKILL.md")
+        rules = self.read("references/chapter-rhythm-rules-31-60.md")
+        card = self.read("assets/chapter-card-template.md")
+        for marker in (
+            "规则名、编号、阈值、证据坐标、PASS/FAIL 与滚动账只写独立 QA 侧车",
+            "最终读者正文只含章标题与小说正文",
+            "不得在小说正文中输出规则三十一至六十的名称、编号或自检报告",
+            "证据只能来自已接受正文、已验证 state 或用户明确确认的事实",
+            "不得为通过门禁伪造证据位置、动作、节拍、物件状态或关系变化",
+            "计划中的证据不得登记为 PASS",
+        ):
+            with self.subTest(marker=marker):
+                self.assertIn(marker, rules)
+        self.assertIn("规则 31–60 QA 侧车证据", card)
+        self.assertIn("约束ID和自检只写独立QA侧车", self.read("agents/openai.yaml"))
+        self.assertIn("读者正文隔离与逐章净字数锁", skill)
 
 
 if __name__ == "__main__":

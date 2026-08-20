@@ -30,6 +30,73 @@ def make_batch(labels: list[tuple[str, str]], lengths: list[int]) -> str:
     return "\n".join(inventory + chapters) + "\n"
 
 
+RULES_31_TO_60_LABELS = (
+    "术语密度上限",
+    "延迟解释",
+    "概念捆绑",
+    "高压-泄压钟摆",
+    "代价被看见",
+    "情感逆转",
+    "最小反馈闭环",
+    "钩子类型轮换",
+    "对话三级负载",
+    "不说破亲密",
+    "感官代偿",
+    "跨章代价清点",
+    "环境锚定",
+    "中间物",
+    "三波冲突",
+    "前置条件显化",
+    "悬念红黄绿",
+    "认知回落",
+    "配角主动决策",
+    "反派失衡",
+    "视角刚性锁定",
+    "推断句替代",
+    "动作个人签名",
+    "动作三步",
+    "物件状态表",
+    "活跃物件三章触碰",
+    "章内波谷波峰",
+    "缓场两个必须",
+    "三轮对话插动作",
+    "纯动作300字",
+)
+
+RULES_31_TO_60_EXACT_NAMES = (
+    "滚动一千五百字新术语密度协议",
+    "功能解释五百至八百字延迟协议",
+    "概念父子链协议",
+    "双危机或三千字冲突后泄压协议",
+    "代价关系角色可见协议",
+    "牺牲型策略非战斗截断协议",
+    "普通线索N+3触碰协议",
+    "章尾四型轮换协议",
+    "对话L1/L2/L3单一主功能协议",
+    "亲密表达反套话协议",
+    "长期感官损失异质代偿协议",
+    "滚动三章代价清点协议",
+    "新场景环境三锚协议",
+    "场景中段物件过渡协议",
+    "重大冲突三波协议",
+    "规则博弈前三百字显化协议",
+    "红黄绿线配比协议",
+    "红线新信息百字重估协议",
+    "配角连续三章自利决策协议",
+    "反派三行动私人压力泄漏协议",
+    "紧密第三人称限知视角协议",
+    "不可直知信息迹象推断协议",
+    "角色动作签名协议",
+    "动作观察判断执行协议",
+    "物件跨章状态台账协议",
+    "活跃物件三章触碰协议",
+    "章内峰谷协议",
+    "缓场实体展开协议",
+    "三轮对话动作穿插协议",
+    "纯动作三百字认知插针协议",
+)
+
+
 class OpeningThreeGateTests(unittest.TestCase):
     def direct_purity_and_counts(self, text: str) -> tuple[dict, list[int]]:
         purity = AUDIT_MODULE.fiction_purity_gate(text)
@@ -1653,6 +1720,143 @@ class OpeningThreeGateTests(unittest.TestCase):
             with self.subTest(line=line):
                 normal = "# 第一章 净稿\n" + "甲" * 2000 + "\n" + line
                 self.assertTrue(AUDIT_MODULE.fiction_purity_gate(normal)["passed"])
+
+    def test_rules_31_to_60_control_titles_and_formulas_cannot_pad(self) -> None:
+        markers = tuple(
+            f"### 规则{number}：{label}协议"
+            for number, label in enumerate(RULES_31_TO_60_LABELS, start=31)
+        ) + tuple(f"{label} = 内部计算" for label in RULES_31_TO_60_LABELS)
+        for marker in markers:
+            with self.subTest(marker=marker):
+                text = (
+                    "# 第一章 净稿\n"
+                    + "甲" * 1900
+                    + "\n"
+                    + marker
+                    + "\n"
+                    + "审计填充" * 100
+                )
+                purity, counts = self.direct_purity_and_counts(text)
+                self.assertFalse(purity["passed"])
+                self.assertEqual(counts, [1900])
+
+        self.assertEqual(30, len(RULES_31_TO_60_EXACT_NAMES))
+        for number, name in enumerate(RULES_31_TO_60_EXACT_NAMES, start=31):
+            with self.subTest(exact_name=name):
+                marker = f"### 规则{number}：{name}"
+                self.assertIsNotNone(
+                    AUDIT_MODULE._editorial_kind_from_normalized(marker)
+                )
+
+        for name in (
+            RULES_31_TO_60_EXACT_NAMES[0],
+            RULES_31_TO_60_EXACT_NAMES[14],
+            RULES_31_TO_60_EXACT_NAMES[-1],
+        ):
+            with self.subTest(exact_padding=name):
+                text = "# 第一章 净稿\n" + "甲" * 1900 + "\n【" + name + "】\n" + "审计填充" * 100
+                purity, counts = self.direct_purity_and_counts(text)
+                self.assertFalse(purity["passed"])
+                self.assertEqual(counts, [1900])
+
+    def test_rules_31_to_60_selfcheck_reports_and_encodings_cannot_pad(self) -> None:
+        selfcheck_indexes = (31, 34, 38, 42, 46, 50, 52, 55, 58, 60)
+        selfchecks = tuple(
+            f"{index}. [{RULES_31_TO_60_LABELS[index - 31]}] 是否通过？(是/否)"
+            for index in selfcheck_indexes
+        )
+        reports = (
+            "【规则31-60执行报告】",
+            "规则三十一至六十QA报告",
+            "自检31-60：",
+            "自检三十一至六十",
+            "【规则三十一至六十执行报告】",
+            "【31-60 QA】",
+        )
+        encoded = (
+            "**术语密度上限**",
+            "[延迟解释](https://example.invalid)",
+            '<div data-rule="概念捆绑"></div>',
+            "<div hidden>高压-泄压钟摆</div>",
+            "<script>代价被看见</script>",
+            "情感<!--split-->逆转",
+            "最小\u200b反馈闭环",
+            "\n".join("钩子类型轮换"),
+            "\n".join("环境锚定"),
+            json.dumps({"rule": "对话三级负载"}, ensure_ascii=False),
+            '{"rule":"\\u4e0d\\u8bf4\\u7834\\u4eb2\\u5bc6"}',
+            "".join(f"&#x{ord(char):x};" for char in "感官代偿"),
+            "【跨章代价清点】",
+        )
+        if_then = (
+            "IF 术语密度上限超限 THEN 延迟解释",
+            '<div data-control="IF 环境锚定缺失 THEN 强制重写"></div>',
+            '{"IF":"三波冲突缺失","THEN":"重写"}',
+            "I\nF 纯动作超限 T\nH\nE\nN 插入对话",
+        )
+        for marker in selfchecks + reports + encoded + if_then:
+            with self.subTest(marker=marker[:60]):
+                text = (
+                    "# 第一章 净稿\n"
+                    + "甲" * 1900
+                    + "\n"
+                    + marker
+                    + "\n"
+                    + "审计填充" * 100
+                )
+                purity, counts = self.direct_purity_and_counts(text)
+                self.assertFalse(purity["passed"])
+                self.assertEqual(counts, [1900])
+
+        reset_at_chapter = (
+            "# 第一章 净稿\n"
+            + "甲" * 1900
+            + "\n【术语密度上限】\n"
+            + "审计填充" * 100
+            + "\n# 第二章 正文\n"
+            + "乙" * 2000
+        )
+        purity, counts = self.direct_purity_and_counts(reset_at_chapter)
+        self.assertFalse(purity["passed"])
+        self.assertEqual(counts, [1900, 2000])
+
+    def test_rules_31_to_60_nearby_fiction_is_not_blocked(self) -> None:
+        normal_lines = (
+            "药铺的术语密度上限太低，讲不完这套阵法。",
+            "他故意延迟解释，先把门闩上。",
+            "学宫把两个概念捆绑在一起讲。",
+            "铜炉上的高压泄压钟摆又响了一次。",
+            "直到血浸透袖口，那份代价才被看见。",
+            "戏班最擅长情感逆转，台下人哭完又笑。",
+            "傀儡师把最小反馈闭环刻进铜脑。",
+            "渔行规定钩子的类型每夜轮换。",
+            "传音阵只能承受三级对话负载。",
+            "老人把不说破的亲密藏进一碗面。",
+            "失明后，他靠感官代偿辨出脚步。",
+            "账房跨过两章账册，才清点出真正代价。",
+            "船夫靠环境锚定方位。",
+            "木匣只是两家交割的中间物。",
+            "三波冲突先后撞在西门。",
+            "阵纹让前置条件显化在石壁上。",
+            "红黄绿三盏悬灯一盏接一盏熄灭。",
+            "药效退去后，他的认知回落到七岁。",
+            "那个不起眼的配角也主动做了决定。",
+            "那人脚下一失衡，撞上了墙。",
+            "观星镜的视角被机关刚性锁定。",
+            "他用推断代替陈述，没有把话说死。",
+            "每名刺客的动作都带着个人签名。",
+            "这套擒拿动作分三步。",
+            "库房门后钉着一张物件状态表。",
+            "活跃的器灵每过三章钟声便碰一次墙。",
+            "章纹内刻着一道波谷和一道波峰。",
+            "先缓一缓，这两件事必须办完。",
+            "三轮对话之后，他插了一句题外话。",
+            "他用三百字记下那套纯粹动作。",
+        )
+        for line in normal_lines:
+            with self.subTest(line=line):
+                text = "# 第一章 净稿\n" + "甲" * 2000 + "\n" + line
+                self.assertTrue(AUDIT_MODULE.fiction_purity_gate(text)["passed"])
 
     def test_target_effective_intersects_absolute_window(self) -> None:
         cases = (

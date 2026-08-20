@@ -343,6 +343,114 @@ CONTINUITY_CONTROL_NAME_RE = re.compile(
     "|".join(re.escape(name) for name in CONTINUITY_CONTROL_NAMES),
     re.IGNORECASE,
 )
+RULES_31_60_CONTROL_LABELS = (
+    "术语密度上限",
+    "延迟解释",
+    "概念捆绑",
+    "高压-泄压钟摆",
+    "代价被看见",
+    "情感逆转",
+    "最小反馈闭环",
+    "钩子类型轮换",
+    "对话三级负载",
+    "不说破亲密",
+    "感官代偿",
+    "跨章代价清点",
+    "环境锚定",
+    "中间物",
+    "三波冲突",
+    "前置条件显化",
+    "悬念红黄绿",
+    "认知回落",
+    "配角主动决策",
+    "反派失衡",
+    "视角刚性锁定",
+    "推断句替代",
+    "动作个人签名",
+    "动作三步",
+    "物件状态表",
+    "活跃物件三章触碰",
+    "章内波谷波峰",
+    "缓场两个必须",
+    "三轮对话插动作",
+    "纯动作300字",
+)
+RULES_31_60_CONTROL_LABEL_ALIASES = RULES_31_60_CONTROL_LABELS + (
+    "滚动一千五百字新术语密度",
+    "功能解释五百至八百字延迟",
+    "概念父子链",
+    "双危机或三千字冲突后泄压",
+    "代价关系角色可见",
+    "牺牲型策略非战斗截断",
+    "普通线索N+3触碰",
+    "章尾四型轮换",
+    "对话L1/L2/L3单一主功能",
+    "亲密表达反套话",
+    "长期感官损失异质代偿",
+    "滚动三章代价清点",
+    "新场景环境三锚",
+    "场景中段物件过渡",
+    "重大冲突三波",
+    "规则博弈前三百字显化",
+    "红黄绿线配比",
+    "红线新信息百字重估",
+    "配角连续三章自利决策",
+    "反派三行动私人压力泄漏",
+    "紧密第三人称限知视角",
+    "不可直知信息迹象推断",
+    "角色动作签名",
+    "动作观察判断执行",
+    "物件跨章状态台账",
+    "活跃物件三章触碰",
+    "章内峰谷",
+    "缓场实体展开",
+    "三轮对话动作穿插",
+    "纯动作三百字认知插针",
+    "高压泄压钟摆",
+    "中间物过渡",
+    "推断句替代陈述句",
+    "动作描写个人签名",
+    "动作三步最小单元",
+    "物件状态持续追踪",
+    "活跃物件三章内触碰",
+    "章内节奏波谷波峰",
+    "对话三轮插动作",
+    "纯动作三百字",
+)
+RULES_31_60_STRONG_CONTROL_NAMES = tuple(
+    f"{label}协议" for label in RULES_31_60_CONTROL_LABEL_ALIASES
+) + (
+    "推断句替代陈述句",
+    "动作三步最小单元",
+    "物件状态表规则",
+    "章内波谷波峰算法",
+    "缓场两个必须",
+    "纯动作300字上限",
+    "纯动作三百字上限",
+    "逐章节奏六十项硬锁",
+    "六十项节奏锁",
+    "规则三十一至六十",
+)
+RULES_31_60_LABEL_PATTERN = "|".join(
+    re.escape(label)
+    for label in sorted(RULES_31_60_CONTROL_LABEL_ALIASES, key=len, reverse=True)
+)
+RULES_31_60_SOFTBREAK_CONTROL_RE = re.compile(
+    "|".join(
+        r"[ \t]*\r?\n[ \t]*".join(re.escape(character) for character in label)
+        for label in sorted(
+            RULES_31_60_CONTROL_LABEL_ALIASES, key=len, reverse=True
+        )
+    ),
+    re.IGNORECASE,
+)
+RULES_31_60_NUMBER_PATTERN = (
+    r"(?:3[1-9]|[45]\d|60|三十一|三十二|三十三|三十四|三十五|三十六|"
+    r"三十七|三十八|三十九|四十|四十一|四十二|四十三|四十四|四十五|"
+    r"四十六|四十七|四十八|四十九|五十|五十一|五十二|五十三|五十四|"
+    r"五十五|五十六|五十七|五十八|五十九|六十)"
+)
+
 CHAPTER_RHYTHM_CONTROL_NAMES = (
     "逐章节奏二十项硬锁",
     "二十项节奏锁",
@@ -405,7 +513,7 @@ CHAPTER_RHYTHM_CONTROL_NAMES = (
     "AI生成后执行报告协议",
     "AI“生成后执行报告”协议",
     "规则二十一至三十",
-)
+) + RULES_31_60_STRONG_CONTROL_NAMES
 CHAPTER_RHYTHM_CONTROL_NAME_RE = re.compile(
     "|".join(
         re.escape(name)
@@ -444,11 +552,56 @@ CHAPTER_RHYTHM_FORMULA_TOKENS = (
     "重复风险",
     "章节健康度",
     "生成流程",
-)
+) + RULES_31_60_CONTROL_LABEL_ALIASES
 CHAPTER_RHYTHM_FORMULA_RE = re.compile(
     r"(?:"
     + "|".join(re.escape(token) for token in CHAPTER_RHYTHM_FORMULA_TOKENS)
     + r")\s*(?:=|:|：|→)",
+    re.IGNORECASE,
+)
+RULES_31_60_CONTROL_LINE_RE = re.compile(
+    rf"(?:^\s*(?:#{{1,6}}\s*)?(?:[-+*]\s*)?"
+    rf"(?:(?:规则\s*)?{RULES_31_60_NUMBER_PATTERN}\s*[.、:：·—-]+\s*)?"
+    rf"(?:[\[【]\s*)?(?:{RULES_31_60_LABEL_PATTERN})(?:\s*[\]】])?"
+    rf"(?:\s*(?:协议|规则|算法|上限|最小单元))?\s*(?:[:：]\s*)?$)|"
+    rf"(?:(?:data[-_:]?(?:rule|formula|check|control)|aria-label|content)\s*=\s*"
+    rf"[\"'][^\"']{{0,240}}(?:{RULES_31_60_LABEL_PATTERN})[^\"']*[\"'])|"
+    rf"(?:[\"'](?:rule|formula|check|control|instruction|qa)[\"']\s*:\s*"
+    rf"[\"'][^\"']{{0,240}}(?:{RULES_31_60_LABEL_PATTERN})[^\"']*[\"'])",
+    re.IGNORECASE | re.MULTILINE,
+)
+RULES_31_60_QA_LINE_RE = re.compile(
+    rf"^\s*(?:#{{1,6}}\s*)?(?:[-+*]\s*)?"
+    rf"(?:(?:规则\s*)?{RULES_31_60_NUMBER_PATTERN}\s*[.、:：-]\s*)?"
+    rf"(?:[\[【]\s*)?(?:{RULES_31_60_LABEL_PATTERN})(?:\s*[\]】])?"
+    rf".{{0,180}}(?:是\s*/\s*否|通过\s*/\s*未通过|PASS|FAIL)",
+    re.IGNORECASE,
+)
+RULES_31_60_CONTROL_COMPACT_RE = re.compile(
+    rf"(?:(?:规则)?{RULES_31_60_NUMBER_PATTERN}[.、:：·—-]*"
+    rf"(?:[\[【])?(?:{RULES_31_60_LABEL_PATTERN})(?:[\]】])?"
+    rf"(?:协议|规则|算法|上限|最小单元)?)|"
+    rf"(?:[\[【](?:{RULES_31_60_LABEL_PATTERN})[\]】])|"
+    rf"(?:#{{1,6}}(?:{RULES_31_60_LABEL_PATTERN})(?:协议|规则|算法|上限|最小单元)?)|"
+    rf"(?:(?:data[-_:]?(?:rule|formula|check|control)|aria-label|content)=[\"']"
+    rf"[^\"']{{0,240}}(?:{RULES_31_60_LABEL_PATTERN})[^\"']*[\"'])|"
+    rf"(?:[\"'](?:rule|formula|check|control|instruction|qa)[\"']:[\"']"
+    rf"[^\"']{{0,240}}(?:{RULES_31_60_LABEL_PATTERN})[^\"']*[\"'])|"
+    rf"(?:(?:规则)?{RULES_31_60_NUMBER_PATTERN}[.、:：-]?"
+    rf"(?:[\[【])?(?:{RULES_31_60_LABEL_PATTERN})(?:[\]】])?.{{0,180}}"
+    rf"(?:是/否|通过/未通过|PASS|FAIL))",
+    re.IGNORECASE,
+)
+RULES_31_60_REPORT_RE = re.compile(
+    r"(?:规则\s*)?(?:31\s*[-–—至]\s*60|三十一\s*至\s*六十)\s*"
+    r"(?:执行报告|QA\s*(?:报告|结果)?|自检(?:报告|结果|清单|检查)?)|"
+    r"自检\s*(?:31\s*[-–—至]\s*60|三十一\s*至\s*六十)",
+    re.IGNORECASE,
+)
+RULES_31_60_REPORT_COMPACT_RE = re.compile(
+    r"(?:规则)?(?:31[-–—至]60|三十一至六十)"
+    r"(?:执行报告|QA(?:报告|结果)?|自检(?:报告|结果|清单|检查)?)|"
+    r"自检(?:31[-–—至]60|三十一至六十)",
     re.IGNORECASE,
 )
 CHAPTER_RHYTHM_QA_LINE_RE = re.compile(
@@ -1437,7 +1590,13 @@ def _editorial_kind_from_normalized(normalized: str) -> str | None:
         return "continuity_control_name"
     if CHAPTER_RHYTHM_CONTROL_NAME_RE.search(compact):
         return "chapter_rhythm_control_name"
+    if RULES_31_60_SOFTBREAK_CONTROL_RE.search(normalized):
+        return "chapter_rhythm_control_name"
+    if RULES_31_60_CONTROL_LINE_RE.search(normalized):
+        return "chapter_rhythm_control_name"
     if EXECUTION_REPORT_CONTROL_RE.search(normalized):
+        return "chapter_rhythm_execution_report"
+    if RULES_31_60_REPORT_RE.search(normalized):
         return "chapter_rhythm_execution_report"
     if EDITORIAL_BLOCK_HEADING_RE.search(normalized):
         return "audit_block_heading"
@@ -1460,6 +1619,8 @@ def _editorial_kind_from_normalized(normalized: str) -> str | None:
     if CHAPTER_RHYTHM_FORMULA_RE.search(normalized):
         return "chapter_rhythm_formula"
     if CHAPTER_RHYTHM_QA_LINE_RE.search(normalized):
+        return "chapter_rhythm_audit_label"
+    if RULES_31_60_QA_LINE_RE.search(normalized):
         return "chapter_rhythm_audit_label"
     if REWRITE_CONTROL_RE.search(normalized):
         return "rewrite_control_marker"
@@ -1568,9 +1729,15 @@ def fiction_purity_gate(text: str) -> dict[str, Any]:
             document_kind = "continuity_control_name"
         elif CHAPTER_RHYTHM_CONTROL_NAME_RE.search(compact):
             document_kind = "chapter_rhythm_control_name"
+        elif RULES_31_60_SOFTBREAK_CONTROL_RE.search(rendered):
+            document_kind = "chapter_rhythm_control_name"
+        elif RULES_31_60_CONTROL_COMPACT_RE.search(compact):
+            document_kind = "chapter_rhythm_control_name"
         elif EXECUTION_REPORT_CONTROL_RE.search(rendered):
             document_kind = "chapter_rhythm_execution_report"
         elif EXECUTION_REPORT_COMPACT_RE.search(compact):
+            document_kind = "chapter_rhythm_execution_report"
+        elif RULES_31_60_REPORT_COMPACT_RE.search(compact):
             document_kind = "chapter_rhythm_execution_report"
         elif R_LOCK_COMPACT_RE.search(compact):
             document_kind = "continuity_rule_label"
@@ -1626,6 +1793,7 @@ def clean_markdown(text: str) -> tuple[str, list[tuple[int, str]]]:
     # HTML attributes are converted to OUTPUT CHECK by the rendered-text
     # parser; after rendering, preserve split plain-text/JSON IF...THEN blocks.
     text = IF_THEN_CONTROL_RE.sub("OUTPUT CHECK", text)
+    text = RULES_31_60_SOFTBREAK_CONTROL_RE.sub("OUTPUT CHECK", text)
     text = SOFTBREAK_OUTPUT_CHECK_RE.sub("OUTPUT CHECK", text)
     text = SOFTBREAK_RETENTION_RULE_NAME_RE.sub(
         lambda match: re.sub(r"\s+", "", match.group(0)), text
@@ -1658,7 +1826,9 @@ def clean_markdown(text: str) -> tuple[str, list[tuple[int, str]]]:
         CRAFT_AUDIT_COMPACT_RE,
         CONTINUITY_CONTROL_NAME_RE,
         CHAPTER_RHYTHM_CONTROL_NAME_RE,
+        RULES_31_60_CONTROL_COMPACT_RE,
         EXECUTION_REPORT_COMPACT_RE,
+        RULES_31_60_REPORT_COMPACT_RE,
         R_LOCK_COMPACT_RE,
         CONTROL_STATUS_COMPACT_RE,
         CHAPTER_RHYTHM_AUDIT_COMPACT_RE,
