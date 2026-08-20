@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import re
 import unittest
 from pathlib import Path
@@ -7,10 +8,27 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 
+CORE_CONTRACT = "references/core-contracts.md"
+LEGACY_REFERENCE_PATHS = (
+    "references/story-design.md",
+    "references/character-emotion.md",
+    "references/revision-continuity.md",
+    "references/opening-retention-six-locks.md",
+    "references/chapter-rhythm-twenty-locks.md",
+    "references/chapter-rhythm-rules-21-30.md",
+    "references/chapter-rhythm-rules-31-60.md",
+    "references/prose-style.md",
+)
+
 
 class LeanSkillContractTests(unittest.TestCase):
     def read(self, relative: str) -> str:
         return (ROOT / relative).read_text(encoding="utf-8")
+
+    def core_contract(self) -> str:
+        """Return the single human-readable source for the migrated core rules."""
+
+        return self.read(CORE_CONTRACT)
 
     def test_required_files_exist(self) -> None:
         required = {
@@ -19,6 +37,7 @@ class LeanSkillContractTests(unittest.TestCase):
             "assets/chapter-card-template.md",
             "assets/story-bible-template.md",
             "assets/story-state-template.json",
+            CORE_CONTRACT,
             "references/story-design.md",
             "references/character-emotion.md",
             "references/revision-continuity.md",
@@ -27,10 +46,13 @@ class LeanSkillContractTests(unittest.TestCase):
             "references/chapter-rhythm-rules-21-30.md",
             "references/chapter-rhythm-rules-31-60.md",
             "references/prose-style.md",
+            "references/rule-registry.json",
             "references/zh-style-watchlist.json",
             "scripts/audit_chapter.py",
+            "scripts/validate_rule_registry.py",
             "scripts/validate_story_state.py",
             "tests/test_audit_chapter.py",
+            "tests/test_rule_registry.py",
             "tests/test_skill_contract.py",
             "tests/test_story_state.py",
         }
@@ -44,16 +66,19 @@ class LeanSkillContractTests(unittest.TestCase):
     def test_markdown_inventory_stays_lean(self) -> None:
         markdown = list(ROOT.rglob("*.md"))
         text_files = list(ROOT.rglob("*.txt"))
-        self.assertLessEqual(len(markdown), 11)
+        self.assertLessEqual(len(markdown), 12)
         self.assertEqual([], text_files)
         # 连续性引擎是独立的高密度参考；上限仍只防无关材料膨胀。
         self.assertLess(sum(path.stat().st_size for path in markdown), 240_000)
         # v1 与 v2 必须并存；上限只防无关膨胀，不能倒逼删除任一合同。
-        self.assertLess((ROOT / "SKILL.md").stat().st_size, 48_000)
-        self.assertLess(len((ROOT / "SKILL.md").read_text(encoding="utf-8").splitlines()), 500)
+        self.assertLessEqual((ROOT / "SKILL.md").stat().st_size, 24_000)
+        self.assertLessEqual(
+            len((ROOT / "SKILL.md").read_text(encoding="utf-8").splitlines()),
+            250,
+        )
         reference_markdown = list((ROOT / "references").glob("*.md"))
-        self.assertLessEqual(len(reference_markdown), 8)
-        self.assertLess(sum(path.stat().st_size for path in reference_markdown), 160_000)
+        self.assertLessEqual(len(reference_markdown), 9)
+        self.assertLess(sum(path.stat().st_size for path in reference_markdown), 200_000)
 
     def test_frontmatter_is_minimal_and_valid(self) -> None:
         skill = self.read("SKILL.md")
@@ -61,6 +86,60 @@ class LeanSkillContractTests(unittest.TestCase):
         frontmatter = skill.split("---", 2)[1]
         self.assertIn("\ndescription:", frontmatter)
         self.assertEqual(2, len([line for line in frontmatter.splitlines() if ":" in line]))
+
+    def test_entry_directly_routes_core_and_preserves_legacy_references(self) -> None:
+        skill = self.read("SKILL.md")
+        core = self.core_contract()
+        registry = json.loads(self.read("references/rule-registry.json"))
+        self.assertIn(
+            "生成、续写、重写或审校任何小说正文：必须完整读取并执行 "
+            "[references/core-contracts.md](references/core-contracts.md)。",
+            skill,
+        )
+        for relative in (CORE_CONTRACT, *LEGACY_REFERENCE_PATHS):
+            with self.subTest(relative=relative):
+                self.assertTrue((ROOT / relative).is_file())
+                self.assertIn(f"[{relative}]({relative})", skill)
+        for relative in {rule["source"] for rule in registry["rules"]}:
+            with self.subTest(registry_source=relative):
+                self.assertIn(f"[{relative}]({relative})", skill)
+        self.assertIn(
+            "[references/rule-registry.json](references/rule-registry.json)",
+            skill,
+        )
+        self.assertIn(
+            "[scripts/validate_rule_registry.py](scripts/validate_rule_registry.py)",
+            skill,
+        )
+        self.assertIn("它是人类可读的合同真源；入口只负责路由", core)
+        self.assertNotIn("## 4. 黄金前三章通用合同", skill)
+        self.assertNotIn("[MANDATORY]", skill)
+        for rule_id in (
+            "HOOK-EMO-01",
+            "PLOT-MIND-02",
+            "SYS-COST-03",
+            "LOOT-DELAY-04",
+            "END-HOOK-05",
+        ):
+            self.assertNotIn(rule_id, skill)
+
+    def test_entry_preserves_non_rule_behavioral_boundaries(self) -> None:
+        skill = self.read("SKILL.md")
+        for marker in (
+            "用户显式启用或覆盖的公式、数值与特殊写法",
+            "除此之外的数字只有用户明确启用后才生效",
+            "连续多章时维护滚动三章状态表",
+            "每项增量都绑定触发事件与正文来源",
+            "直接说明阻塞项、已完成项和下一步",
+            "正文交付前不展示大纲、公式、章卡或套路分析",
+            "人物通过压力下的选择立住，不靠旁白宣布性格",
+            "理解不等于免责，其行为仍须承担后果",
+            "悲伤不按性别限制停留时间",
+            "不得抹掉弱势角色的主体性",
+            "不得用无来源的新事实临时修补漏洞",
+        ):
+            with self.subTest(marker=marker):
+                self.assertIn(marker, skill)
 
     def test_all_local_markdown_links_resolve(self) -> None:
         for source in ROOT.rglob("*.md"):
@@ -81,6 +160,7 @@ class LeanSkillContractTests(unittest.TestCase):
                 ROOT / "agents/openai.yaml",
                 ROOT / "assets/chapter-card-template.md",
                 ROOT / "assets/story-bible-template.md",
+                ROOT / CORE_CONTRACT,
                 ROOT / "references/story-design.md",
                 ROOT / "references/character-emotion.md",
                 ROOT / "references/revision-continuity.md",
@@ -101,11 +181,11 @@ class LeanSkillContractTests(unittest.TestCase):
                 runtime,
             )
         )
-        self.assertIn("默认只是帮助理解规则的素材", runtime)
-        self.assertIn("不得把它们写入 Skill 描述、触发路由、门禁、模板、测试或通用参考", runtime)
+        self.assertIn("默认只是理解规则的素材", runtime)
+        self.assertIn("不得写入 Skill 描述、触发路由、门禁、模板、测试或通用参考", runtime)
 
     def test_seven_opening_rules_are_generic_and_present(self) -> None:
-        skill = self.read("SKILL.md")
+        core = self.core_contract()
         markers = (
             "第一章前 1000 个有效正文字符出现命运危机",
             "背景信息通过当前代价进入",
@@ -117,7 +197,7 @@ class LeanSkillContractTests(unittest.TestCase):
         )
         for marker in markers:
             with self.subTest(marker=marker):
-                self.assertIn(marker, skill)
+                self.assertIn(marker, core)
 
     def test_user_allowed_devices_are_not_globally_banned(self) -> None:
         skill = self.read("SKILL.md")
@@ -162,15 +242,16 @@ class LeanSkillContractTests(unittest.TestCase):
 
     def test_retention_reference_is_mandatory_and_cumulative(self) -> None:
         skill = self.read("SKILL.md")
+        core = self.core_contract()
         retention = self.read("references/opening-retention-six-locks.md")
         self.assertIn(
-            "必须完整读取并执行 [references/opening-retention-six-locks.md]",
+            "完整读取并执行 [references/opening-retention-six-locks.md]",
             skill,
         )
-        self.assertIn("九项留存硬锁是默认硬锁，不是可选建议", skill)
+        self.assertIn("其中九项留存硬锁默认强制并累积", skill)
         self.assertIn(
             "九项与七条前三章合同、v1、既有 v2、01–10、正文隔离锁及逐章净字数锁并列累积",
-            skill,
+            core,
         )
         self.assertIn(
             "本文件九项硬锁与 `SKILL.md` 中的七条前三章合同、v1、既有 v2、01–10、正文隔离锁和逐章净字数锁并列累积",
@@ -179,7 +260,7 @@ class LeanSkillContractTests(unittest.TestCase):
         self.assertIn("不得替换、放宽或择一执行", retention)
 
     def test_retention_six_atomic_rules_are_welded(self) -> None:
-        skill = self.read("SKILL.md")
+        core = self.core_contract()
         retention = self.read("references/opening-retention-six-locks.md")
         for marker in (
             "前 300 个读者可见正文字符内",
@@ -214,7 +295,7 @@ class LeanSkillContractTests(unittest.TestCase):
             "每章结尾不得同时处于安全区",
         ):
             with self.subTest(marker=marker):
-                self.assertIn(marker, skill)
+                self.assertIn(marker, core)
 
     def test_retention_counting_windows_do_not_override_length_lock(self) -> None:
         skill = self.read("SKILL.md")
@@ -240,13 +321,13 @@ class LeanSkillContractTests(unittest.TestCase):
         self.assertIn("每章必须独立达到 2000–3200 个净正文有效字符", skill)
 
     def test_retention_future_gate_cannot_be_prematurely_passed(self) -> None:
-        skill = self.read("SKILL.md")
+        core = self.core_contract()
         retention = self.read("references/opening-retention-six-locks.md")
         self.assertIn("第 3 章场景转移必须已经在正文落地", retention)
         self.assertIn("第 10 章门槛记为“尚未到期，已规划”", retention)
         self.assertIn("不得提前登记通过", retention)
         self.assertIn("不足 6 章的交付只登记已规划峰值，不得提前写通过", retention)
-        self.assertIn("未满 6 章时规划账不得写成已通过", skill)
+        self.assertIn("未满 6 章时规划账不得写成已通过", core)
 
     def test_retention_templates_require_semantic_evidence(self) -> None:
         card = self.read("assets/chapter-card-template.md")
@@ -290,9 +371,9 @@ class LeanSkillContractTests(unittest.TestCase):
         self.assertIn("示例不进入通用门禁", metadata)
 
     def test_hard_impact_contract_is_default_and_conjunctive(self) -> None:
-        skill = self.read("SKILL.md")
-        self.assertIn("本节是默认强制的合取合同", skill)
-        self.assertIn("所有适用项都必须满足", skill)
+        core = self.core_contract()
+        self.assertIn("本节是默认强制的合取合同", core)
+        self.assertIn("所有适用项都必须满足", core)
         for marker in (
             "3:1 可视偿债",
             "300/800 截断",
@@ -302,10 +383,10 @@ class LeanSkillContractTests(unittest.TestCase):
             "先动身体，再动脑",
         ):
             with self.subTest(marker=marker):
-                self.assertIn(marker, skill)
+                self.assertIn(marker, core)
 
     def test_payoff_and_hook_formulas_are_welded(self) -> None:
-        skill = self.read("SKILL.md")
+        core = self.core_contract()
         for marker in (
             "同一场景内至少落袋 3 个彼此可区分的收益单位",
             "打脸、夺宝、收人或升阶",
@@ -317,10 +398,10 @@ class LeanSkillContractTests(unittest.TestCase):
             "异常感知 → 即时行动 → 结果半露 → 留白逼问",
         ):
             with self.subTest(marker=marker):
-                self.assertIn(marker, skill)
+                self.assertIn(marker, core)
 
     def test_character_antagonist_and_world_rules_are_welded(self) -> None:
-        skill = self.read("SKILL.md")
+        core = self.core_contract()
         for marker in (
             "对主角的立场",
             "对反派或对立方的立场",
@@ -334,10 +415,10 @@ class LeanSkillContractTests(unittest.TestCase):
             "不超过 15 个有效字符",
         ):
             with self.subTest(marker=marker):
-                self.assertIn(marker, skill)
+                self.assertIn(marker, core)
 
     def test_emotion_and_first_chapter_rules_are_welded(self) -> None:
-        skill = self.read("SKILL.md")
+        core = self.core_contract()
         for marker in (
             "第一段直接写主角正在完成的反常或高风险动作",
             "第二段必须出现该动作的即时物理或社会结果",
@@ -349,7 +430,7 @@ class LeanSkillContractTests(unittest.TestCase):
             "外部刺激 → 本能动作 → 身体代价 → 环境静默 → 一句短台",
         ):
             with self.subTest(marker=marker):
-                self.assertIn(marker, skill)
+                self.assertIn(marker, core)
 
     def test_chapter_card_requires_evidence_for_every_hard_module(self) -> None:
         card = self.read("assets/chapter-card-template.md")
@@ -370,7 +451,7 @@ class LeanSkillContractTests(unittest.TestCase):
         self.assertIn("Skill 默认硬合同", bible)
 
     def test_five_opening_validation_locks_are_welded(self) -> None:
-        skill = self.read("SKILL.md")
+        core = self.core_contract()
         for marker in (
             "HOOK-EMO-01｜情绪钩子前置锁",
             "PLOT-MIND-02｜智斗三层套娃锁",
@@ -379,10 +460,10 @@ class LeanSkillContractTests(unittest.TestCase):
             "END-HOOK-05｜章末认知错位锁",
         ):
             with self.subTest(marker=marker):
-                self.assertIn(marker, skill)
+                self.assertIn(marker, core)
 
     def test_hook_and_mind_locks_preserve_atomic_conditions(self) -> None:
-        skill = self.read("SKILL.md")
+        core = self.core_contract()
         for marker in (
             "共情锚点值 = 感官压迫词数 × 1 + 压迫者直接台词次数 × 2 + 时间死限或生理威胁次数 × 3",
             "第一章前 150 个有效正文字符必须依次出现",
@@ -395,10 +476,10 @@ class LeanSkillContractTests(unittest.TestCase):
             "明面 A 计划 → 反派 B 反制 → A 破产 → 主角利用 B 的必然副作用执行 C 计划",
         ):
             with self.subTest(marker=marker):
-                self.assertIn(marker, skill)
+                self.assertIn(marker, core)
 
     def test_cost_loot_and_end_hook_conditions_are_atomic(self) -> None:
-        skill = self.read("SKILL.md")
+        core = self.core_contract()
         for marker in (
             "代价完整性 = 显性代价 1 + 隐性抽象损耗 1 = 2",
             "每次生效都必须同时植入一种不可逆且本章无法解释的抽象异常",
@@ -417,23 +498,22 @@ class LeanSkillContractTests(unittest.TestCase):
             "本章未解释该异常",
         ):
             with self.subTest(marker=marker):
-                self.assertIn(marker, skill)
+                self.assertIn(marker, core)
 
     def test_existing_v2_validation_lock_is_preserved_before_ten_lock(self) -> None:
-        skill = self.read("SKILL.md")
-        footer = """```markdown
-[MANDATORY] 玄幻开篇五条硬规则（违反任一则输出无效，必须回滚重写）：
-
-1. 情绪钩子前置律（HOOK）：第一章前150字内，必须按“感官词→反派台词→死限”顺序输出，锚点值≥6后方可触发主角首次超凡动作。
-2. 智斗三层套娃律（MIND）：任何交锋场景必须包含：明面计划(层1)→反派拆解(层2)→主角利用拆解副作用翻盘(层3)，缺一不可。
-3. 代价双通道律（COST）：每次金手指生效必须输出“显性生理代价”和“隐性抽象损耗（不解释）”双通道。
-4. 战利品双池律（LOOT）：胜利后战利品分“即时池(≤3项，立即可用)”和“延迟池(≥1项，功能锁仓不解释)”。
-5. 章末异常钩子律（END）：章节最后200字禁止主角喊口号，必须输出“金手指异动”或“死物复苏”类客观异常现象。
-
-[OUTPUT CHECK] 每生成一卷/章末尾，必须在独立 QA 侧车附上五条规则的自检结果（PASS/FAIL），FAIL项须附修订版本；严禁写入小说正文。
-```"""
-        self.assertIn(footer, skill)
-        self.assertLess(skill.index(footer), skill.index("[MANDATORY] 玄幻开篇十条硬规则"))
+        core = self.core_contract()
+        legacy_five = (
+            "HOOK-EMO-01",
+            "PLOT-MIND-02",
+            "SYS-COST-03",
+            "LOOT-DELAY-04",
+            "END-HOOK-05",
+        )
+        positions = [core.index(marker) for marker in legacy_five]
+        self.assertEqual(sorted(positions), positions)
+        self.assertIn("旧“五条硬规则”分别以 5.2、5.4、5.7、5.8、5.9 为唯一规范正文", core)
+        self.assertIn("旧“十条硬规则”在上述五条之上累加 5.10–5.14", core)
+        self.assertLess(core.index("旧“五条硬规则”"), core.index("旧“十条硬规则”"))
 
     def test_templates_require_evidence_and_state_ledgers(self) -> None:
         card = self.read("assets/chapter-card-template.md")
@@ -459,6 +539,7 @@ class LeanSkillContractTests(unittest.TestCase):
 
     def test_output_check_is_mandatory_but_isolated_in_sidecar(self) -> None:
         skill = self.read("SKILL.md")
+        core = self.core_contract()
         card = self.read("assets/chapter-card-template.md")
         for marker in (
             "独立 QA 侧车",
@@ -468,30 +549,38 @@ class LeanSkillContractTests(unittest.TestCase):
             "FAIL 只回滚其触发范围",
             "最终交付前必须十项全部 PASS",
             "旧合同中“附上自检”的含义统一解释为“附独立 QA 文件或内部审计记录”",
-            "黑匣子模式仍须完成十项内部自检",
         ):
             with self.subTest(marker=marker):
-                self.assertIn(marker, skill)
+                self.assertIn(marker, core)
+        self.assertIn(
+            "用户要求“直接生成”“不要解释过程”或“黑匣子模式”时，内部仍执行任务卡、因果骨架、状态事务和审计",
+            skill,
+        )
         for marker in ("内部 QA 侧车记录", "禁止进入正文", "v1 PASS / FAIL", "既有 v2 PASS / FAIL", "BOUND-QUANT-06", "INFO-DELAY-10", "FAIL 修订版本与复检"):
             self.assertIn(marker, card)
 
     def test_reader_output_firewall_and_net_length_lock_are_welded(self) -> None:
         skill = self.read("SKILL.md")
+        core = self.core_contract()
         card = self.read("assets/chapter-card-template.md")
         bible = self.read("assets/story-bible-template.md")
         for marker in (
             "读者正文与编辑控制层永久隔离",
             "规则名、约束 ID、自检宏、PASS/FAIL、公式拆解和审计表",
             "每章必须独立达到 2000–3200 个净正文有效字符",
+        ):
+            with self.subTest(marker=marker):
+                self.assertIn(marker, skill)
+        for marker in (
             "三章总和、平均数或其他长章不能补偿任一短章",
             "不统计批次标题清单、H1/H2 标题、标点、空白、Markdown 标记、HTML 注释、代码块、链接地址、编辑说明、规则 ID、自检表或 QA 内容",
             "生成纯正文 → 移除控制层污染 → 逐章净计数",
             "正文纯净门禁发现一个约束 ID",
-            "QA 与正文必须分文件交付",
-            "第 4、5 节已经标为默认硬锁的阈值与章位不受本句豁免",
+            "正文文件只保存标题清单、章标题和小说正文",
+            "QA 默认另存为同目录同名 `.qa.json`",
         ):
             with self.subTest(marker=marker):
-                self.assertIn(marker, skill)
+                self.assertIn(marker, core)
         for marker in (
             "本章净正文有效字符",
             "扫描结果（必须 0 命中）",
@@ -502,7 +591,7 @@ class LeanSkillContractTests(unittest.TestCase):
         self.assertIn("控制层污染命中数", bible)
 
     def test_v1_and_v2_are_cumulative_not_replacements(self) -> None:
-        skill = self.read("SKILL.md")
+        core = self.core_contract()
         bible = self.read("assets/story-bible-template.md")
         for marker in (
             "v1 与 v2 是并行累积合同",
@@ -513,23 +602,24 @@ class LeanSkillContractTests(unittest.TestCase):
             "v1 要求以认知错位或金手指被动异变形成客观异常",
         ):
             with self.subTest(marker=marker):
-                self.assertIn(marker, skill)
+                self.assertIn(marker, core)
         self.assertIn("v1、既有 v2 与新增 06–10 是并行累积合同，不得互相替换", bible)
 
-    def test_v1_footer_is_restored_before_v2_footer(self) -> None:
-        skill = self.read("SKILL.md")
-        v1 = """**【硬规则模式：玄幻开篇生成校验锁】**
-生成前三章正文时，所有输出必须逐条满足以下5项原子规则（违反任一规则则自动回滚重写）：
-1. HOOK-EMO-01：第一章前150字强制包含“感官压迫+压迫者台词/死限”，超凡动作延后。
-2. PLOT-MIND-02：交锋场景强制套娃三层（明面计划→反派反制→主角利用反制副作用破局）。
-3. SYS-COST-03：每次金手指生效必须带“显性生理代价”和“不可解释的抽象损耗伏笔”，禁止线性数值兑换。
-4. LOOT-DELAY-04：战利品分“即时池（≤3项）”与“延迟池（≥1项未知物）”，本章内禁止解释延迟池。
-5. END-HOOK-05：章末禁止主角喊口号，强制采用“客观异变现象（金手指失控/死物复苏）”制造认知错位。"""
-        self.assertIn(v1, skill)
-        self.assertLess(skill.index(v1), skill.index("[MANDATORY] 玄幻开篇五条硬规则"))
+    def test_v1_lock_sequence_is_preserved_in_core_contract(self) -> None:
+        core = self.core_contract()
+        headings = (
+            "### 5.2 钩子前置：300/800 截断",
+            "### 5.4 反派先拆牌：三层智斗与主角能动性并存",
+            "### 5.7 金手指非线性代价",
+            "### 5.8 战利品延迟释放",
+            "### 5.9 章末异常钩子",
+        )
+        positions = [core.index(heading) for heading in headings]
+        self.assertEqual(sorted(positions), positions)
+        self.assertIn("归并只消除重复，不删除、替换或放宽任何规则", core)
 
     def test_new_five_locks_are_welded_and_atomic(self) -> None:
-        skill = self.read("SKILL.md")
+        core = self.core_contract()
         for marker in (
             "BOUND-QUANT-06｜金手指量化边界锁",
             "本章存在总量参照",
@@ -552,10 +642,10 @@ class LeanSkillContractTests(unittest.TestCase):
             "本次产生新谜题 ≥ 1",
         ):
             with self.subTest(marker=marker):
-                self.assertIn(marker, skill)
+                self.assertIn(marker, core)
 
     def test_mind_mode_and_cooldown_are_welded_without_weakening_mind_lock(self) -> None:
-        skill = self.read("SKILL.md")
+        core = self.core_contract()
         for marker in (
             "主流玄幻模式",
             "70%–80% 武力、升级与结果兑现",
@@ -566,7 +656,7 @@ class LeanSkillContractTests(unittest.TestCase):
             "阶段与核心反派的非纯武力交锋必须执行完整三层智斗",
         ):
             with self.subTest(marker=marker):
-                self.assertIn(marker, skill)
+                self.assertIn(marker, core)
 
     def test_new_lock_templates_and_ledgers_require_evidence(self) -> None:
         card = self.read("assets/chapter-card-template.md")
@@ -591,48 +681,48 @@ class LeanSkillContractTests(unittest.TestCase):
             with self.subTest(marker=marker):
                 self.assertIn(marker, bible)
 
-    def test_ten_rule_footer_is_exact_and_precedes_isolation_lock(self) -> None:
-        skill = self.read("SKILL.md").rstrip()
-        footer = """```markdown
-[MANDATORY] 玄幻开篇十条硬规则（违反任一则输出无效，必须回滚重写）：
-
-01-情绪钩子前置律：第一章前150字内，感官词+反派台词+死限，锚点≥6后方可触发超凡动作。
-02-智斗三层套娃律：交锋场景必须含“明面计划→反派拆解→主角利用拆解副作用翻盘”三层。
-03-代价双通道律：每次金手指生效必须输出“显性生理代价”和“隐性抽象损耗（不解释）”。
-04-战利品双池律：胜利后战利品分“即时池(≤3项，立即可用)”和“延迟池(≥1项，功能锁仓)”。
-05-章末异常钩子律：最后200字禁止主角喊口号，必须输出“金手指异动”或“死物复苏”类客观异常。
-06-金手指量化边界律：首次金手指展示时必须给出绝对度量参照（如总长度）和恢复路径暗示。
-07-主角智力上限显性化律：主角连续智谋成功后，必须安排一次“预判被反派绕过”的失败。
-08-反派层级具象化律：当前反派须有独特压迫手段；终极反派实体出场前须有至少两次侧面描写。
-09-核心事件规则预埋律：任何考核/试炼开始前，必须提前交代“比什么、怎么分胜负、对手优势”。
-10-家族谜题信息延迟律：每次揭秘最多3条新事实，且必须附带新的未解之谜。
-
-[OUTPUT CHECK] 每生成一章末尾，必须在独立 QA 侧车附上十条规则的自检结果（PASS/FAIL），FAIL项须附修订版本；严禁写入小说正文。
-```"""
-        self.assertIn(footer, skill)
-        self.assertLess(skill.index("[MANDATORY] 玄幻开篇五条硬规则"), skill.index(footer))
-        isolation = "[MANDATORY] 读者正文隔离与逐章净字数锁"
-        self.assertIn(isolation, skill)
-        self.assertLess(skill.index(footer), skill.index(isolation))
-        self.assertTrue(skill.endswith("```"))
+    def test_ten_rule_sequence_and_isolation_contract_are_preserved(self) -> None:
+        core = self.core_contract()
+        rule_ids = (
+            "HOOK-EMO-01",
+            "PLOT-MIND-02",
+            "SYS-COST-03",
+            "LOOT-DELAY-04",
+            "END-HOOK-05",
+            "BOUND-QUANT-06",
+            "SMART-LIMIT-07",
+            "VILLAIN-LAYER-08",
+            "EVENT-RULE-09",
+            "INFO-DELAY-10",
+        )
+        positions = [core.index(rule_id) for rule_id in rule_ids]
+        self.assertEqual(sorted(positions), positions)
+        self.assertLess(
+            core.index("### 6.1 五条与十条开篇硬锁"),
+            core.index("### 6.2 正文隔离、净字数与留存合同"),
+        )
+        self.assertIn("违反任一已触发硬锁时，输出无效", core)
+        self.assertIn("正文中出现规则名、约束 ID、PASS/FAIL、自检宏或层级拆解即为污染", core)
 
     def test_loot_sentence_skeleton_is_generic(self) -> None:
-        skill = self.read("SKILL.md")
-        self.assertIn("{主角名}从未见过的", skill)
-        self.assertIn("仿佛有什么东西在辨认他/她", skill)
-        self.assertIn("占位符必须替换", skill)
+        core = self.core_contract()
+        self.assertIn("{主角名}从未见过的", core)
+        self.assertIn("仿佛有什么东西在辨认他/她", core)
+        self.assertIn("占位符必须替换", core)
 
     def test_audit_is_described_as_deterministic_not_market_proof(self) -> None:
         skill = self.read("SKILL.md")
+        core = self.core_contract()
         self.assertIn("审计脚本只检查可机械识别的候选", skill)
         self.assertIn("不把“通过门禁”写成“已是爆款”", skill)
         self.assertIn("--require-opening-three", skill)
         self.assertIn("--min-effective 2000", skill)
         self.assertIn("--max-effective 3200", skill)
-        self.assertIn("审计控制文字判为正文污染", skill)
+        self.assertIn("审计控制词，即判定整份正文 FAIL", core)
 
     def test_platform_modes_and_four_beat_are_cumulative_not_replacements(self) -> None:
         skill = self.read("SKILL.md")
+        core = self.core_contract()
         design = self.read("references/story-design.md")
         self.assertIn(
             "规划全书、世界、力量、金手指、地图、秘境、高潮、命名、平台爽点模式或打脸四拍",
@@ -653,17 +743,20 @@ class LeanSkillContractTests(unittest.TestCase):
         ):
             with self.subTest(marker=marker):
                 self.assertIn(marker, design)
-        self.assertIn("平台爽点与正文去模板化默认合同", skill)
-        self.assertIn("与既有全部合同并列累积", skill)
+        self.assertIn("### 6.3 平台爽点与去模板化合同", core)
+        self.assertIn(
+            "核心合同、开篇留存合同、六十项章节节奏锁、平台模式、风格合同和连续性合同并列累积",
+            skill,
+        )
 
     def test_prose_style_reference_is_mandatory_and_three_layered(self) -> None:
         skill = self.read("SKILL.md")
         style = self.read("references/prose-style.md")
         self.assertIn(
-            "必须完整读取并执行 [references/prose-style.md]",
+            "生成、续写、重写或审校任何小说正文：完整读取并执行 [references/prose-style.md]",
             skill,
         )
-        self.assertIn("正文风格默认目标生效", skill)
+        self.assertIn("正文风格默认目标", skill)
         self.assertIn("风格目标可由风格卡按具体语境覆盖", skill)
         for marker in (
             "写前风格注入",
@@ -726,15 +819,20 @@ class LeanSkillContractTests(unittest.TestCase):
 
     def test_longform_continuity_contract_is_cumulative_and_internal_only(self) -> None:
         skill = self.read("SKILL.md")
+        core = self.core_contract()
         continuity = self.read("references/revision-continuity.md")
         card = self.read("assets/chapter-card-template.md")
         bible = self.read("assets/story-bible-template.md")
         metadata = self.read("agents/openai.yaml")
         self.assertIn(
-            "必须完整读取并执行 [references/revision-continuity.md]",
+            "完整读取并执行 [references/revision-continuity.md]",
             skill,
         )
-        self.assertIn("长篇连续性与防跳脱合同（与既有全部合同并列累积）", skill)
+        self.assertIn("### 6.4 长篇连续性与防跳脱合同", core)
+        self.assertIn(
+            "核心合同、开篇留存合同、六十项章节节奏锁、平台模式、风格合同和连续性合同并列累积",
+            skill,
+        )
         for marker in (
             "### R1 事实锁",
             "### R2 人物锁",
@@ -781,7 +879,7 @@ class LeanSkillContractTests(unittest.TestCase):
         validator = self.read("scripts/validate_story_state.py")
         state_template = self.read("assets/story-state-template.json")
         self.assertIn("scripts/validate_story_state.py <当前.state.json>", skill)
-        self.assertIn("非初始状态必须同时提供 `--previous`", skill)
+        self.assertIn("非初始状态必须提供 --previous", skill)
         self.assertIn("--prose <最终正文.md>", skill)
         self.assertIn("story-state-template.json", continuity)
         for marker in (
@@ -804,17 +902,19 @@ class LeanSkillContractTests(unittest.TestCase):
 
     def test_twenty_chapter_rhythm_locks_are_mandatory_and_cumulative(self) -> None:
         skill = self.read("SKILL.md")
+        core = self.core_contract()
         rhythm = self.read("references/chapter-rhythm-twenty-locks.md")
         metadata = self.read("agents/openai.yaml")
         self.assertIn(
-            "必须完整读取并合取执行 [references/chapter-rhythm-twenty-locks.md]",
+            "完整读取并合取执行 [references/chapter-rhythm-twenty-locks.md]",
             skill,
         )
-        self.assertIn("六十项节奏锁与既有全部合同并列累积", skill)
-        self.assertIn("未触发项只能写 `未触发：具体原因`，不得登记 PASS", skill)
+        self.assertIn("核心合同、开篇留存合同、六十项章节节奏锁", skill)
+        self.assertIn("在 QA 侧车写“未触发：具体原因”", skill)
+        self.assertIn("未触发项只能写 `未触发：具体原因`，不得登记 PASS", core)
         self.assertIn(
             "全部已触发、已到期六十项节奏锁也必须全部 PASS",
-            skill,
+            core,
         )
         self.assertIn(
             "与 `SKILL.md` 的七条前三章合同、v1、既有 v2、01–10、九项留存锁",
@@ -970,10 +1070,10 @@ class LeanSkillContractTests(unittest.TestCase):
         metadata = self.read("agents/openai.yaml")
 
         self.assertIn(
-            "必须完整读取并合取执行 [references/chapter-rhythm-rules-31-60.md]",
+            "[references/chapter-rhythm-rules-31-60.md](references/chapter-rhythm-rules-31-60.md)",
             skill,
         )
-        self.assertIn("六十项节奏锁与既有全部合同并列累积", skill)
+        self.assertIn("核心合同、开篇留存合同、六十项章节节奏锁", skill)
         self.assertIn("逐章节奏六十项硬锁", metadata)
         self.assertIn(
             "只新增规则三十一至六十，不替换、不删减、不放宽前二十项和规则二十一至三十",
@@ -1157,7 +1257,8 @@ class LeanSkillContractTests(unittest.TestCase):
                 self.assertIn(marker, rules)
         self.assertIn("规则 31–60 QA 侧车证据", card)
         self.assertIn("约束ID和自检只写独立QA侧车", self.read("agents/openai.yaml"))
-        self.assertIn("读者正文隔离与逐章净字数锁", skill)
+        self.assertIn("## 8. 正文、状态与 QA 隔离", skill)
+        self.assertIn("正文标题、段落或文件不得出现约束 ID、规则名、PASS/FAIL", skill)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,2705 @@
+{
+  "schema_version": 1,
+  "rules": [
+    {
+      "id": "OPEN-3C-01",
+      "name": "第一章前 1000 个有效正文字符出现命运危机",
+      "family": "opening-three",
+      "ordinal": 1,
+      "kind": "atomic",
+      "source": "references/core-contracts.md",
+      "source_heading": "4.1 第一章前 1000 个有效正文字符出现命运危机",
+      "routes": [
+        "opening",
+        "chapter_prose",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "OPEN-3C-02",
+      "name": "背景信息通过当前代价进入",
+      "family": "opening-three",
+      "ordinal": 2,
+      "kind": "atomic",
+      "source": "references/core-contracts.md",
+      "source_heading": "4.2 背景信息通过当前代价进入",
+      "routes": [
+        "opening",
+        "chapter_prose",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "OPEN-3C-03",
+      "name": "金手指首次有效使用展示“效果、代价、边界”",
+      "family": "opening-three",
+      "ordinal": 3,
+      "kind": "atomic",
+      "source": "references/core-contracts.md",
+      "source_heading": "4.3 金手指首次有效使用展示“效果、代价、边界”",
+      "routes": [
+        "opening",
+        "chapter_prose",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "OPEN-3C-04",
+      "name": "主角前三章至少一次主动设局",
+      "family": "opening-three",
+      "ordinal": 4,
+      "kind": "atomic",
+      "source": "references/core-contracts.md",
+      "source_heading": "4.4 主角前三章至少一次主动设局",
+      "routes": [
+        "opening",
+        "chapter_prose",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "OPEN-3C-05",
+      "name": "主要压迫者用一件完整前科立威",
+      "family": "opening-three",
+      "ordinal": 5,
+      "kind": "atomic",
+      "source": "references/core-contracts.md",
+      "source_heading": "4.5 主要压迫者用一件完整前科立威",
+      "routes": [
+        "opening",
+        "chapter_prose",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "OPEN-3C-06",
+      "name": "三章内完成一次阶段胜利",
+      "family": "opening-three",
+      "ordinal": 6,
+      "kind": "atomic",
+      "source": "references/core-contracts.md",
+      "source_heading": "4.6 三章内完成一次阶段胜利",
+      "routes": [
+        "opening",
+        "chapter_prose",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "OPEN-3C-07",
+      "name": "关键设定遵循“先看见，再暗示，后揭示或使用”",
+      "family": "opening-three",
+      "ordinal": 7,
+      "kind": "atomic",
+      "source": "references/core-contracts.md",
+      "source_heading": "4.7 关键设定遵循“先看见，再暗示，后揭示或使用”",
+      "routes": [
+        "opening",
+        "chapter_prose",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "CORE-IMPACT-01",
+      "name": "爽点溢出：3:1 可视偿债",
+      "family": "core-impact",
+      "ordinal": 1,
+      "kind": "atomic",
+      "source": "references/core-contracts.md",
+      "source_heading": "5.1 爽点溢出：3:1 可视偿债",
+      "routes": [
+        "opening",
+        "chapter_prose",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "HOOK-EMO-01",
+      "name": "钩子前置：300/800 截断",
+      "family": "core-impact",
+      "ordinal": 2,
+      "kind": "atomic",
+      "source": "references/core-contracts.md",
+      "source_heading": "5.2 钩子前置：300/800 截断",
+      "routes": [
+        "opening",
+        "chapter_prose",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [
+          "HOOK"
+        ],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "CORE-IMPACT-03",
+      "name": "角色自利：三向利益与反向记忆",
+      "family": "core-impact",
+      "ordinal": 3,
+      "kind": "atomic",
+      "source": "references/core-contracts.md",
+      "source_heading": "5.3 角色自利：三向利益与反向记忆",
+      "routes": [
+        "opening",
+        "chapter_prose",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "PLOT-MIND-02",
+      "name": "反派先拆牌：三层智斗与主角能动性并存",
+      "family": "core-impact",
+      "ordinal": 4,
+      "kind": "atomic",
+      "source": "references/core-contracts.md",
+      "source_heading": "5.4 反派先拆牌：三层智斗与主角能动性并存",
+      "routes": [
+        "opening",
+        "chapter_prose",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [
+          "MIND"
+        ],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "CORE-IMPACT-05",
+      "name": "世界观砸脸：物理改写与权力坍塌",
+      "family": "core-impact",
+      "ordinal": 5,
+      "kind": "atomic",
+      "source": "references/core-contracts.md",
+      "source_heading": "5.5 世界观砸脸：物理改写与权力坍塌",
+      "routes": [
+        "opening",
+        "chapter_prose",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "CORE-IMPACT-06",
+      "name": "情感先行：先动身体，再动脑",
+      "family": "core-impact",
+      "ordinal": 6,
+      "kind": "atomic",
+      "source": "references/core-contracts.md",
+      "source_heading": "5.6 情感先行：先动身体，再动脑",
+      "routes": [
+        "opening",
+        "chapter_prose",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "SYS-COST-03",
+      "name": "金手指非线性代价",
+      "family": "core-impact",
+      "ordinal": 7,
+      "kind": "atomic",
+      "source": "references/core-contracts.md",
+      "source_heading": "5.7 金手指非线性代价",
+      "routes": [
+        "opening",
+        "chapter_prose",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [
+          "COST"
+        ],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "LOOT-DELAY-04",
+      "name": "战利品延迟释放",
+      "family": "core-impact",
+      "ordinal": 8,
+      "kind": "atomic",
+      "source": "references/core-contracts.md",
+      "source_heading": "5.8 战利品延迟释放",
+      "routes": [
+        "opening",
+        "chapter_prose",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [
+          "LOOT"
+        ],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "END-HOOK-05",
+      "name": "章末异常钩子",
+      "family": "core-impact",
+      "ordinal": 9,
+      "kind": "atomic",
+      "source": "references/core-contracts.md",
+      "source_heading": "5.9 章末异常钩子",
+      "routes": [
+        "opening",
+        "chapter_prose",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [
+          "END"
+        ],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "BOUND-QUANT-06",
+      "name": "金手指量化边界",
+      "family": "core-impact",
+      "ordinal": 10,
+      "kind": "atomic",
+      "source": "references/core-contracts.md",
+      "source_heading": "5.10 金手指量化边界",
+      "routes": [
+        "opening",
+        "chapter_prose",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "SMART-LIMIT-07",
+      "name": "主角智力上限显性化",
+      "family": "core-impact",
+      "ordinal": 11,
+      "kind": "atomic",
+      "source": "references/core-contracts.md",
+      "source_heading": "5.11 主角智力上限显性化",
+      "routes": [
+        "opening",
+        "chapter_prose",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "VILLAIN-LAYER-08",
+      "name": "反派层级具象化",
+      "family": "core-impact",
+      "ordinal": 12,
+      "kind": "atomic",
+      "source": "references/core-contracts.md",
+      "source_heading": "5.12 反派层级具象化",
+      "routes": [
+        "opening",
+        "chapter_prose",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "EVENT-RULE-09",
+      "name": "核心事件规则预埋",
+      "family": "core-impact",
+      "ordinal": 13,
+      "kind": "atomic",
+      "source": "references/core-contracts.md",
+      "source_heading": "5.13 核心事件规则预埋",
+      "routes": [
+        "opening",
+        "chapter_prose",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "INFO-DELAY-10",
+      "name": "家族谜题信息延迟",
+      "family": "core-impact",
+      "ordinal": 14,
+      "kind": "atomic",
+      "source": "references/core-contracts.md",
+      "source_heading": "5.14 家族谜题信息延迟",
+      "routes": [
+        "opening",
+        "chapter_prose",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "CORE-WORKFLOW-15",
+      "name": "斗智模式与冷却",
+      "family": "core-impact",
+      "ordinal": 15,
+      "kind": "workflow",
+      "source": "references/core-contracts.md",
+      "source_heading": "5.15 斗智模式与冷却",
+      "routes": [
+        "planning",
+        "continuation",
+        "chapter_prose",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [
+        {
+          "kind": "requires",
+          "target": "PLOT-MIND-02"
+        },
+        {
+          "kind": "requires",
+          "target": "SMART-LIMIT-07"
+        }
+      ],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "CORE-WORKFLOW-16",
+      "name": "生成闭环与强制内部自检",
+      "family": "core-impact",
+      "ordinal": 16,
+      "kind": "workflow",
+      "source": "references/core-contracts.md",
+      "source_heading": "5.16 生成闭环与强制内部自检",
+      "routes": [
+        "planning",
+        "continuation",
+        "chapter_prose",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "CORE-LENGTH-17",
+      "name": "逐章 2000–3200 净正文字符硬锁",
+      "family": "core-impact",
+      "ordinal": 17,
+      "kind": "atomic",
+      "source": "references/core-contracts.md",
+      "source_heading": "5.17 逐章 2000–3200 净正文字符硬锁",
+      "routes": [
+        "planning",
+        "continuation",
+        "chapter_prose",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "CORE-AGGREGATE-18",
+      "name": "前三万字九项留存硬锁",
+      "family": "core-impact",
+      "ordinal": 18,
+      "kind": "aggregate",
+      "source": "references/core-contracts.md",
+      "source_heading": "5.18 前三万字九项留存硬锁",
+      "routes": [
+        "planning",
+        "continuation",
+        "opening",
+        "chapter_prose",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "not_applicable",
+        "semantic": "manual"
+      },
+      "relations": [
+        {
+          "kind": "aggregates",
+          "target": "family:opening-retention"
+        }
+      ],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "CORE-AGGREGATE-19",
+      "name": "逐章节奏六十项硬锁",
+      "family": "core-impact",
+      "ordinal": 19,
+      "kind": "aggregate",
+      "source": "references/core-contracts.md",
+      "source_heading": "5.19 逐章节奏六十项硬锁",
+      "routes": [
+        "planning",
+        "continuation",
+        "chapter_prose",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "not_applicable",
+        "semantic": "manual"
+      },
+      "relations": [
+        {
+          "kind": "aggregates",
+          "target": "family:chapter-rhythm"
+        }
+      ],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RETENTION-01",
+      "name": "开篇情感锚定",
+      "family": "opening-retention",
+      "ordinal": 1,
+      "kind": "atomic",
+      "source": "references/opening-retention-six-locks.md",
+      "source_heading": "2. 开篇情感锚定",
+      "routes": [
+        "opening",
+        "chapter_prose",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RETENTION-02",
+      "name": "主角差异性行为",
+      "family": "opening-retention",
+      "ordinal": 2,
+      "kind": "atomic",
+      "source": "references/opening-retention-six-locks.md",
+      "source_heading": "3. 主角差异性行为",
+      "routes": [
+        "opening",
+        "chapter_prose",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RETENTION-03",
+      "name": "爽点频率与间隔",
+      "family": "opening-retention",
+      "ordinal": 3,
+      "kind": "atomic",
+      "source": "references/opening-retention-six-locks.md",
+      "source_heading": "4. 爽点频率与间隔",
+      "routes": [
+        "opening",
+        "chapter_prose",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RETENTION-04",
+      "name": "章尾动作与信息双钩子",
+      "family": "opening-retention",
+      "ordinal": 4,
+      "kind": "atomic",
+      "source": "references/opening-retention-six-locks.md",
+      "source_heading": "5. 章尾动作与信息双钩子",
+      "routes": [
+        "opening",
+        "chapter_prose",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RETENTION-05",
+      "name": "世界观双向展示",
+      "family": "opening-retention",
+      "ordinal": 5,
+      "kind": "atomic",
+      "source": "references/opening-retention-six-locks.md",
+      "source_heading": "6. 世界观双向展示",
+      "routes": [
+        "opening",
+        "chapter_prose",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RETENTION-06",
+      "name": "场景转移与副本周期",
+      "family": "opening-retention",
+      "ordinal": 6,
+      "kind": "atomic",
+      "source": "references/opening-retention-six-locks.md",
+      "source_heading": "7. 场景转移与副本周期",
+      "routes": [
+        "opening",
+        "chapter_prose",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RETENTION-07",
+      "name": "设定稀缺性",
+      "family": "opening-retention",
+      "ordinal": 7,
+      "kind": "atomic",
+      "source": "references/opening-retention-six-locks.md",
+      "source_heading": "8. 设定稀缺性",
+      "routes": [
+        "opening",
+        "chapter_prose",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RETENTION-08",
+      "name": "情绪峰值类型配比",
+      "family": "opening-retention",
+      "ordinal": 8,
+      "kind": "atomic",
+      "source": "references/opening-retention-six-locks.md",
+      "source_heading": "9. 情绪峰值类型配比",
+      "routes": [
+        "opening",
+        "chapter_prose",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RETENTION-09",
+      "name": "章尾安全区禁令",
+      "family": "opening-retention",
+      "ordinal": 9,
+      "kind": "atomic",
+      "source": "references/opening-retention-six-locks.md",
+      "source_heading": "10. 章尾安全区禁令",
+      "routes": [
+        "opening",
+        "chapter_prose",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RHYTHM-01",
+      "name": "节奏控制协议",
+      "family": "chapter-rhythm",
+      "ordinal": 1,
+      "kind": "atomic",
+      "source": "references/chapter-rhythm-twenty-locks.md",
+      "source_heading": "2. 规则一：节奏控制协议",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RHYTHM-02",
+      "name": "主角能动性协议",
+      "family": "chapter-rhythm",
+      "ordinal": 2,
+      "kind": "atomic",
+      "source": "references/chapter-rhythm-twenty-locks.md",
+      "source_heading": "3. 规则二：主角能动性协议",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RHYTHM-03",
+      "name": "反派压迫感协议",
+      "family": "chapter-rhythm",
+      "ordinal": 3,
+      "kind": "atomic",
+      "source": "references/chapter-rhythm-twenty-locks.md",
+      "source_heading": "4. 规则三：反派压迫感协议",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RHYTHM-04",
+      "name": "金手指差异化记忆点协议",
+      "family": "chapter-rhythm",
+      "ordinal": 4,
+      "kind": "atomic",
+      "source": "references/chapter-rhythm-twenty-locks.md",
+      "source_heading": "5. 规则四：金手指差异化记忆点协议",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RHYTHM-05",
+      "name": "信息密度编码协议",
+      "family": "chapter-rhythm",
+      "ordinal": 5,
+      "kind": "atomic",
+      "source": "references/chapter-rhythm-twenty-locks.md",
+      "source_heading": "6. 规则五：信息密度编码协议",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RHYTHM-06",
+      "name": "开篇钩子协议",
+      "family": "chapter-rhythm",
+      "ordinal": 6,
+      "kind": "atomic",
+      "source": "references/chapter-rhythm-twenty-locks.md",
+      "source_heading": "7. 规则六：开篇钩子协议",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RHYTHM-07",
+      "name": "章节结尾断崖钩子协议",
+      "family": "chapter-rhythm",
+      "ordinal": 7,
+      "kind": "atomic",
+      "source": "references/chapter-rhythm-twenty-locks.md",
+      "source_heading": "8. 规则七：章节结尾断崖钩子协议",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RHYTHM-08",
+      "name": "情绪收益打脸反差节奏协议",
+      "family": "chapter-rhythm",
+      "ordinal": 8,
+      "kind": "atomic",
+      "source": "references/chapter-rhythm-twenty-locks.md",
+      "source_heading": "9. 规则八：情绪收益打脸反差节奏协议",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RHYTHM-09",
+      "name": "对话信息冲突双载协议",
+      "family": "chapter-rhythm",
+      "ordinal": 9,
+      "kind": "atomic",
+      "source": "references/chapter-rhythm-twenty-locks.md",
+      "source_heading": "10. 规则九：对话信息冲突双载协议",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RHYTHM-10",
+      "name": "宏观信息三章释放定律协议",
+      "family": "chapter-rhythm",
+      "ordinal": 10,
+      "kind": "atomic",
+      "source": "references/chapter-rhythm-twenty-locks.md",
+      "source_heading": "11. 规则十：宏观信息三章释放定律协议",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RHYTHM-11",
+      "name": "打斗场景三幕式协议",
+      "family": "chapter-rhythm",
+      "ordinal": 11,
+      "kind": "atomic",
+      "source": "references/chapter-rhythm-twenty-locks.md",
+      "source_heading": "12. 规则十一：打斗场景三幕式协议",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RHYTHM-12",
+      "name": "配角功能标签变数协议",
+      "family": "chapter-rhythm",
+      "ordinal": 12,
+      "kind": "atomic",
+      "source": "references/chapter-rhythm-twenty-locks.md",
+      "source_heading": "13. 规则十二：配角功能标签变数协议",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RHYTHM-13",
+      "name": "战力边界锚定协议",
+      "family": "chapter-rhythm",
+      "ordinal": 13,
+      "kind": "atomic",
+      "source": "references/chapter-rhythm-twenty-locks.md",
+      "source_heading": "14. 规则十三：战力边界锚定协议",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RHYTHM-14",
+      "name": "环境五感触发协议",
+      "family": "chapter-rhythm",
+      "ordinal": 14,
+      "kind": "atomic",
+      "source": "references/chapter-rhythm-twenty-locks.md",
+      "source_heading": "15. 规则十四：环境五感触发协议",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RHYTHM-15",
+      "name": "心理行动外化协议",
+      "family": "chapter-rhythm",
+      "ordinal": 15,
+      "kind": "atomic",
+      "source": "references/chapter-rhythm-twenty-locks.md",
+      "source_heading": "16. 规则十五：心理行动外化协议",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RHYTHM-16",
+      "name": "修炼升级三不写协议",
+      "family": "chapter-rhythm",
+      "ordinal": 16,
+      "kind": "atomic",
+      "source": "references/chapter-rhythm-twenty-locks.md",
+      "source_heading": "17. 规则十六：修炼升级三不写协议",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RHYTHM-17",
+      "name": "支线三章回收挂起协议",
+      "family": "chapter-rhythm",
+      "ordinal": 17,
+      "kind": "atomic",
+      "source": "references/chapter-rhythm-twenty-locks.md",
+      "source_heading": "18. 规则十七：支线三章回收挂起协议",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RHYTHM-18",
+      "name": "悬念类型轮换协议",
+      "family": "chapter-rhythm",
+      "ordinal": 18,
+      "kind": "atomic",
+      "source": "references/chapter-rhythm-twenty-locks.md",
+      "source_heading": "19. 规则十八：悬念类型轮换协议",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RHYTHM-19",
+      "name": "章间前情微召回协议",
+      "family": "chapter-rhythm",
+      "ordinal": 19,
+      "kind": "atomic",
+      "source": "references/chapter-rhythm-twenty-locks.md",
+      "source_heading": "20. 规则十九：章间前情微召回协议",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RHYTHM-20",
+      "name": "世界观名词首次出现即锚定协议",
+      "family": "chapter-rhythm",
+      "ordinal": 20,
+      "kind": "atomic",
+      "source": "references/chapter-rhythm-twenty-locks.md",
+      "source_heading": "21. 规则二十：世界观名词首次出现即锚定协议",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RHYTHM-21",
+      "name": "名词首次出现即锚定协议（强化版）",
+      "family": "chapter-rhythm",
+      "ordinal": 21,
+      "kind": "atomic",
+      "source": "references/chapter-rhythm-rules-21-30.md",
+      "source_heading": "2. 规则二十一：名词首次出现即锚定协议（强化版）",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [
+        {
+          "kind": "refines",
+          "target": "RHYTHM-20"
+        }
+      ],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RHYTHM-22",
+      "name": "信息释放密度 224 协议",
+      "family": "chapter-rhythm",
+      "ordinal": 22,
+      "kind": "atomic",
+      "source": "references/chapter-rhythm-rules-21-30.md",
+      "source_heading": "3. 规则二十二：信息释放密度 224 协议",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RHYTHM-23",
+      "name": "伏笔三章挂起提醒协议",
+      "family": "chapter-rhythm",
+      "ordinal": 23,
+      "kind": "atomic",
+      "source": "references/chapter-rhythm-rules-21-30.md",
+      "source_heading": "4. 规则二十三：伏笔三章挂起提醒协议",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RHYTHM-24",
+      "name": "代价数值前十章固定标注协议",
+      "family": "chapter-rhythm",
+      "ordinal": 24,
+      "kind": "atomic",
+      "source": "references/chapter-rhythm-rules-21-30.md",
+      "source_heading": "5. 规则二十四：代价数值前十章固定标注协议",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RHYTHM-25",
+      "name": "未知物品功能边界三章内暴露协议",
+      "family": "chapter-rhythm",
+      "ordinal": 25,
+      "kind": "atomic",
+      "source": "references/chapter-rhythm-rules-21-30.md",
+      "source_heading": "6. 规则二十五：未知物品功能边界三章内暴露协议",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RHYTHM-26",
+      "name": "主角每章成长痕迹协议",
+      "family": "chapter-rhythm",
+      "ordinal": 26,
+      "kind": "atomic",
+      "source": "references/chapter-rhythm-rules-21-30.md",
+      "source_heading": "7. 规则二十六：主角每章成长痕迹协议",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RHYTHM-27",
+      "name": "世界观底层规则一致性协议",
+      "family": "chapter-rhythm",
+      "ordinal": 27,
+      "kind": "atomic",
+      "source": "references/chapter-rhythm-rules-21-30.md",
+      "source_heading": "8. 规则二十七：世界观底层规则一致性协议",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RHYTHM-28",
+      "name": "同类描写去重协议",
+      "family": "chapter-rhythm",
+      "ordinal": 28,
+      "kind": "atomic",
+      "source": "references/chapter-rhythm-rules-21-30.md",
+      "source_heading": "9. 规则二十八：同类描写去重协议",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RHYTHM-29",
+      "name": "章节目标净字数正负百分之二十协议",
+      "family": "chapter-rhythm",
+      "ordinal": 29,
+      "kind": "atomic",
+      "source": "references/chapter-rhythm-rules-21-30.md",
+      "source_heading": "10. 规则二十九：章节目标净字数正负百分之二十协议",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RHYTHM-30",
+      "name": "生成后执行报告协议",
+      "family": "chapter-rhythm",
+      "ordinal": 30,
+      "kind": "atomic",
+      "source": "references/chapter-rhythm-rules-21-30.md",
+      "source_heading": "11. 规则三十：生成后执行报告协议",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RHYTHM-31",
+      "name": "滚动一千五百字新术语密度协议",
+      "family": "chapter-rhythm",
+      "ordinal": 31,
+      "kind": "atomic",
+      "source": "references/chapter-rhythm-rules-31-60.md",
+      "source_heading": "规则三十一：滚动一千五百字新术语密度协议",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [
+        {
+          "kind": "refines",
+          "target": "RHYTHM-21"
+        }
+      ],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RHYTHM-32",
+      "name": "功能解释五百至八百字延迟协议",
+      "family": "chapter-rhythm",
+      "ordinal": 32,
+      "kind": "atomic",
+      "source": "references/chapter-rhythm-rules-31-60.md",
+      "source_heading": "规则三十二：功能解释五百至八百字延迟协议",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RHYTHM-33",
+      "name": "概念父子链协议",
+      "family": "chapter-rhythm",
+      "ordinal": 33,
+      "kind": "atomic",
+      "source": "references/chapter-rhythm-rules-31-60.md",
+      "source_heading": "规则三十三：概念父子链协议",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RHYTHM-34",
+      "name": "双危机或三千字冲突后泄压协议",
+      "family": "chapter-rhythm",
+      "ordinal": 34,
+      "kind": "atomic",
+      "source": "references/chapter-rhythm-rules-31-60.md",
+      "source_heading": "规则三十四：双危机或三千字冲突后泄压协议",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RHYTHM-35",
+      "name": "代价关系角色可见协议",
+      "family": "chapter-rhythm",
+      "ordinal": 35,
+      "kind": "atomic",
+      "source": "references/chapter-rhythm-rules-31-60.md",
+      "source_heading": "规则三十五：代价关系角色可见协议",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RHYTHM-36",
+      "name": "牺牲型策略非战斗截断协议",
+      "family": "chapter-rhythm",
+      "ordinal": 36,
+      "kind": "atomic",
+      "source": "references/chapter-rhythm-rules-31-60.md",
+      "source_heading": "规则三十六：牺牲型策略非战斗截断协议",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RHYTHM-37",
+      "name": "普通线索N+3触碰协议",
+      "family": "chapter-rhythm",
+      "ordinal": 37,
+      "kind": "atomic",
+      "source": "references/chapter-rhythm-rules-31-60.md",
+      "source_heading": "规则三十七：普通线索N+3触碰协议",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RHYTHM-38",
+      "name": "章尾四型轮换协议",
+      "family": "chapter-rhythm",
+      "ordinal": 38,
+      "kind": "atomic",
+      "source": "references/chapter-rhythm-rules-31-60.md",
+      "source_heading": "规则三十八：章尾四型轮换协议",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RHYTHM-39",
+      "name": "对话L1/L2/L3单一主功能协议",
+      "family": "chapter-rhythm",
+      "ordinal": 39,
+      "kind": "atomic",
+      "source": "references/chapter-rhythm-rules-31-60.md",
+      "source_heading": "规则三十九：对话L1/L2/L3单一主功能协议",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RHYTHM-40",
+      "name": "亲密表达反套话协议",
+      "family": "chapter-rhythm",
+      "ordinal": 40,
+      "kind": "atomic",
+      "source": "references/chapter-rhythm-rules-31-60.md",
+      "source_heading": "规则四十：亲密表达反套话协议",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RHYTHM-41",
+      "name": "长期感官损失异质代偿协议",
+      "family": "chapter-rhythm",
+      "ordinal": 41,
+      "kind": "atomic",
+      "source": "references/chapter-rhythm-rules-31-60.md",
+      "source_heading": "规则四十一：长期感官损失异质代偿协议",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RHYTHM-42",
+      "name": "滚动三章代价清点协议",
+      "family": "chapter-rhythm",
+      "ordinal": 42,
+      "kind": "atomic",
+      "source": "references/chapter-rhythm-rules-31-60.md",
+      "source_heading": "规则四十二：滚动三章代价清点协议",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RHYTHM-43",
+      "name": "新场景环境三锚协议",
+      "family": "chapter-rhythm",
+      "ordinal": 43,
+      "kind": "atomic",
+      "source": "references/chapter-rhythm-rules-31-60.md",
+      "source_heading": "规则四十三：新场景环境三锚协议",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RHYTHM-44",
+      "name": "场景中段物件过渡协议",
+      "family": "chapter-rhythm",
+      "ordinal": 44,
+      "kind": "atomic",
+      "source": "references/chapter-rhythm-rules-31-60.md",
+      "source_heading": "规则四十四：场景中段物件过渡协议",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RHYTHM-45",
+      "name": "重大冲突三波协议",
+      "family": "chapter-rhythm",
+      "ordinal": 45,
+      "kind": "atomic",
+      "source": "references/chapter-rhythm-rules-31-60.md",
+      "source_heading": "规则四十五：重大冲突三波协议",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RHYTHM-46",
+      "name": "规则博弈前三百字显化协议",
+      "family": "chapter-rhythm",
+      "ordinal": 46,
+      "kind": "atomic",
+      "source": "references/chapter-rhythm-rules-31-60.md",
+      "source_heading": "规则四十六：规则博弈前三百字显化协议",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RHYTHM-47",
+      "name": "红黄绿线配比协议",
+      "family": "chapter-rhythm",
+      "ordinal": 47,
+      "kind": "atomic",
+      "source": "references/chapter-rhythm-rules-31-60.md",
+      "source_heading": "规则四十七：红黄绿线配比协议",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RHYTHM-48",
+      "name": "红线新信息百字重估协议",
+      "family": "chapter-rhythm",
+      "ordinal": 48,
+      "kind": "atomic",
+      "source": "references/chapter-rhythm-rules-31-60.md",
+      "source_heading": "规则四十八：红线新信息百字重估协议",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RHYTHM-49",
+      "name": "配角连续三章自利决策协议",
+      "family": "chapter-rhythm",
+      "ordinal": 49,
+      "kind": "atomic",
+      "source": "references/chapter-rhythm-rules-31-60.md",
+      "source_heading": "规则四十九：配角连续三章自利决策协议",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RHYTHM-50",
+      "name": "反派三行动私人压力泄漏协议",
+      "family": "chapter-rhythm",
+      "ordinal": 50,
+      "kind": "atomic",
+      "source": "references/chapter-rhythm-rules-31-60.md",
+      "source_heading": "规则五十：反派三行动私人压力泄漏协议",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RHYTHM-51",
+      "name": "紧密第三人称限知视角协议",
+      "family": "chapter-rhythm",
+      "ordinal": 51,
+      "kind": "atomic",
+      "source": "references/chapter-rhythm-rules-31-60.md",
+      "source_heading": "规则五十一：紧密第三人称限知视角协议",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RHYTHM-52",
+      "name": "不可直知信息迹象推断协议",
+      "family": "chapter-rhythm",
+      "ordinal": 52,
+      "kind": "atomic",
+      "source": "references/chapter-rhythm-rules-31-60.md",
+      "source_heading": "规则五十二：不可直知信息迹象推断协议",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RHYTHM-53",
+      "name": "角色动作签名协议",
+      "family": "chapter-rhythm",
+      "ordinal": 53,
+      "kind": "atomic",
+      "source": "references/chapter-rhythm-rules-31-60.md",
+      "source_heading": "规则五十三：角色动作签名协议",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RHYTHM-54",
+      "name": "动作观察判断执行协议",
+      "family": "chapter-rhythm",
+      "ordinal": 54,
+      "kind": "atomic",
+      "source": "references/chapter-rhythm-rules-31-60.md",
+      "source_heading": "规则五十四：动作观察判断执行协议",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RHYTHM-55",
+      "name": "物件跨章状态台账协议",
+      "family": "chapter-rhythm",
+      "ordinal": 55,
+      "kind": "atomic",
+      "source": "references/chapter-rhythm-rules-31-60.md",
+      "source_heading": "规则五十五：物件跨章状态台账协议",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RHYTHM-56",
+      "name": "活跃物件三章触碰协议",
+      "family": "chapter-rhythm",
+      "ordinal": 56,
+      "kind": "atomic",
+      "source": "references/chapter-rhythm-rules-31-60.md",
+      "source_heading": "规则五十六：活跃物件三章触碰协议",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RHYTHM-57",
+      "name": "章内峰谷协议",
+      "family": "chapter-rhythm",
+      "ordinal": 57,
+      "kind": "atomic",
+      "source": "references/chapter-rhythm-rules-31-60.md",
+      "source_heading": "规则五十七：章内峰谷协议",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RHYTHM-58",
+      "name": "缓场实体展开协议",
+      "family": "chapter-rhythm",
+      "ordinal": 58,
+      "kind": "atomic",
+      "source": "references/chapter-rhythm-rules-31-60.md",
+      "source_heading": "规则五十八：缓场实体展开协议",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RHYTHM-59",
+      "name": "三轮对话动作穿插协议",
+      "family": "chapter-rhythm",
+      "ordinal": 59,
+      "kind": "atomic",
+      "source": "references/chapter-rhythm-rules-31-60.md",
+      "source_heading": "规则五十九：三轮对话动作穿插协议",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "RHYTHM-60",
+      "name": "纯动作三百字认知插针协议",
+      "family": "chapter-rhythm",
+      "ordinal": 60,
+      "kind": "atomic",
+      "source": "references/chapter-rhythm-rules-31-60.md",
+      "source_heading": "规则六十：纯动作三百字认知插针协议",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "CONTINUITY-R1",
+      "name": "事实锁",
+      "family": "continuity-lock",
+      "ordinal": 1,
+      "kind": "atomic",
+      "source": "references/revision-continuity.md",
+      "source_heading": "R1 事实锁",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit",
+        "long_form"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [
+          "R1"
+        ],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "CONTINUITY-R2",
+      "name": "人物锁",
+      "family": "continuity-lock",
+      "ordinal": 2,
+      "kind": "atomic",
+      "source": "references/revision-continuity.md",
+      "source_heading": "R2 人物锁",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit",
+        "long_form"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [
+          "R2"
+        ],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "CONTINUITY-R3",
+      "name": "世界锁",
+      "family": "continuity-lock",
+      "ordinal": 3,
+      "kind": "atomic",
+      "source": "references/revision-continuity.md",
+      "source_heading": "R3 世界锁",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit",
+        "long_form"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [
+          "R3"
+        ],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "CONTINUITY-R4",
+      "name": "主线锁",
+      "family": "continuity-lock",
+      "ordinal": 4,
+      "kind": "atomic",
+      "source": "references/revision-continuity.md",
+      "source_heading": "R4 主线锁",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit",
+        "long_form"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [
+          "R4"
+        ],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "CONTINUITY-R5",
+      "name": "因果禁区",
+      "family": "continuity-lock",
+      "ordinal": 5,
+      "kind": "atomic",
+      "source": "references/revision-continuity.md",
+      "source_heading": "R5 因果禁区",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit",
+        "long_form"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [
+          "R5"
+        ],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "CONTINUITY-R6",
+      "name": "冲突仲裁锁",
+      "family": "continuity-lock",
+      "ordinal": 6,
+      "kind": "atomic",
+      "source": "references/revision-continuity.md",
+      "source_heading": "R6 冲突仲裁锁",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit",
+        "long_form"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [
+          "R6"
+        ],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "CONTINUITY-R7",
+      "name": "视角锁",
+      "family": "continuity-lock",
+      "ordinal": 7,
+      "kind": "atomic",
+      "source": "references/revision-continuity.md",
+      "source_heading": "R7 视角锁",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit",
+        "long_form"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [
+          "R7"
+        ],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "CONTINUITY-R8",
+      "name": "信息锁",
+      "family": "continuity-lock",
+      "ordinal": 8,
+      "kind": "atomic",
+      "source": "references/revision-continuity.md",
+      "source_heading": "R8 信息锁",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit",
+        "long_form"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [
+          "R8"
+        ],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "CONTINUITY-R9",
+      "name": "时间锁",
+      "family": "continuity-lock",
+      "ordinal": 9,
+      "kind": "atomic",
+      "source": "references/revision-continuity.md",
+      "source_heading": "R9 时间锁",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit",
+        "long_form"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [
+          "R9"
+        ],
+        "weak": [],
+        "formula": []
+      }
+    },
+    {
+      "id": "CONTINUITY-R10",
+      "name": "空间锁",
+      "family": "continuity-lock",
+      "ordinal": 10,
+      "kind": "atomic",
+      "source": "references/revision-continuity.md",
+      "source_heading": "R10 空间锁",
+      "routes": [
+        "chapter_prose",
+        "continuation",
+        "rewrite",
+        "audit",
+        "long_form"
+      ],
+      "checkability": {
+        "purity": "deterministic",
+        "semantic": "manual"
+      },
+      "relations": [],
+      "control_aliases": {
+        "strong": [
+          "R10"
+        ],
+        "weak": [],
+        "formula": []
+      }
+    }
+  ]
+}

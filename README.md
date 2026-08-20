@@ -6,7 +6,7 @@
   <a href="https://github.com/yiten885-ux/write-xuanhuan-web-fiction-zh/actions/workflows/validate.yml"><img src="https://github.com/yiten885-ux/write-xuanhuan-web-fiction-zh/actions/workflows/validate.yml/badge.svg" alt="Validation status"></a>
   <img src="https://img.shields.io/badge/Codex-Plugin-111827?style=flat-square" alt="Codex Plugin">
   <img src="https://img.shields.io/badge/package-skills--only-B5472F?style=flat-square" alt="Skills-only package">
-  <img src="https://img.shields.io/badge/plugin-v1.4.0-D9AE5F?style=flat-square&labelColor=111827" alt="Plugin version 1.4.0">
+  <img src="https://img.shields.io/badge/plugin-v1.4.1-D9AE5F?style=flat-square&labelColor=111827" alt="Plugin version 1.4.1">
 </p>
 
 # 玄章天工｜Xuanhuan Storyforge
@@ -18,6 +18,8 @@
 它的目标不是替作者承诺“爆款”，而是在大规模连载中守住可验证的下限：设定不漂移、人物不凭空全知、章节篇幅不被审计文字虚增、内部规则不泄漏进读者正文。
 
 规则 31–60 在前 30 项及既有全部合同上累积生效，不替换、不删减、不放宽旧规则。规则名、计算过程、执行报告和修订记录只进入独立 QA 侧车；机械审计只能证明其已覆盖的结构、篇幅与正文纯净门禁，不能代替人物动机、视角忠实、节奏语义、文学质量或市场表现判断。
+
+从 1.4.1 起，`SKILL.md` 只保留任务路由、统一执行流程和交付边界；完整规则语义集中在一级 Reference 中。影子规则注册表只索引规则身份、来源、路由与机械检查能力，不复制规则正文，也不让机械验证冒充文学语义判断。
 
 ## 核心能力
 
