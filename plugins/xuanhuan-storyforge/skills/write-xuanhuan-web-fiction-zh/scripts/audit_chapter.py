@@ -24,7 +24,7 @@ from pathlib import Path
 from typing import Any
 
 
-SCHEMA_VERSION = "1.8"
+SCHEMA_VERSION = "1.9"
 DEFAULT_WATCHLIST = (
     Path(__file__).resolve().parent.parent / "references" / "zh-style-watchlist.json"
 )
@@ -343,6 +343,113 @@ CONTINUITY_CONTROL_NAME_RE = re.compile(
     "|".join(re.escape(name) for name in CONTINUITY_CONTROL_NAMES),
     re.IGNORECASE,
 )
+CHAPTER_RHYTHM_CONTROL_NAMES = (
+    "逐章节奏二十项硬锁",
+    "二十项节奏锁",
+    "章节自检报告",
+    "节奏控制协议",
+    "主角能动性协议",
+    "反派压迫感协议",
+    "金手指差异化记忆点协议",
+    "信息密度编码协议",
+    "开篇钩子协议",
+    "章节结尾断崖钩子协议",
+    "结尾断崖钩子协议",
+    "情绪收益打脸反差节奏协议",
+    "情绪收益节奏协议",
+    "对话信息冲突双载协议",
+    "对话双载协议",
+    "宏观信息三章释放定律协议",
+    "三章释放定律协议",
+    "打斗场景三幕式协议",
+    "打斗三幕式",
+    "配角功能标签变数协议",
+    "配角功能标签",
+    "战力边界锚定协议",
+    "战力边界锚定",
+    "环境五感触发协议",
+    "五感触发协议",
+    "心理行动外化协议",
+    "心理行动外化",
+    "修炼升级三不写协议",
+    "修炼三不写",
+    "支线三章回收挂起协议",
+    "支线回收挂起",
+    "悬念类型轮换协议",
+    "章间前情微召回协议",
+    "章间微召回",
+    "世界观名词首次出现即锚定协议",
+    "名词首次出现即锚定",
+)
+CHAPTER_RHYTHM_CONTROL_NAME_RE = re.compile(
+    "|".join(
+        re.escape(name)
+        for name in sorted(CHAPTER_RHYTHM_CONTROL_NAMES, key=len, reverse=True)
+    ),
+    re.IGNORECASE,
+)
+CHAPTER_RHYTHM_FORMULA_TOKENS = (
+    "章节结构",
+    "场景结局",
+    "反派压迫值",
+    "金手指描写",
+    "有效信息传递",
+    "开篇钩子",
+    "结尾钩子",
+    "情绪收益",
+    "有效对话",
+    "谜题释放节奏",
+    "有效打斗",
+    "配角魅力",
+    "越阶合理性",
+    "场景沉浸",
+    "心理描写",
+    "有效突破",
+    "支线管理",
+    "结尾悬念类型",
+    "章间衔接",
+    "名词可记性",
+)
+CHAPTER_RHYTHM_FORMULA_RE = re.compile(
+    r"(?:"
+    + "|".join(re.escape(token) for token in CHAPTER_RHYTHM_FORMULA_TOKENS)
+    + r")\s*(?:=|:|：|→)",
+    re.IGNORECASE,
+)
+CHAPTER_RHYTHM_QA_LINE_RE = re.compile(
+    r"^\s*(?:#{1,6}\s*)?(?:[-+*]\s*)?(?:\d{1,2}[.、:：]\s*)?"
+    r"(?:[\[【])?(?:节奏|主角|反派|金手指|密度|开篇|结尾|爽感|对话|宏观|"
+    r"打斗|配角|战力|环境|心理|修炼|支线|悬念|衔接|名词)(?:[\]】])?"
+    r".{0,180}(?:是\s*/\s*否|通过\s*/\s*未通过|PASS|FAIL)",
+    re.IGNORECASE,
+)
+REWRITE_CONTROL_RE = re.compile(
+    r"^\s*(?:#{1,6}\s*)?(?:[-+*]\s*)?(?:[\[【])?"
+    r"(?:重写|重写警告)(?:[\]】])?(?:\s*[:：]|\s*$)",
+    re.IGNORECASE,
+)
+IF_THEN_CONTROL_RE = re.compile(
+    r"(?:^\s*(?:#{1,6}\s*)?(?:[-+*]\s*)?IF\b.{0,300}\bTHEN\b|"
+    r"[\"']IF[\"']\s*:.{0,300}[\"']THEN[\"']\s*:)",
+    re.IGNORECASE,
+)
+HTML_IF_THEN_ATTR_RE = re.compile(
+    r"<(?=[^\r\n]{0,1200}\b(?:data[-_:])?if\s*=)"
+    r"(?=[^\r\n]{0,1200}\b(?:data[-_:])?then\s*=)[^\r\n]*",
+    re.IGNORECASE,
+)
+CHAPTER_RHYTHM_AUDIT_COMPACT_RE = re.compile(
+    r"(?:章节自检报告|二十项节奏锁|逐章节奏二十项硬锁)|"
+    r"(?:"
+    + "|".join(re.escape(token) for token in CHAPTER_RHYTHM_FORMULA_TOKENS)
+    + r")(?:=|:|：|→)|"
+    r"[\[【](?:重写|重写警告)[\]】]|"
+    r"(?:\d{1,2}[.、:：])?(?:节奏|主角|反派|金手指|密度|开篇|结尾|爽感|对话|宏观|"
+    r"打斗|配角|战力|环境|心理|修炼|支线|悬念|衔接|名词)"
+    r".{0,180}(?:是/否|通过/未通过|PASS|FAIL)|"
+    r"(?<![A-Za-z0-9])IF.{0,300}THEN(?![A-Za-z0-9])",
+    re.IGNORECASE,
+)
 CONTINUITY_AUDIT_LINE_RE = re.compile(
     r"^\s*(?:#{1,6}\s*)?(?:【|\[)?(?:铁律层|状态卡|本章关键帧|"
     r"正文前检查|正文后状态更新|设定库更新|生成前复述|"
@@ -524,7 +631,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         action="store_true",
         help=(
             "require the first three H1 sections to be chapters 1, 2, and 3 "
-            "and each to meet the configured opening range (default 2000..3000) "
+            "and each to meet the configured opening range (default 2000..3200) "
             "with a final sentence of at most 15 effective characters; "
             "the seven-rule opening contract still requires separate semantic review"
         ),
@@ -538,8 +645,8 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument(
         "--opening-max-effective",
         type=int,
-        default=3000,
-        help="inclusive maximum for each of opening chapters 1..3 (default: 3000)",
+        default=3200,
+        help="inclusive maximum for each of opening chapters 1..3 (default: 3200)",
     )
     parser.add_argument(
         "--min-effective",
@@ -550,8 +657,8 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument(
         "--max-effective",
         type=int,
-        default=3000,
-        help="inclusive maximum effective prose characters per chapter (default: 3000)",
+        default=3200,
+        help="inclusive maximum effective prose characters per chapter (default: 3200)",
     )
     parser.add_argument(
         "--long-sentence",
@@ -947,10 +1054,23 @@ class _RenderedHTMLText(HTMLParser):
         self.parts: list[str] = []
         self.tag_stack: list[tuple[str, bool]] = []
         self.suppressed_depth = 0
+        self.suppressed_probe: list[str] = []
 
     def _line_break(self) -> None:
         if self.parts and not self.parts[-1].endswith("\n"):
             self.parts.append("\n")
+
+    def _control_marker(self) -> None:
+        self._line_break()
+        self.parts.append("OUTPUT CHECK")
+        self._line_break()
+
+    def _attribute_control(self, attrs: list[tuple[str, str | None]]) -> bool:
+        source = "<element " + " ".join(
+            f'{name}="{value or ""}"' for name, value in attrs
+        ) + ">"
+        normalized = normalize_unicode_scan(source)
+        return _editorial_kind_from_normalized(normalized) is not None
 
     def handle_starttag(
         self, tag: str, attrs: list[tuple[str, str | None]]
@@ -966,6 +1086,8 @@ class _RenderedHTMLText(HTMLParser):
             or bool(re.search(r"visibility\s*:\s*hidden", style))
         )
         suppressed = self.suppressed_depth > 0 or own_hidden
+        if self._attribute_control(attrs):
+            self._control_marker()
         if tag not in self.VOID_TAGS:
             self.tag_stack.append((tag, suppressed))
             if suppressed:
@@ -985,11 +1107,14 @@ class _RenderedHTMLText(HTMLParser):
             or bool(re.search(r"display\s*:\s*none", style))
             or bool(re.search(r"visibility\s*:\s*hidden", style))
         )
+        if self._attribute_control(attrs):
+            self._control_marker()
         if not hidden and tag.lower() in self.BLOCK_TAGS:
             self._line_break()
 
     def handle_endtag(self, tag: str) -> None:
         tag = tag.lower()
+        was_suppressed = self.suppressed_depth > 0
         ended_visible = self.suppressed_depth == 0
         match_index: int | None = None
         for index in range(len(self.tag_stack) - 1, -1, -1):
@@ -1002,12 +1127,20 @@ class _RenderedHTMLText(HTMLParser):
             self.suppressed_depth -= sum(1 for _, suppressed in popped if suppressed)
             self.suppressed_depth = max(self.suppressed_depth, 0)
             ended_visible = not any(suppressed for _, suppressed in popped)
+        if was_suppressed and self.suppressed_depth == 0:
+            hidden_text = "".join(self.suppressed_probe)
+            self.suppressed_probe.clear()
+            normalized = normalize_unicode_scan(hidden_text)
+            if _editorial_kind_from_normalized(normalized) is not None:
+                self._control_marker()
         if ended_visible and tag in self.BLOCK_TAGS:
             self._line_break()
 
     def handle_data(self, data: str) -> None:
         if self.suppressed_depth == 0:
             self.parts.append(data)
+        else:
+            self.suppressed_probe.append(data)
 
     def text(self) -> str:
         return "".join(self.parts)
@@ -1099,6 +1232,20 @@ def normalize_unicode_scan(value: str) -> str:
     """Canonicalize Unicode/markup punctuation without discarding HTML source."""
 
     decoded = html.unescape(html.unescape(value))
+    # Reader files must not be able to hide editorial labels behind JSON-style
+    # Unicode escapes. Decode only explicit scalar escapes; malformed escapes
+    # stay literal and remain available to the source scan.
+    def decode_escape(match: re.Match[str]) -> str:
+        codepoint = int(match.group(1) or match.group(2), 16)
+        if codepoint > 0x10FFFF or 0xD800 <= codepoint <= 0xDFFF:
+            return match.group(0)
+        return chr(codepoint)
+
+    decoded = re.sub(
+        r"\\U([0-9a-fA-F]{8})|\\u([0-9a-fA-F]{4})",
+        decode_escape,
+        decoded,
+    )
     decomposed = unicodedata.normalize("NFKD", decoded)
     decomposed = "".join(
         character
@@ -1185,49 +1332,70 @@ def chapter_heading_value(line: str) -> tuple[str, int] | None:
     return None
 
 
+def _editorial_kind_from_normalized(normalized: str) -> str | None:
+    """Classify one already-normalized source/rendering view without recursion."""
+
+    compact = re.sub(r"\s+", "", normalized)
+    if OUTPUT_CHECK_MARKER_RE.search(normalized):
+        return "output_check_marker"
+    if EDITORIAL_RULE_ID_RE.search(compact):
+        return "rule_constraint_id"
+    if EDITORIAL_RULE_NAME_RE.search(compact):
+        return "rule_constraint_name"
+    if CRAFT_CONTROL_NAME_RE.search(compact):
+        return "craft_control_name"
+    if CONTINUITY_CONTROL_NAME_RE.search(compact):
+        return "continuity_control_name"
+    if CHAPTER_RHYTHM_CONTROL_NAME_RE.search(compact):
+        return "chapter_rhythm_control_name"
+    if EDITORIAL_BLOCK_HEADING_RE.search(normalized):
+        return "audit_block_heading"
+    if EDITORIAL_STATUS_LINE_RE.search(normalized):
+        return "audit_status_line"
+    if EDITORIAL_META_RE.search(normalized):
+        return "audit_instruction"
+    if LAYER_AUDIT_RE.search(normalized):
+        return "layer_audit_label"
+    if RETENTION_AUDIT_RE.search(normalized):
+        return "retention_audit_label"
+    if CRAFT_AUDIT_LINE_RE.search(normalized):
+        return "craft_audit_label"
+    if CRAFT_AUDIT_COMPACT_RE.search(compact):
+        return "craft_audit_label"
+    if CONTINUITY_AUDIT_LINE_RE.search(normalized):
+        return "continuity_audit_label"
+    if R_LOCK_COMPACT_RE.search(compact):
+        return "continuity_rule_label"
+    if CHAPTER_RHYTHM_FORMULA_RE.search(normalized):
+        return "chapter_rhythm_formula"
+    if CHAPTER_RHYTHM_QA_LINE_RE.search(normalized):
+        return "chapter_rhythm_audit_label"
+    if REWRITE_CONTROL_RE.search(normalized):
+        return "rewrite_control_marker"
+    if IF_THEN_CONTROL_RE.search(normalized) or HTML_IF_THEN_ATTR_RE.search(normalized):
+        return "if_then_control_instruction"
+    if CHAPTER_RHYTHM_AUDIT_COMPACT_RE.search(compact):
+        return "chapter_rhythm_audit_label"
+    if STRUCTURED_STATE_LINE_RE.search(normalized):
+        return "structured_state_block"
+    if STRUCTURED_STATE_MULTIKEY_RE.search(normalized):
+        return "structured_state_block"
+    if STRUCTURED_STATE_COMPACT_RE.search(compact):
+        return "structured_state_block"
+    if STRUCTURED_STATE_FOUR_KEY_COMPACT_RE.search(compact):
+        return "structured_state_block"
+    return None
+
+
 def editorial_meta_kind(line: str) -> str | None:
     """Classify internal audit language that must never count as fiction prose."""
 
     if RENDER_DIRECTION_CONTROL_RE.search(html.unescape(line)):
         return "render_direction_control"
     for normalized in editorial_scan_variants(line):
-        compact = re.sub(r"\s+", "", normalized)
-        if OUTPUT_CHECK_MARKER_RE.search(normalized):
-            return "output_check_marker"
-        if EDITORIAL_RULE_ID_RE.search(compact):
-            return "rule_constraint_id"
-        if EDITORIAL_RULE_NAME_RE.search(compact):
-            return "rule_constraint_name"
-        if CRAFT_CONTROL_NAME_RE.search(compact):
-            return "craft_control_name"
-        if CONTINUITY_CONTROL_NAME_RE.search(compact):
-            return "continuity_control_name"
-        if EDITORIAL_BLOCK_HEADING_RE.search(normalized):
-            return "audit_block_heading"
-        if EDITORIAL_STATUS_LINE_RE.search(normalized):
-            return "audit_status_line"
-        if EDITORIAL_META_RE.search(normalized):
-            return "audit_instruction"
-        if LAYER_AUDIT_RE.search(normalized):
-            return "layer_audit_label"
-        if RETENTION_AUDIT_RE.search(normalized):
-            return "retention_audit_label"
-        if CRAFT_AUDIT_LINE_RE.search(normalized):
-            return "craft_audit_label"
-        if CRAFT_AUDIT_COMPACT_RE.search(compact):
-            return "craft_audit_label"
-        if CONTINUITY_AUDIT_LINE_RE.search(normalized):
-            return "continuity_audit_label"
-        if R_LOCK_COMPACT_RE.search(compact):
-            return "continuity_rule_label"
-        if STRUCTURED_STATE_LINE_RE.search(normalized):
-            return "structured_state_block"
-        if STRUCTURED_STATE_MULTIKEY_RE.search(normalized):
-            return "structured_state_block"
-        if STRUCTURED_STATE_COMPACT_RE.search(compact):
-            return "structured_state_block"
-        if STRUCTURED_STATE_FOUR_KEY_COMPACT_RE.search(compact):
-            return "structured_state_block"
+        kind = _editorial_kind_from_normalized(normalized)
+        if kind is not None:
+            return kind
     return None
 
 
@@ -1307,6 +1475,8 @@ def fiction_purity_gate(text: str) -> dict[str, Any]:
             document_kind = "craft_audit_label"
         elif CONTINUITY_CONTROL_NAME_RE.search(compact):
             document_kind = "continuity_control_name"
+        elif CHAPTER_RHYTHM_CONTROL_NAME_RE.search(compact):
+            document_kind = "chapter_rhythm_control_name"
         elif R_LOCK_COMPACT_RE.search(compact):
             document_kind = "continuity_rule_label"
         elif STRUCTURED_STATE_COMPACT_RE.search(compact):
@@ -1315,6 +1485,8 @@ def fiction_purity_gate(text: str) -> dict[str, Any]:
             document_kind = "structured_state_block"
         elif CONTROL_STATUS_COMPACT_RE.search(compact):
             document_kind = "audit_instruction"
+        elif CHAPTER_RHYTHM_AUDIT_COMPACT_RE.search(compact):
+            document_kind = "chapter_rhythm_audit_label"
         elif DOCUMENT_QA_HEADING_RE.search(rendered):
             document_kind = "audit_block_heading"
         elif re.search(r"OUTPUTCHECK", compact, re.IGNORECASE):
@@ -1385,8 +1557,10 @@ def clean_markdown(text: str) -> tuple[str, list[tuple[int, str]]]:
         CRAFT_CONTROL_NAME_RE,
         CRAFT_AUDIT_COMPACT_RE,
         CONTINUITY_CONTROL_NAME_RE,
+        CHAPTER_RHYTHM_CONTROL_NAME_RE,
         R_LOCK_COMPACT_RE,
         CONTROL_STATUS_COMPACT_RE,
+        CHAPTER_RHYTHM_AUDIT_COMPACT_RE,
         STRUCTURED_STATE_COMPACT_RE,
         STRUCTURED_STATE_FOUR_KEY_COMPACT_RE,
     )
@@ -1971,8 +2145,9 @@ def build_report(args: argparse.Namespace) -> dict[str, Any]:
             "The title gate verifies final Markdown order, placeholders, and inventory/H1 agreement, not hidden drafting chronology or title quality.",
             "Length gates are evaluated independently for every explicit H1..H6 or plain-text chapter heading; aggregate length cannot compensate for a short or long chapter.",
             "The audit cannot verify whether titles were locked before drafting, copied exactly from a user prompt, or assigned non-invented chapter numbers.",
-            "The opening-three gate checks chapter order, its configured per-chapter net-fiction range (default 2000..3000), and whether each final sentence has 1..15 effective characters; it cannot verify the seven-rule opening contract, including the early crisis, background cost, ability effect/cost/boundary, protagonist setup, antagonist precedent, banked stage victory, and prior visibility of key settings.",
+            "The opening-three gate checks chapter order, its configured per-chapter net-fiction range (default 2000..3200), and whether each final sentence has 1..15 effective characters; it cannot verify the seven-rule opening contract, including the early crisis, background cost, ability effect/cost/boundary, protagonist setup, antagonist precedent, banked stage victory, and prior visibility of key settings.",
             "The audit cannot verify the nine retention semantics: irreversible stakes, a fair but unexpected fourth choice, micro/major payoff meaning, causal reinterpretation at chapter endings, positive worldbuilding value, completed scene-transfer/dungeon loop, setting scarcity, surprise/calculation payoff ratio, or unsafe chapter-ending anxiety; those require separate evidence review and do not establish reader retention or market performance.",
+            "The audit cannot verify the twenty chapter-rhythm semantics, including beat quality, active decisions, antagonist pressure, ability distinctiveness, information carriers, hook meaning, payoff meaning, combat tactics, power scaling, sensory immersion, side-thread closure, or term anchoring; those require separate evidence review.",
             "Rule IDs, OUTPUT CHECK blocks, and audit/control language are rejected by the fiction-purity gate and excluded from net-fiction counts; a separate sidecar report must carry audit details.",
             "The paragraph-average gate treats each non-empty prose source line as a paragraph and uses effective letters/numbers; manual review is required for wrapped Markdown, abbreviations, and semantic paragraph boundaries.",
             "The outside-dialogue gate excludes text inside paired quotation marks; quotation marks do not prove that the quoted span is character dialogue, and malformed or nested quotes require manual review.",

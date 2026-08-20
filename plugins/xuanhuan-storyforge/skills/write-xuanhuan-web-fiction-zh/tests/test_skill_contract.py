@@ -23,6 +23,7 @@ class LeanSkillContractTests(unittest.TestCase):
             "references/character-emotion.md",
             "references/revision-continuity.md",
             "references/opening-retention-six-locks.md",
+            "references/chapter-rhythm-twenty-locks.md",
             "references/prose-style.md",
             "references/zh-style-watchlist.json",
             "scripts/audit_chapter.py",
@@ -41,13 +42,13 @@ class LeanSkillContractTests(unittest.TestCase):
     def test_markdown_inventory_stays_lean(self) -> None:
         markdown = list(ROOT.rglob("*.md"))
         text_files = list(ROOT.rglob("*.txt"))
-        self.assertLessEqual(len(markdown), 8)
+        self.assertLessEqual(len(markdown), 9)
         self.assertEqual([], text_files)
         # 连续性引擎是独立的高密度参考；上限仍只防无关材料膨胀。
-        self.assertLess(sum(path.stat().st_size for path in markdown), 140_000)
+        self.assertLess(sum(path.stat().st_size for path in markdown), 165_000)
         # v1 与 v2 必须并存；上限只防无关膨胀，不能倒逼删除任一合同。
         self.assertLess((ROOT / "SKILL.md").stat().st_size, 48_000)
-        self.assertLessEqual(len(list((ROOT / "references").glob("*.md"))), 5)
+        self.assertLessEqual(len(list((ROOT / "references").glob("*.md"))), 6)
 
     def test_frontmatter_is_minimal_and_valid(self) -> None:
         skill = self.read("SKILL.md")
@@ -79,6 +80,7 @@ class LeanSkillContractTests(unittest.TestCase):
                 ROOT / "references/character-emotion.md",
                 ROOT / "references/revision-continuity.md",
                 ROOT / "references/opening-retention-six-locks.md",
+                ROOT / "references/chapter-rhythm-twenty-locks.md",
                 ROOT / "references/prose-style.md",
             ]
         )
@@ -141,7 +143,7 @@ class LeanSkillContractTests(unittest.TestCase):
         self.assertLessEqual(len(description), 64)
         self.assertIn("$write-xuanhuan-web-fiction-zh", metadata)
         self.assertIn("示例不进入通用门禁", metadata)
-        self.assertIn("逐章净正文2000–3000字符", metadata)
+        self.assertIn("逐章净正文2000–3200字符", metadata)
         self.assertIn("约束ID和自检只写独立QA侧车", metadata)
 
     def test_retention_reference_is_mandatory_and_cumulative(self) -> None:
@@ -221,7 +223,7 @@ class LeanSkillContractTests(unittest.TestCase):
         ):
             with self.subTest(marker=marker):
                 self.assertIn(marker, retention)
-        self.assertIn("每章必须独立达到 2000–3000 个净正文有效字符", skill)
+        self.assertIn("每章必须独立达到 2000–3200 个净正文有效字符", skill)
 
     def test_retention_future_gate_cannot_be_prematurely_passed(self) -> None:
         skill = self.read("SKILL.md")
@@ -269,7 +271,7 @@ class LeanSkillContractTests(unittest.TestCase):
         metadata = self.read("agents/openai.yaml")
         self.assertLess(len(metadata), 600)
         self.assertIn("既有五锁、06–10及前三万字九项留存锁", metadata)
-        self.assertIn("逐章净正文2000–3000字符", metadata)
+        self.assertIn("逐章净正文2000–3200字符", metadata)
         self.assertIn("约束ID和自检只写独立QA侧车", metadata)
         self.assertIn("示例不进入通用门禁", metadata)
 
@@ -448,7 +450,7 @@ class LeanSkillContractTests(unittest.TestCase):
             "独立 QA 侧车",
             "逐项登记 01–10",
             "01–05 仍分别登记 `v1 PASS/FAIL｜既有 v2 PASS/FAIL`",
-            "未触发项写 `PASS（未触发：原因）`",
+            "未触发项只能写 `未触发：具体原因`，不得登记 PASS",
             "FAIL 只回滚其触发范围",
             "最终交付前必须十项全部 PASS",
             "旧合同中“附上自检”的含义统一解释为“附独立 QA 文件或内部审计记录”",
@@ -466,7 +468,7 @@ class LeanSkillContractTests(unittest.TestCase):
         for marker in (
             "读者正文与编辑控制层永久隔离",
             "规则名、约束 ID、自检宏、PASS/FAIL、公式拆解和审计表",
-            "每章必须独立达到 2000–3000 个净正文有效字符",
+            "每章必须独立达到 2000–3200 个净正文有效字符",
             "三章总和、平均数或其他长章不能补偿任一短章",
             "不统计批次标题清单、H1/H2 标题、标点、空白、Markdown 标记、HTML 注释、代码块、链接地址、编辑说明、规则 ID、自检表或 QA 内容",
             "生成纯正文 → 移除控制层污染 → 逐章净计数",
@@ -612,7 +614,7 @@ class LeanSkillContractTests(unittest.TestCase):
         self.assertIn("不把“通过门禁”写成“已是爆款”", skill)
         self.assertIn("--require-opening-three", skill)
         self.assertIn("--min-effective 2000", skill)
-        self.assertIn("--max-effective 3000", skill)
+        self.assertIn("--max-effective 3200", skill)
         self.assertIn("审计控制文字判为正文污染", skill)
 
     def test_platform_modes_and_four_beat_are_cumulative_not_replacements(self) -> None:
@@ -785,6 +787,92 @@ class LeanSkillContractTests(unittest.TestCase):
             self.assertIn(marker, validator)
         self.assertIn("它不证明数量守恒", continuity)
         self.assertIn("它不证明数量守恒、自由文本时间先后、人物动机", continuity)
+
+    def test_twenty_chapter_rhythm_locks_are_mandatory_and_cumulative(self) -> None:
+        skill = self.read("SKILL.md")
+        rhythm = self.read("references/chapter-rhythm-twenty-locks.md")
+        metadata = self.read("agents/openai.yaml")
+        self.assertIn(
+            "必须完整读取并执行 [references/chapter-rhythm-twenty-locks.md]",
+            skill,
+        )
+        self.assertIn("二十项节奏锁与既有全部合同并列累积", skill)
+        self.assertIn("未触发项只能写 `未触发：具体原因`，不得登记 PASS", skill)
+        self.assertIn(
+            "全部已触发、已到期二十项节奏锁也必须全部 PASS",
+            skill,
+        )
+        self.assertIn(
+            "与 `SKILL.md` 的七条前三章合同、v1、既有 v2、01–10、九项留存锁",
+            rhythm,
+        )
+        self.assertIn("逐章节奏二十项硬锁", metadata)
+        self.assertIn("逐章净正文2000–3200字符", metadata)
+        rule_names = (
+            "节奏控制协议",
+            "主角能动性协议",
+            "反派压迫感协议",
+            "金手指差异化记忆点协议",
+            "信息密度编码协议",
+            "开篇钩子协议",
+            "章节结尾断崖钩子协议",
+            "情绪收益打脸反差节奏协议",
+            "对话信息冲突双载协议",
+            "宏观信息三章释放定律协议",
+            "打斗场景三幕式协议",
+            "配角功能标签变数协议",
+            "战力边界锚定协议",
+            "环境五感触发协议",
+            "心理行动外化协议",
+            "修炼升级三不写协议",
+            "支线三章回收挂起协议",
+            "悬念类型轮换协议",
+            "章间前情微召回协议",
+            "世界观名词首次出现即锚定协议",
+        )
+        for name in rule_names:
+            with self.subTest(name=name):
+                self.assertIn(name, rhythm)
+
+    def test_twenty_locks_preserve_pov_causality_and_ability_scarcity(self) -> None:
+        rhythm = self.read("references/chapter-rhythm-twenty-locks.md")
+        for marker in (
+            "规则名、公式、IF/THEN",
+            "最终读者正文必须只含章标题与小说正文",
+            "每章独立 **2000–3200 个净正文有效字符**",
+            "禁止为了达标临时插入无铺垫袭击、异象、救兵或机械降神",
+            "旁观者反应必须是当前 POV 能观察到的两份独立反应",
+            "三项基础功能必须是本故事中本质不同的用途",
+            "首次有效使用仍须当场说明可操作的效果、代价、边界",
+            "配角功能、钩子类型、节拍类型、爽点等级和三幕结构只写内部账",
+            "问题可以由事实缺口表达，不强制出现问号或感叹号",
+            "沉睡伏笔不等于活跃支线",
+            "普通人名、称谓、既知简称和无需记忆的背景名不计",
+        ):
+            with self.subTest(marker=marker):
+                self.assertIn(marker, rhythm)
+
+    def test_twenty_lock_evidence_is_routed_to_sidecar_templates(self) -> None:
+        card = self.read("assets/chapter-card-template.md")
+        bible = self.read("assets/story-bible-template.md")
+        for marker in (
+            "逐章节奏二十项 QA 侧车记录",
+            "有效节拍位置与最大间隔",
+            "核心能力 3 项本质功能 + 1 项",
+            "宏观谜题 T1、T2、T3",
+            "活跃支线三章期限",
+        ):
+            with self.subTest(marker=marker):
+                self.assertIn(marker, card)
+        for marker in (
+            "逐章节奏与主角能动性滚动账",
+            "反派、能力与宏观谜题账",
+            "战斗、战力、配角与修炼账",
+            "支线、悬念、章间衔接与名词账",
+            "二十项节奏锁触发与复检账",
+        ):
+            with self.subTest(marker=marker):
+                self.assertIn(marker, bible)
 
 
 if __name__ == "__main__":

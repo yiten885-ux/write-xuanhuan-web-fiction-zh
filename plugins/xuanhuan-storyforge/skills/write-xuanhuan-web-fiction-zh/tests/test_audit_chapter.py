@@ -49,7 +49,7 @@ class OpeningThreeGateTests(unittest.TestCase):
         opening: bool = True,
         require_title: bool = True,
         minimum: int = 2000,
-        maximum: int = 3000,
+        maximum: int = 3200,
         opening_minimum: int | None = None,
         opening_maximum: int | None = None,
         max_paragraph_sentence_average: float | None = None,
@@ -128,7 +128,7 @@ class OpeningThreeGateTests(unittest.TestCase):
     def test_opening_range_is_fixed_even_if_general_range_is_broader(self) -> None:
         text = make_batch(
             [("第一章", "门前异响"), ("第二章", "旧约落印"), ("第三章", "阶上留痕")],
-            [1999, 2600, 3001],
+            [1999, 2600, 3201],
         )
         result, report = self.run_audit(text, minimum=0, maximum=4000)
         self.assertEqual(result.returncode, 1)
@@ -163,10 +163,10 @@ class OpeningThreeGateTests(unittest.TestCase):
         self.assertEqual(report["opening_three_gate"]["minimum"], 1800)
         self.assertEqual(report["opening_three_gate"]["maximum"], 1900)
 
-    def test_default_opening_and_general_range_is_2000_to_3000(self) -> None:
+    def test_default_opening_and_general_range_is_2000_to_3200(self) -> None:
         text = make_batch(
             [("第一章", "门前异响"), ("第二章", "旧约落印"), ("第三章", "阶上留痕")],
-            [2000, 2500, 3000],
+            [2000, 2500, 3200],
         )
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -190,9 +190,9 @@ class OpeningThreeGateTests(unittest.TestCase):
             report = json.loads(report_path.read_text(encoding="utf-8"))
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertEqual(report["length_gate"]["minimum"], 2000)
-        self.assertEqual(report["length_gate"]["maximum"], 3000)
+        self.assertEqual(report["length_gate"]["maximum"], 3200)
         self.assertEqual(report["opening_three_gate"]["minimum"], 2000)
-        self.assertEqual(report["opening_three_gate"]["maximum"], 3000)
+        self.assertEqual(report["opening_three_gate"]["maximum"], 3200)
 
     def test_punctuation_or_emoji_only_titles_fail(self) -> None:
         for bad_title in ("——", "！！！", "🔥"):
@@ -1351,6 +1351,170 @@ class OpeningThreeGateTests(unittest.TestCase):
             with self.subTest(line=line):
                 normal = "# 第一章 净稿\n" + "甲" * 2000 + "\n" + line
                 self.assertTrue(AUDIT_MODULE.fiction_purity_gate(normal)["passed"])
+
+    def test_twenty_rhythm_rule_names_cannot_pad_length(self) -> None:
+        markers = (
+            "规则一 · 节奏控制协议",
+            "规则二 · 主角能动性协议",
+            "规则三 · 反派压迫感协议",
+            "规则四 · 金手指差异化记忆点协议",
+            "规则五 · 信息密度编码协议",
+            "规则六 · 开篇钩子协议",
+            "规则七 · 章节结尾断崖钩子协议",
+            "规则八 · 情绪收益打脸反差节奏协议",
+            "规则九 · 对话信息冲突双载协议",
+            "规则十 · 宏观信息三章释放定律协议",
+            "规则十一 · 打斗场景三幕式协议",
+            "规则十二 · 配角功能标签变数协议",
+            "规则十三 · 战力边界锚定协议",
+            "规则十四 · 环境五感触发协议",
+            "规则十五 · 心理行动外化协议",
+            "规则十六 · 修炼升级三不写协议",
+            "规则十七 · 支线三章回收挂起协议",
+            "规则十八 · 悬念类型轮换协议",
+            "规则十九 · 章间前情微召回协议",
+            "规则二十 · 世界观名词首次出现即锚定协议",
+            "| 规则十一 | 打斗三幕式 | 战斗层次 |",
+            "| 规则十六 | 修炼三不写 | 突破验证 |",
+        )
+        for marker in markers:
+            with self.subTest(marker=marker):
+                text = "# 第一章 净稿\n" + "甲" * 1900 + "\n" + marker + "\n" + "审计填充" * 100
+                purity, counts = self.direct_purity_and_counts(text)
+                self.assertFalse(purity["passed"])
+                self.assertEqual(counts, [1900])
+
+    def test_twenty_rhythm_formulas_selfcheck_and_rewrite_markers_cannot_pad(self) -> None:
+        formula_tokens = (
+            "章节结构",
+            "场景结局",
+            "反派压迫值",
+            "金手指描写",
+            "有效信息传递",
+            "开篇钩子",
+            "结尾钩子",
+            "情绪收益",
+            "有效对话",
+            "谜题释放节奏",
+            "有效打斗",
+            "配角魅力",
+            "越阶合理性",
+            "场景沉浸",
+            "心理描写",
+            "有效突破",
+            "支线管理",
+            "结尾悬念类型",
+            "章间衔接",
+            "名词可记性",
+        )
+        markers = tuple(f"{token} = 内部计算" for token in formula_tokens) + (
+            "【章节自检报告】",
+            "1. [节奏] 过渡段≤800字？(是/否)",
+            "11. [打斗] 战斗是否分三幕？(是/否)",
+            "【重写】",
+            "[重写警告]：修正该段",
+            "IF 章节进入过渡场景 THEN 插入有效节拍",
+            '{"IF":"进入过渡场景","THEN":"插入有效节拍"}',
+            '{"status":"\\u3010\\u91cd\\u5199\\u3011"}',
+        )
+        for marker in markers:
+            with self.subTest(marker=marker):
+                text = "# 第一章 净稿\n" + "甲" * 1900 + "\n" + marker + "\n" + "审计填充" * 100
+                purity, counts = self.direct_purity_and_counts(text)
+                self.assertFalse(purity["passed"])
+                self.assertEqual(counts, [1900])
+
+    def test_twenty_rhythm_controls_survive_markup_unicode_and_softbreaks(self) -> None:
+        markers = (
+            "节奏**控制**协议",
+            "[节奏控制协议](https://example.invalid)",
+            "节奏<span>控制</span>协议",
+            "节奏<!--x-->控制协议",
+            "节奏\u200b控制协议",
+            "节奏<br>控制协议",
+            "节\n奏\n控\n制\n协\n议",
+            "&#x8282;&#x594f;控制协议",
+            "打斗**场景三幕式**协议",
+            "打斗<span>场景</span>三幕式协议",
+            "【重<br>写<br>警<br>告】",
+            "I\nF 进入过渡场景 T\nH\nE\nN 插入节拍",
+        )
+        for marker in markers:
+            with self.subTest(marker=marker):
+                text = "# 第一章 净稿\n" + "甲" * 1900 + "\n" + marker + "\n" + "审计填充" * 100
+                purity, counts = self.direct_purity_and_counts(text)
+                self.assertFalse(purity["passed"])
+                self.assertEqual(counts, [1900])
+
+    def test_twenty_rhythm_controls_hidden_in_html_cannot_pad_length(self) -> None:
+        markers = (
+            '<div data-rule="节奏控制协议"></div>',
+            '<div data-formula="有效打斗 = 内部计算"></div>',
+            '<div aria-label="章节自检报告"></div>',
+            '<meta content="【重写警告】">',
+            '<div hidden>节奏控制协议</div>',
+            '<div hidden>有效打斗 = 内部计算</div>',
+            '<script>节奏控制协议</script>',
+            '<rule IF="进入过渡" THEN="插入节拍"></rule>',
+            '<rule data-then="插入节拍" data-if="进入过渡"></rule>',
+            '<div hidden>节奏<span>控制</span>协议</div>',
+        )
+        for marker in markers:
+            with self.subTest(marker=marker):
+                text = "# 第一章 净稿\n" + "甲" * 1900 + "\n" + marker + "\n" + "审计填充" * 100
+                purity, counts = self.direct_purity_and_counts(text)
+                self.assertFalse(purity["passed"])
+                self.assertEqual(counts, [1900])
+
+    def test_twenty_rhythm_control_block_resets_and_nearby_fiction_passes(self) -> None:
+        polluted = (
+            "# 第一章 净稿\n"
+            + "甲" * 1900
+            + "\n【章节自检报告】\n"
+            + "审计填充" * 100
+            + "\n# 第二章 正文\n"
+            + "乙" * 2000
+        )
+        purity, counts = self.direct_purity_and_counts(polluted)
+        self.assertFalse(purity["passed"])
+        self.assertEqual(counts, [1900, 2000])
+
+        normal_lines = (
+            "更夫的鼓点忽快忽慢，他只得控制脚下节奏。",
+            "戏分三幕，第二幕有一场打斗。",
+            "药瓶上贴着标签，背面多了一行小字。",
+            "边界碑钉在峡谷口，锚定铁索已经断了。",
+            "师父有三不写：不写假账，不写欠条，不写遗书。",
+            "旧案挂起三个月，县衙今日才回收卷宗。",
+            "族老重写门规，把旧纸扔进火盆。",
+            "他未通过山门试炼，转身时没有回头。",
+            "“是，还是否？”铁算盘问。",
+            "石壁上写着：一枚火钱等于三斤米。",
+            "城门规则只有一条：日落后不放人。",
+            "两宗协议昨夜作废。",
+        )
+        for line in normal_lines:
+            with self.subTest(line=line):
+                normal = "# 第一章 净稿\n" + "甲" * 2000 + "\n" + line
+                self.assertTrue(AUDIT_MODULE.fiction_purity_gate(normal)["passed"])
+
+    def test_default_length_boundaries_are_2000_and_3200_without_cross_compensation(self) -> None:
+        text = make_batch(
+            [("第一章", "门前异响"), ("第二章", "旧约落印"), ("第三章", "阶上留痕")],
+            [1999, 2500, 3201],
+        )
+        result, report = self.run_audit(text, opening=False)
+        self.assertEqual(result.returncode, 1)
+        self.assertEqual(report["length_gate"]["minimum"], 2000)
+        self.assertEqual(report["length_gate"]["maximum"], 3200)
+        self.assertEqual(
+            [item["effective_prose_chars"] for item in report["length_gate"]["chapters"]],
+            [1999, 2500, 3201],
+        )
+        self.assertEqual(
+            [item["passed"] for item in report["length_gate"]["chapters"]],
+            [False, True, False],
+        )
 
 
 if __name__ == "__main__":
