@@ -24,7 +24,7 @@ from pathlib import Path
 from typing import Any
 
 
-SCHEMA_VERSION = "1.9"
+SCHEMA_VERSION = "2.0"
 DEFAULT_WATCHLIST = (
     Path(__file__).resolve().parent.parent / "references" / "zh-style-watchlist.json"
 )
@@ -346,6 +346,8 @@ CONTINUITY_CONTROL_NAME_RE = re.compile(
 CHAPTER_RHYTHM_CONTROL_NAMES = (
     "逐章节奏二十项硬锁",
     "二十项节奏锁",
+    "逐章节奏三十项硬锁",
+    "三十项节奏锁",
     "章节自检报告",
     "节奏控制协议",
     "主角能动性协议",
@@ -380,6 +382,29 @@ CHAPTER_RHYTHM_CONTROL_NAMES = (
     "章间微召回",
     "世界观名词首次出现即锚定协议",
     "名词首次出现即锚定",
+    "信息释放密度224协议",
+    "信息释放密度“224”协议",
+    "信息释放密度二二四协议",
+    "伏笔三章挂起提醒协议",
+    "伏笔“三章挂起提醒”协议",
+    "代价数值前10章固定标注协议",
+    "代价数值“前10章固定标注”协议",
+    "代价数值前十章固定标注协议",
+    "未知物品功能边界三章内暴露协议",
+    "未知物品“功能边界三章内暴露”协议",
+    "主角每章成长痕迹协议",
+    "主角“每章成长痕迹”协议",
+    "世界观底层规则一致性协议",
+    "世界观“底层规则一致性”协议",
+    "同类描写去重协议",
+    "“同类描写去重”协议",
+    "章节净字数±20%协议",
+    "章节净字数“±20%”协议",
+    "章节净字数+/-20%协议",
+    "章节净字数正负20%协议",
+    "AI生成后执行报告协议",
+    "AI“生成后执行报告”协议",
+    "规则二十一至三十",
 )
 CHAPTER_RHYTHM_CONTROL_NAME_RE = re.compile(
     "|".join(
@@ -409,6 +434,16 @@ CHAPTER_RHYTHM_FORMULA_TOKENS = (
     "结尾悬念类型",
     "章间衔接",
     "名词可记性",
+    "名词记忆成本",
+    "章节信息载荷",
+    "伏笔记忆留存率",
+    "标注覆盖率",
+    "物品可信度",
+    "成长痕迹",
+    "规则可信度",
+    "重复风险",
+    "章节健康度",
+    "生成流程",
 )
 CHAPTER_RHYTHM_FORMULA_RE = re.compile(
     r"(?:"
@@ -419,19 +454,38 @@ CHAPTER_RHYTHM_FORMULA_RE = re.compile(
 CHAPTER_RHYTHM_QA_LINE_RE = re.compile(
     r"^\s*(?:#{1,6}\s*)?(?:[-+*]\s*)?(?:\d{1,2}[.、:：]\s*)?"
     r"(?:[\[【])?(?:节奏|主角|反派|金手指|密度|开篇|结尾|爽感|对话|宏观|"
-    r"打斗|配角|战力|环境|心理|修炼|支线|悬念|衔接|名词)(?:[\]】])?"
+    r"打斗|配角|战力|环境|心理|修炼|支线|悬念|衔接|名词|信息密度|"
+    r"名词锚定|伏笔提醒|数值标注|物品边界|成长痕迹|规则一致|去重|字数|执行报告)(?:[\]】])?"
     r".{0,180}(?:是\s*/\s*否|通过\s*/\s*未通过|PASS|FAIL)",
+    re.IGNORECASE,
+)
+EXECUTION_REPORT_CONTROL_RE = re.compile(
+    r"^\s*(?:#{1,6}\s*)?(?:[\[【]\s*)?规则执行报告(?:\s*[\]】])?\s*(?:[:：]|$)|"
+    r"^\s*(?:#{1,6}\s*)?(?:一[、.]\s*通过项|二[、.]\s*未通过项|"
+    r"三[、.]\s*修正后文本)\s*(?:[:：]|$)|"
+    r"(?:aria-label|data-[\w:-]+|content)\s*=\s*[\"'][^\"']*规则执行报告[^\"']*[\"']",
+    re.IGNORECASE | re.MULTILINE,
+)
+EXECUTION_REPORT_COMPACT_RE = re.compile(
+    r"(?:[\[【]规则执行报告[\]】]|#{1,6}规则执行报告|"
+    r"一[、.]通过项|二[、.]未通过项|三[、.]修正后文本|"
+    r"自检(?:21[-–—]30|二十一至三十))",
     re.IGNORECASE,
 )
 REWRITE_CONTROL_RE = re.compile(
     r"^\s*(?:#{1,6}\s*)?(?:[-+*]\s*)?(?:[\[【])?"
-    r"(?:重写|重写警告)(?:[\]】])?(?:\s*[:：]|\s*$)",
+    r"(?:重写|重写警告|拆分)(?:[\]】])?(?:\s*[:：]|\s*$)",
     re.IGNORECASE,
 )
 IF_THEN_CONTROL_RE = re.compile(
-    r"(?:^\s*(?:#{1,6}\s*)?(?:[-+*]\s*)?IF\b.{0,300}\bTHEN\b|"
-    r"[\"']IF[\"']\s*:.{0,300}[\"']THEN[\"']\s*:)",
-    re.IGNORECASE,
+    r"(?:^\s*(?:#{1,6}\s*)?(?:[-+*]\s*)?I\s*F\b[\s\S]{0,300}?"
+    r"\bT\s*H\s*E\s*N\b|"
+    r"[\"']IF[\"']\s*:.{0,300}[\"']THEN[\"']\s*:|"
+    r"(?:data[-_:]?control|aria-label|content)\s*=\s*[\"'][^\"']*"
+    r"\bIF\b[^\"']{0,300}\bTHEN\b[^\"']*[\"']|"
+    r"[\"'](?:control|instruction|rule)[\"']\s*:\s*[\"'][^\"']*"
+    r"\bIF\b[^\"']{0,300}\bTHEN\b[^\"']*[\"'])",
+    re.IGNORECASE | re.MULTILINE,
 )
 HTML_IF_THEN_ATTR_RE = re.compile(
     r"<(?=[^\r\n]{0,1200}\b(?:data[-_:])?if\s*=)"
@@ -439,15 +493,18 @@ HTML_IF_THEN_ATTR_RE = re.compile(
     re.IGNORECASE,
 )
 CHAPTER_RHYTHM_AUDIT_COMPACT_RE = re.compile(
-    r"(?:章节自检报告|二十项节奏锁|逐章节奏二十项硬锁)|"
+    r"(?:章节自检报告|二十项节奏锁|逐章节奏二十项硬锁|"
+    r"三十项节奏锁|逐章节奏三十项硬锁)|"
     r"(?:"
     + "|".join(re.escape(token) for token in CHAPTER_RHYTHM_FORMULA_TOKENS)
     + r")(?:=|:|：|→)|"
     r"[\[【](?:重写|重写警告)[\]】]|"
     r"(?:\d{1,2}[.、:：])?(?:节奏|主角|反派|金手指|密度|开篇|结尾|爽感|对话|宏观|"
-    r"打斗|配角|战力|环境|心理|修炼|支线|悬念|衔接|名词)"
+    r"打斗|配角|战力|环境|心理|修炼|支线|悬念|衔接|名词|信息密度|"
+    r"名词锚定|伏笔提醒|数值标注|物品边界|成长痕迹|规则一致|去重|字数|执行报告)"
     r".{0,180}(?:是/否|通过/未通过|PASS|FAIL)|"
-    r"(?<![A-Za-z0-9])IF.{0,300}THEN(?![A-Za-z0-9])",
+    r"(?:[\[【]规则执行报告[\]】]|一[、.]通过项|二[、.]未通过项|"
+    r"三[、.]修正后文本|[\[【]拆分[\]】]|自检(?:21[-–—]30|二十一至三十))",
     re.IGNORECASE,
 )
 CONTINUITY_AUDIT_LINE_RE = re.compile(
@@ -661,6 +718,14 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         help="inclusive maximum effective prose characters per chapter (default: 3200)",
     )
     parser.add_argument(
+        "--target-effective",
+        type=int,
+        help=(
+            "optional target effective prose characters per chapter; applies a "
+            "+/-20 percent window intersected with --min-effective/--max-effective"
+        ),
+    )
+    parser.add_argument(
         "--long-sentence",
         type=int,
         default=80,
@@ -703,11 +768,35 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     return parser.parse_args(argv)
 
 
+def resolved_length_window(args: argparse.Namespace) -> tuple[int, int, int | None, int | None]:
+    """Return the absolute/target intersection used by the per-chapter gate."""
+
+    if args.target_effective is None:
+        return args.min_effective, args.max_effective, None, None
+    target_minimum = (4 * args.target_effective + 4) // 5
+    target_maximum = (6 * args.target_effective) // 5
+    return (
+        max(args.min_effective, target_minimum),
+        min(args.max_effective, target_maximum),
+        target_minimum,
+        target_maximum,
+    )
+
+
 def validate_args(args: argparse.Namespace) -> None:
     if args.min_effective < 0:
         raise AuditError("--min-effective must be non-negative")
     if args.max_effective < args.min_effective:
         raise AuditError("--max-effective must be >= --min-effective")
+    if args.target_effective is not None:
+        if args.target_effective <= 0:
+            raise AuditError("--target-effective must be a positive integer")
+        effective_minimum, effective_maximum, _, _ = resolved_length_window(args)
+        if effective_minimum > effective_maximum:
+            raise AuditError(
+                "--target-effective +/-20 percent window does not intersect "
+                "the configured absolute length range"
+            )
     if args.opening_min_effective < 0:
         raise AuditError("--opening-min-effective must be non-negative")
     if args.opening_max_effective < args.opening_min_effective:
@@ -1348,6 +1437,8 @@ def _editorial_kind_from_normalized(normalized: str) -> str | None:
         return "continuity_control_name"
     if CHAPTER_RHYTHM_CONTROL_NAME_RE.search(compact):
         return "chapter_rhythm_control_name"
+    if EXECUTION_REPORT_CONTROL_RE.search(normalized):
+        return "chapter_rhythm_execution_report"
     if EDITORIAL_BLOCK_HEADING_RE.search(normalized):
         return "audit_block_heading"
     if EDITORIAL_STATUS_LINE_RE.search(normalized):
@@ -1477,6 +1568,10 @@ def fiction_purity_gate(text: str) -> dict[str, Any]:
             document_kind = "continuity_control_name"
         elif CHAPTER_RHYTHM_CONTROL_NAME_RE.search(compact):
             document_kind = "chapter_rhythm_control_name"
+        elif EXECUTION_REPORT_CONTROL_RE.search(rendered):
+            document_kind = "chapter_rhythm_execution_report"
+        elif EXECUTION_REPORT_COMPACT_RE.search(compact):
+            document_kind = "chapter_rhythm_execution_report"
         elif R_LOCK_COMPACT_RE.search(compact):
             document_kind = "continuity_rule_label"
         elif STRUCTURED_STATE_COMPACT_RE.search(compact):
@@ -1485,6 +1580,8 @@ def fiction_purity_gate(text: str) -> dict[str, Any]:
             document_kind = "structured_state_block"
         elif CONTROL_STATUS_COMPACT_RE.search(compact):
             document_kind = "audit_instruction"
+        elif IF_THEN_CONTROL_RE.search(rendered):
+            document_kind = "if_then_control_instruction"
         elif CHAPTER_RHYTHM_AUDIT_COMPACT_RE.search(compact):
             document_kind = "chapter_rhythm_audit_label"
         elif DOCUMENT_QA_HEADING_RE.search(rendered):
@@ -1526,6 +1623,9 @@ def clean_markdown(text: str) -> tuple[str, list[tuple[int, str]]]:
 
     text = HTML_COMMENT_RE.sub(clean_comment, text.lstrip("\ufeff"))
     text = html_text_content(text)
+    # HTML attributes are converted to OUTPUT CHECK by the rendered-text
+    # parser; after rendering, preserve split plain-text/JSON IF...THEN blocks.
+    text = IF_THEN_CONTROL_RE.sub("OUTPUT CHECK", text)
     text = SOFTBREAK_OUTPUT_CHECK_RE.sub("OUTPUT CHECK", text)
     text = SOFTBREAK_RETENTION_RULE_NAME_RE.sub(
         lambda match: re.sub(r"\s+", "", match.group(0)), text
@@ -1558,6 +1658,7 @@ def clean_markdown(text: str) -> tuple[str, list[tuple[int, str]]]:
         CRAFT_AUDIT_COMPACT_RE,
         CONTINUITY_CONTROL_NAME_RE,
         CHAPTER_RHYTHM_CONTROL_NAME_RE,
+        EXECUTION_REPORT_COMPACT_RE,
         R_LOCK_COMPACT_RE,
         CONTROL_STATUS_COMPACT_RE,
         CHAPTER_RHYTHM_AUDIT_COMPACT_RE,
@@ -2069,6 +2170,9 @@ def build_report(args: argparse.Namespace) -> dict[str, Any]:
         args.opening_min_effective,
         args.opening_max_effective,
     )
+    length_minimum, length_maximum, target_minimum, target_maximum = (
+        resolved_length_window(args)
+    )
     chapter_lengths: list[dict[str, Any]] = []
     if sections:
         for index, section in enumerate(sections, start=1):
@@ -2080,7 +2184,7 @@ def build_report(args: argparse.Namespace) -> dict[str, Any]:
                     "line": section["line"],
                     "title": section["title"],
                     "effective_prose_chars": section_effective,
-                    "passed": args.min_effective <= section_effective <= args.max_effective,
+                    "passed": length_minimum <= section_effective <= length_maximum,
                 }
             )
     else:
@@ -2090,7 +2194,7 @@ def build_report(args: argparse.Namespace) -> dict[str, Any]:
                 "line": None,
                 "title": None,
                 "effective_prose_chars": effective,
-                "passed": args.min_effective <= effective <= args.max_effective,
+                "passed": length_minimum <= effective <= length_maximum,
             }
         )
     length_pass = all(item["passed"] for item in chapter_lengths)
@@ -2122,8 +2226,14 @@ def build_report(args: argparse.Namespace) -> dict[str, Any]:
             "prose_lines": len(prose_lines),
         },
         "length_gate": {
-            "minimum": args.min_effective,
-            "maximum": args.max_effective,
+            "minimum": length_minimum,
+            "maximum": length_maximum,
+            "absolute_minimum": args.min_effective,
+            "absolute_maximum": args.max_effective,
+            "target_effective": args.target_effective,
+            "target_tolerance_percent": 20 if args.target_effective is not None else None,
+            "target_minimum": target_minimum,
+            "target_maximum": target_maximum,
             "scope": "per_chapter",
             "chapters": chapter_lengths,
             "passed": length_pass,
@@ -2144,10 +2254,11 @@ def build_report(args: argparse.Namespace) -> dict[str, Any]:
         "limitations": [
             "The title gate verifies final Markdown order, placeholders, and inventory/H1 agreement, not hidden drafting chronology or title quality.",
             "Length gates are evaluated independently for every explicit H1..H6 or plain-text chapter heading; aggregate length cannot compensate for a short or long chapter.",
+            "When --target-effective is supplied, the per-chapter range is the intersection of the configured absolute range and the integer target +/-20 percent range; an empty intersection is a configuration error.",
             "The audit cannot verify whether titles were locked before drafting, copied exactly from a user prompt, or assigned non-invented chapter numbers.",
             "The opening-three gate checks chapter order, its configured per-chapter net-fiction range (default 2000..3200), and whether each final sentence has 1..15 effective characters; it cannot verify the seven-rule opening contract, including the early crisis, background cost, ability effect/cost/boundary, protagonist setup, antagonist precedent, banked stage victory, and prior visibility of key settings.",
             "The audit cannot verify the nine retention semantics: irreversible stakes, a fair but unexpected fourth choice, micro/major payoff meaning, causal reinterpretation at chapter endings, positive worldbuilding value, completed scene-transfer/dungeon loop, setting scarcity, surprise/calculation payoff ratio, or unsafe chapter-ending anxiety; those require separate evidence review and do not establish reader retention or market performance.",
-            "The audit cannot verify the twenty chapter-rhythm semantics, including beat quality, active decisions, antagonist pressure, ability distinctiveness, information carriers, hook meaning, payoff meaning, combat tactics, power scaling, sensory immersion, side-thread closure, or term anchoring; those require separate evidence review.",
+            "The audit cannot verify the thirty chapter-rhythm semantics, including beat quality, active decisions, antagonist pressure, ability distinctiveness, information carriers, hook meaning, payoff meaning, combat tactics, power scaling, sensory immersion, information-load meaning, character growth, world-rule consistency, or term anchoring; those require separate evidence review.",
             "Rule IDs, OUTPUT CHECK blocks, and audit/control language are rejected by the fiction-purity gate and excluded from net-fiction counts; a separate sidecar report must carry audit details.",
             "The paragraph-average gate treats each non-empty prose source line as a paragraph and uses effective letters/numbers; manual review is required for wrapped Markdown, abbreviations, and semantic paragraph boundaries.",
             "The outside-dialogue gate excludes text inside paired quotation marks; quotation marks do not prove that the quoted span is character dialogue, and malformed or nested quotes require manual review.",
@@ -2201,6 +2312,7 @@ def print_summary(report: dict[str, Any]) -> None:
         "length_gate="
         + ("PASS" if gate["passed"] else "FAIL")
         + f" range={gate['minimum']}..{gate['maximum']}"
+        + f" target={gate['target_effective']!r}"
     )
     for chapter in gate["chapters"]:
         print(

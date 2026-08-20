@@ -52,6 +52,7 @@ class OpeningThreeGateTests(unittest.TestCase):
         maximum: int = 3200,
         opening_minimum: int | None = None,
         opening_maximum: int | None = None,
+        target_effective: int | None = None,
         max_paragraph_sentence_average: float | None = None,
         forbid_outside_dialogue: list[str] | None = None,
     ) -> tuple[subprocess.CompletedProcess[str], dict]:
@@ -79,6 +80,8 @@ class OpeningThreeGateTests(unittest.TestCase):
                 command.extend(["--opening-min-effective", str(opening_minimum)])
             if opening_maximum is not None:
                 command.extend(["--opening-max-effective", str(opening_maximum)])
+            if target_effective is not None:
+                command.extend(["--target-effective", str(target_effective)])
             if max_paragraph_sentence_average is not None:
                 command.extend(
                     [
@@ -1515,6 +1518,181 @@ class OpeningThreeGateTests(unittest.TestCase):
             [item["passed"] for item in report["length_gate"]["chapters"]],
             [False, True, False],
         )
+
+    def test_rules_21_to_30_control_names_formulas_and_report_cannot_pad(self) -> None:
+        markers = (
+            "规则二十一：名词首次出现即锚定协议（强化版）",
+            "规则二十二：信息释放密度“224”协议",
+            "规则二十三：伏笔“三章挂起提醒”协议",
+            "规则二十四：代价数值“前10章固定标注”协议",
+            "规则二十五：未知物品“功能边界三章内暴露”协议",
+            "规则二十六：主角“每章成长痕迹”协议",
+            "规则二十七：世界观“底层规则一致性”协议",
+            "规则二十八：“同类描写去重”协议",
+            "规则二十九：章节净字数“±20%”协议",
+            "规则三十：AI“生成后执行报告”协议",
+            "信息释放密度二二四协议",
+            "代价数值前十章固定标注协议",
+            "章节净字数+/-20%协议",
+            "章节净字数正负20%协议",
+        )
+        formula_tokens = (
+            "名词记忆成本",
+            "章节信息载荷",
+            "伏笔记忆留存率",
+            "标注覆盖率",
+            "物品可信度",
+            "成长痕迹",
+            "规则可信度",
+            "重复风险",
+            "章节健康度",
+            "生成流程",
+        )
+        report_markers = (
+            "【规则执行报告】",
+            "一、通过项：",
+            "二、未通过项：",
+            "三、修正后文本：",
+            "【拆分】",
+            "自检21-30：",
+            "自检二十一至三十：",
+            "21. [名词锚定] 是否在同段完成？(是/否)",
+            "30. [执行报告] 是否仅写QA？(是/否)",
+        )
+        for marker in markers + tuple(f"{token} = 内部计算" for token in formula_tokens) + report_markers:
+            with self.subTest(marker=marker):
+                text = "# 第一章 净稿\n" + "甲" * 1900 + "\n" + marker + "\n" + "审计填充" * 100
+                purity, counts = self.direct_purity_and_counts(text)
+                self.assertFalse(purity["passed"])
+                self.assertEqual(counts, [1900])
+
+    def test_rules_21_to_30_controls_survive_markup_hidden_html_and_softbreaks(self) -> None:
+        markers = (
+            "信息释放密度**224**协议",
+            "[伏笔三章挂起提醒协议](https://example.invalid)",
+            "代价数值<span>前十章固定标注</span>协议",
+            "未知物品<!--x-->功能边界三章内暴露协议",
+            "主角\u200b每章成长痕迹协议",
+            "世界观<br>底层规则一致性协议",
+            "同\n类\n描\n写\n去\n重\n协\n议",
+            '<div hidden>章节净字数“±20%”协议</div>',
+            '<script>AI“生成后执行报告”协议</script>',
+            '<meta content="【规则执行报告】">',
+            '<div data-rule="章节信息载荷 = 内部计算"></div>',
+            '<div aria-label="规则执行报告"></div>',
+            "【规\n则\n执\n行\n报\n告】",
+            "[\u89c4\u5219\u6267\u884c\u62a5\u544a]",
+        )
+        for marker in markers:
+            with self.subTest(marker=marker[:40]):
+                text = "# 第一章 净稿\n" + "甲" * 1900 + "\n" + marker + "\n" + "审计填充" * 100
+                purity, counts = self.direct_purity_and_counts(text)
+                self.assertFalse(purity["passed"])
+                self.assertEqual(counts, [1900])
+
+    def test_if_then_controls_in_structured_or_split_text_cannot_pad(self) -> None:
+        markers = (
+            '<div data-control="IF condition THEN action"></div>',
+            "I\nF condition T\nH\nE\nN action",
+            '{"control":"IF condition THEN action"}',
+            '{"control":"\\u0049\\u0046 condition \\u0054\\u0048\\u0045\\u004e action"}',
+        )
+        for marker in markers:
+            with self.subTest(marker=marker[:40]):
+                text = (
+                    "# 第一章 净稿\n"
+                    + "甲" * 1900
+                    + "\n"
+                    + marker
+                    + "\n"
+                    + "审计填充" * 100
+                )
+                purity, counts = self.direct_purity_and_counts(text)
+                self.assertFalse(purity["passed"])
+                self.assertEqual(counts, [1900])
+
+        natural = (
+            "# 第一章 净稿\n"
+            + "甲" * 2000
+            + "\n铁匠把‘IF’刻在左牌，把‘THEN’刻在右牌。"
+        )
+        purity, counts = self.direct_purity_and_counts(natural)
+        self.assertTrue(purity["passed"])
+        self.assertGreaterEqual(counts[0], 2000)
+
+    def test_rules_21_to_30_control_block_resets_and_nearby_fiction_passes(self) -> None:
+        polluted = (
+            "# 第一章 净稿\n"
+            + "甲" * 1900
+            + "\n【规则执行报告】\n"
+            + "审计填充" * 100
+            + "\n# 第二章 正文\n"
+            + "乙" * 2000
+        )
+        purity, counts = self.direct_purity_and_counts(polluted)
+        self.assertFalse(purity["passed"])
+        self.assertEqual(counts, [1900, 2000])
+
+        normal_lines = (
+            "巡检司的规则执行报告被雨泡烂了。",
+            "族老修正后的文本少了三行。",
+            "他把灵石拆分成两份。",
+            "机关自检一遍，发出咔声。",
+            "牢房21-30号全部熄灯。",
+            "成长痕迹很浅，风一吹就没了。",
+            "重复风险不大，掌柜仍换了路。",
+            "底层石板遵循同一条规则。",
+            "二二四号牢房昨夜换了守卫。",
+            "前十章账册都标了价。",
+            "章节健康度刻在铜牌背面。",
+            "生成流程被匠人画成一条水线。",
+            "【代价：气血 100 → 70】",
+            "【恢复：气血 70 → 90】",
+        )
+        for line in normal_lines:
+            with self.subTest(line=line):
+                normal = "# 第一章 净稿\n" + "甲" * 2000 + "\n" + line
+                self.assertTrue(AUDIT_MODULE.fiction_purity_gate(normal)["passed"])
+
+    def test_target_effective_intersects_absolute_window(self) -> None:
+        cases = (
+            (3000, 2399, False, 2400, 3200),
+            (3000, 2400, True, 2400, 3200),
+            (3000, 3200, True, 2400, 3200),
+            (3000, 3201, False, 2400, 3200),
+            (2500, 2000, True, 2000, 3000),
+            (2500, 3001, False, 2000, 3000),
+            (2501, 2000, False, 2001, 3001),
+            (2501, 2001, True, 2001, 3001),
+            (2501, 3001, True, 2001, 3001),
+            (2501, 3002, False, 2001, 3001),
+            (1667, 2000, True, 2000, 2000),
+            (4000, 3200, True, 3200, 3200),
+        )
+        for target, length, expected, minimum, maximum in cases:
+            with self.subTest(target=target, length=length):
+                text = make_batch([("第一章", "净稿")], [length])
+                result, report = self.run_audit(
+                    text,
+                    opening=False,
+                    target_effective=target,
+                )
+                self.assertEqual(result.returncode == 0, expected, result.stdout + result.stderr)
+                self.assertEqual(report["length_gate"]["minimum"], minimum)
+                self.assertEqual(report["length_gate"]["maximum"], maximum)
+                self.assertEqual(report["length_gate"]["target_effective"], target)
+
+    def test_target_effective_rejects_invalid_or_empty_intersection(self) -> None:
+        text = make_batch([("第一章", "净稿")], [2000])
+        for target in (0, -1, 1666, 4001):
+            with self.subTest(target=target):
+                result, report = self.run_audit(
+                    text,
+                    opening=False,
+                    target_effective=target,
+                )
+                self.assertEqual(result.returncode, 2)
+                self.assertEqual(report, {})
 
 
 if __name__ == "__main__":

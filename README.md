@@ -6,14 +6,14 @@
   <a href="https://github.com/yiten885-ux/write-xuanhuan-web-fiction-zh/actions/workflows/validate.yml"><img src="https://github.com/yiten885-ux/write-xuanhuan-web-fiction-zh/actions/workflows/validate.yml/badge.svg" alt="Validation status"></a>
   <img src="https://img.shields.io/badge/Codex-Plugin-111827?style=flat-square" alt="Codex Plugin">
   <img src="https://img.shields.io/badge/package-skills--only-B5472F?style=flat-square" alt="Skills-only package">
-  <img src="https://img.shields.io/badge/plugin-v1.2.0-D9AE5F?style=flat-square&labelColor=111827" alt="Plugin version 1.2.0">
+  <img src="https://img.shields.io/badge/plugin-v1.3.0-D9AE5F?style=flat-square&labelColor=111827" alt="Plugin version 1.3.0">
 </p>
 
 # 玄章天工｜Xuanhuan Storyforge
 
 > 面向中文玄幻长篇创作的状态化写作与审校工作流。
 
-`write-xuanhuan-web-fiction-zh` 是一套可复用的 Codex Skill，覆盖中文玄幻、仙侠、王朝修仙与系统流网文的规划、创作、续写、重写和审校。它把故事圣经、前三章留存设计、逐章节奏二十项硬锁、人物与力量体系、长篇连续性状态、读者正文隔离和确定性机械审计组合成一条完整工作流。
+`write-xuanhuan-web-fiction-zh` 是一套可复用的 Codex Skill，覆盖中文玄幻、仙侠、王朝修仙与系统流网文的规划、创作、续写、重写和审校。它把故事圣经、前三章留存设计、逐章节奏三十项硬锁、人物与力量体系、长篇连续性状态、读者正文隔离和确定性机械审计组合成一条完整工作流。
 
 它的目标不是替作者承诺“爆款”，而是在大规模连载中守住可验证的下限：设定不漂移、人物不凭空全知、章节篇幅不被审计文字虚增、内部规则不泄漏进读者正文。
 
@@ -23,7 +23,7 @@
 |---|---|---|
 | 全书规划 | 从题材承诺到世界、力量、人物弧、卷纲和章纲 | 故事圣经、章卡、关键帧 |
 | 开篇工程 | 前三章危机、主动性、阶段胜利、爽点与信息钩子失衡 | 逐章正文与语义检查清单 |
-| 章节节奏 | 过渡拖沓、主角被动、反派掉线、战斗对波、支线失控与钩子同质化 | 二十项触发账、滚动窗口与 QA 证据 |
+| 章节节奏 | 过渡拖沓、信息过载、主角被动、规则漂移、伏笔失忆、战斗对波与钩子同质化 | 三十项触发账、滚动窗口与 QA 证据 |
 | 长篇连续性 | POV、角色知情、时间、空间、物品持有和伏笔状态漂移 | 版本化 `.state.json` 状态事务 |
 | 正文审校 | 有效字数不足、编辑标签泄漏、模板化表达和标题结构异常 | 独立 `.qa.json` 报告与非零失败码 |
 | 定向重写 | 在保留正史与用户原文的前提下修复局部问题 | 同一最终正文的聊天交付与文件落盘 |
@@ -115,6 +115,8 @@ python3 plugins/xuanhuan-storyforge/skills/write-xuanhuan-web-fiction-zh/scripts
   --require-opening-three \
   --json-out manuscript.qa.json
 ```
+
+若任务卡明确设置单章目标净字数，可另加 `--target-effective 3000`；脚本会把目标正负 20% 与当前绝对窗口取交集，且仍逐章独立验收。
 
 校验长篇状态的正文哈希、来源锚、关键帧和相邻版本链：
 

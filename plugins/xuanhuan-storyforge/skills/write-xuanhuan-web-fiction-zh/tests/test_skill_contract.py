@@ -24,6 +24,7 @@ class LeanSkillContractTests(unittest.TestCase):
             "references/revision-continuity.md",
             "references/opening-retention-six-locks.md",
             "references/chapter-rhythm-twenty-locks.md",
+            "references/chapter-rhythm-rules-21-30.md",
             "references/prose-style.md",
             "references/zh-style-watchlist.json",
             "scripts/audit_chapter.py",
@@ -42,13 +43,14 @@ class LeanSkillContractTests(unittest.TestCase):
     def test_markdown_inventory_stays_lean(self) -> None:
         markdown = list(ROOT.rglob("*.md"))
         text_files = list(ROOT.rglob("*.txt"))
-        self.assertLessEqual(len(markdown), 9)
+        self.assertLessEqual(len(markdown), 10)
         self.assertEqual([], text_files)
         # 连续性引擎是独立的高密度参考；上限仍只防无关材料膨胀。
-        self.assertLess(sum(path.stat().st_size for path in markdown), 165_000)
+        self.assertLess(sum(path.stat().st_size for path in markdown), 190_000)
         # v1 与 v2 必须并存；上限只防无关膨胀，不能倒逼删除任一合同。
         self.assertLess((ROOT / "SKILL.md").stat().st_size, 48_000)
-        self.assertLessEqual(len(list((ROOT / "references").glob("*.md"))), 6)
+        self.assertLess(len((ROOT / "SKILL.md").read_text(encoding="utf-8").splitlines()), 500)
+        self.assertLessEqual(len(list((ROOT / "references").glob("*.md"))), 7)
 
     def test_frontmatter_is_minimal_and_valid(self) -> None:
         skill = self.read("SKILL.md")
@@ -81,6 +83,7 @@ class LeanSkillContractTests(unittest.TestCase):
                 ROOT / "references/revision-continuity.md",
                 ROOT / "references/opening-retention-six-locks.md",
                 ROOT / "references/chapter-rhythm-twenty-locks.md",
+                ROOT / "references/chapter-rhythm-rules-21-30.md",
                 ROOT / "references/prose-style.md",
             ]
         )
@@ -793,21 +796,22 @@ class LeanSkillContractTests(unittest.TestCase):
         rhythm = self.read("references/chapter-rhythm-twenty-locks.md")
         metadata = self.read("agents/openai.yaml")
         self.assertIn(
-            "必须完整读取并执行 [references/chapter-rhythm-twenty-locks.md]",
+            "必须完整读取并合取执行 [references/chapter-rhythm-twenty-locks.md]",
             skill,
         )
-        self.assertIn("二十项节奏锁与既有全部合同并列累积", skill)
+        self.assertIn("三十项节奏锁与既有全部合同并列累积", skill)
         self.assertIn("未触发项只能写 `未触发：具体原因`，不得登记 PASS", skill)
         self.assertIn(
-            "全部已触发、已到期二十项节奏锁也必须全部 PASS",
+            "全部已触发、已到期三十项节奏锁也必须全部 PASS",
             skill,
         )
         self.assertIn(
             "与 `SKILL.md` 的七条前三章合同、v1、既有 v2、01–10、九项留存锁",
             rhythm,
         )
-        self.assertIn("逐章节奏二十项硬锁", metadata)
+        self.assertIn("逐章节奏三十项硬锁", metadata)
         self.assertIn("逐章净正文2000–3200字符", metadata)
+        self.assertIn("显式目标另取正负20%交集", metadata)
         rule_names = (
             "节奏控制协议",
             "主角能动性协议",
@@ -856,7 +860,7 @@ class LeanSkillContractTests(unittest.TestCase):
         card = self.read("assets/chapter-card-template.md")
         bible = self.read("assets/story-bible-template.md")
         for marker in (
-            "逐章节奏二十项 QA 侧车记录",
+            "逐章节奏三十项 QA 侧车记录",
             "有效节拍位置与最大间隔",
             "核心能力 3 项本质功能 + 1 项",
             "宏观谜题 T1、T2、T3",
@@ -869,7 +873,80 @@ class LeanSkillContractTests(unittest.TestCase):
             "反派、能力与宏观谜题账",
             "战斗、战力、配角与修炼账",
             "支线、悬念、章间衔接与名词账",
-            "二十项节奏锁触发与复检账",
+            "三十项节奏锁触发与复检账",
+        ):
+            with self.subTest(marker=marker):
+                self.assertIn(marker, bible)
+
+    def test_rules_21_to_30_are_additive_strict_and_isolated(self) -> None:
+        skill = self.read("SKILL.md")
+        extra = self.read("references/chapter-rhythm-rules-21-30.md")
+        continuity = self.read("references/revision-continuity.md")
+        metadata = self.read("agents/openai.yaml")
+        self.assertIn(
+            "[references/chapter-rhythm-rules-21-30.md]",
+            skill,
+        )
+        self.assertIn("只新增规则二十一至三十，不替换、不删减、不放宽前二十项", extra)
+        rule_names = (
+            "名词首次出现即锚定协议（强化版）",
+            "信息释放密度 224 协议",
+            "伏笔三章挂起提醒协议",
+            "代价数值前十章固定标注协议",
+            "未知物品功能边界三章内暴露协议",
+            "主角每章成长痕迹协议",
+            "世界观底层规则一致性协议",
+            "同类描写去重协议",
+            "章节目标净字数正负百分之二十协议",
+            "生成后执行报告协议",
+        )
+        for name in rule_names:
+            with self.subTest(name=name):
+                self.assertIn(name, extra)
+        for marker in (
+            "同一段落、本句或下一句",
+            "关键新专名最多四个",
+            "结果不得超过 5.0",
+            "N+1 与 N+3",
+            "前十章的标注覆盖率至少 90%",
+            "每章至少出现一次当前绝对状态参照",
+            "N+3 结束前披露至少一项真实边界",
+            "章首旧状态、触发事件、章末新状态",
+            "已接受正文中出现可核对的来源锚与摘录哈希",
+            "禁止使用同义词轮换器",
+            "最终下界为 `max(2000, ceil(0.8T))`",
+            "交集为空时属于配置冲突",
+            "报告不得追加到小说正文",
+            "同轮未通过项达到三项，执行二轮修正",
+        ):
+            with self.subTest(marker=marker):
+                self.assertIn(marker, extra)
+        self.assertNotIn("即使没有状态变化，也记录空增量", continuity)
+        self.assertIn("规则二十六让主角", continuity)
+        self.assertIn("逐章节奏三十项硬锁", metadata)
+
+    def test_rules_21_to_30_evidence_is_in_sidecars_and_ledgers(self) -> None:
+        card = self.read("assets/chapter-card-template.md")
+        bible = self.read("assets/story-bible-template.md")
+        for marker in (
+            "单章目标净字数 / 当前绝对窗口 / 目标正负20%交集窗口",
+            "数值界面（开启 / 关闭 / 自定义）",
+            "规则 21 同段本句或下一句锚定位置",
+            "信息载荷 `L = 0.3N + 1.2T + 0.8I`",
+            "重大伏笔首现 N / N+1 与 N+3 回响到期",
+            "主角章首旧状态 / 触发事件 / 章末新状态",
+            "规则 30：QA 报告路径",
+        ):
+            with self.subTest(marker=marker):
+                self.assertIn(marker, card)
+        for marker in (
+            "规则二十一至三十滚动账",
+            "名词锚定与信息 224 账",
+            "重大伏笔与未知物品期限账",
+            "前十章状态结算与主角成长账",
+            "底层规则、描写去重与目标字数账",
+            "规则执行报告与二轮修订账",
+            "同一段落、本句或下一句锚定",
         ):
             with self.subTest(marker=marker):
                 self.assertIn(marker, bible)
