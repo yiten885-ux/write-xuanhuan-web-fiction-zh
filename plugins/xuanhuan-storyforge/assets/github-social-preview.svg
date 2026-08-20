@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640" role="img" aria-labelledby="social-title social-desc">
+  <title id="social-title">玄章天工｜Xuanhuan Storyforge</title>
+  <desc id="social-desc">深墨色横幅上，金色书页、朱红火种与笔锋构成标志，右侧写有玄章天工、Xuanhuan Storyforge，以及中文玄幻网文规划、创作、续写与连续性审校。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#080B11"/>
+      <stop offset="0.58" stop-color="#111722"/>
+      <stop offset="1" stop-color="#07090E"/>
+    </linearGradient>
+    <radialGradient id="halo" cx="0.26" cy="0.5" r="0.45">
+      <stop offset="0" stop-color="#B5472F" stop-opacity="0.25"/>
+      <stop offset="0.42" stop-color="#F0D38A" stop-opacity="0.08"/>
+      <stop offset="1" stop-color="#080B11" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F0D38A"/>
+      <stop offset="1" stop-color="#B67A22"/>
+    </linearGradient>
+    <linearGradient id="fire" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#9D2D20"/>
+      <stop offset="0.6" stop-color="#D85132"/>
+      <stop offset="1" stop-color="#F3A143"/>
+    </linearGradient>
+    <linearGradient id="rule" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#F0D38A" stop-opacity="0.9"/>
+      <stop offset="0.7" stop-color="#B67A22" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#B67A22" stop-opacity="0"/>
+    </linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#F3E7C5" stroke-opacity="0.035" stroke-width="1"/>
+    </pattern>
+    <clipPath id="frame">
+      <rect x="16" y="16" width="1248" height="608" rx="32"/>
+    </clipPath>
+  </defs>
+
+  <rect width="1280" height="640" fill="url(#bg)"/>
+  <g clip-path="url(#frame)">
+    <rect width="1280" height="640" fill="url(#halo)"/>
+    <rect width="1280" height="640" fill="url(#grid)"/>
+
+    <circle cx="1125" cy="105" r="252" fill="none" stroke="#F0D38A" stroke-opacity="0.07" stroke-width="1"/>
+    <circle cx="1125" cy="105" r="188" fill="none" stroke="#F0D38A" stroke-opacity="0.045" stroke-width="1"/>
+    <path d="M916 155C1038 84 1167 82 1280 146" fill="none" stroke="#F0D38A" stroke-opacity="0.1" stroke-width="1.5"/>
+    <circle cx="1000" cy="111" r="3" fill="#F0D38A" opacity="0.55"/>
+    <circle cx="1195" cy="176" r="2" fill="#F0D38A" opacity="0.38"/>
+    <circle cx="1108" cy="64" r="1.5" fill="#F0D38A" opacity="0.48"/>
+
+    <path d="M0 522C130 476 248 486 365 512C488 540 600 493 714 470C871 438 1000 485 1110 470C1175 461 1229 443 1280 421V640H0Z" fill="#0A0E15" opacity="0.92"/>
+    <path d="M0 566C148 526 263 540 386 558C525 579 645 542 760 526C923 504 1050 548 1176 524C1215 516 1249 504 1280 490V640H0Z" fill="#070A0F"/>
+    <path d="M470 513C590 475 694 469 797 488C905 508 1000 503 1100 475" fill="none" stroke="#F0D38A" stroke-opacity="0.07" stroke-width="2"/>
+
+    <g transform="translate(96 160) scale(0.625)">
+      <rect x="20" y="20" width="472" height="472" rx="92" fill="#10151E" fill-opacity="0.98"/>
+      <rect x="38" y="38" width="436" height="436" rx="76" fill="none" stroke="url(#gold)" stroke-width="8"/>
+      <path d="M105 320c50-23 99-20 151 12V214c-50-29-99-31-151-9v115Z" fill="none" stroke="url(#gold)" stroke-width="15" stroke-linejoin="round"/>
+      <path d="M407 320c-50-23-99-20-151 12V214c50-29 99-31 151-9v115Z" fill="none" stroke="url(#gold)" stroke-width="15" stroke-linejoin="round"/>
+      <path d="M256 213v158" fill="none" stroke="#E8C876" stroke-width="10" stroke-linecap="round"/>
+      <path d="M210 282c-15-51 32-73 30-122 47 38 31 79 55 100 7-22 24-34 34-51 18 52-2 116-72 131-54-8-77-28-77-61 0-22 13-42 31-55-2 19 0 40-1 58Z" fill="url(#fire)" stroke="#F2C86B" stroke-width="7" stroke-linejoin="round"/>
+      <path d="M232 294c-5-25 15-39 24-60 19 21 12 41 25 55 7-10 12-18 15-27 11 32-6 58-40 66-27-6-37-17-37-32 0-9 5-18 13-25-1 8 0 16 0 23Z" fill="#F6B44A"/>
+      <path d="M124 383h264" stroke="url(#gold)" stroke-width="14" stroke-linecap="round"/>
+      <path d="m326 144 51-51 14 14-51 51-31 12 17-26Z" fill="url(#gold)"/>
+    </g>
+
+    <g transform="translate(476 0)">
+      <text x="0" y="247" fill="#F3E7C5" font-size="86" font-weight="700" letter-spacing="12" font-family="Songti SC, STSong, Noto Serif SC, Source Han Serif SC, serif">玄章天工</text>
+      <rect x="2" y="278" width="620" height="2" rx="1" fill="url(#rule)"/>
+      <text x="2" y="328" fill="#F0D38A" font-size="27" font-weight="600" letter-spacing="4" font-family="Helvetica Neue, Arial, sans-serif">Xuanhuan Storyforge</text>
+      <text x="2" y="396" fill="#C8C0AE" font-size="25" font-weight="400" letter-spacing="0.7" font-family="PingFang SC, Microsoft YaHei, Noto Sans SC, Source Han Sans SC, sans-serif">中文玄幻网文 · 规划 · 创作 · 续写 · 连续性审校</text>
+    </g>
+  </g>
+  <rect x="16" y="16" width="1248" height="608" rx="32" fill="none" stroke="#F0D38A" stroke-opacity="0.2" stroke-width="1.5"/>
+</svg>

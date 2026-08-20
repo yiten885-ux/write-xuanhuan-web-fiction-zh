@@ -1,17 +1,108 @@
+<p align="center">
+  <img src="plugins/xuanhuan-storyforge/assets/github-cover.svg" width="100%" alt="玄章天工（Xuanhuan Storyforge）：中文玄幻网文规划、创作、续写与连续性审校 Codex Skill">
+</p>
+
+<p align="center">
+  <a href="https://github.com/yiten885-ux/write-xuanhuan-web-fiction-zh/actions/workflows/validate.yml"><img src="https://github.com/yiten885-ux/write-xuanhuan-web-fiction-zh/actions/workflows/validate.yml/badge.svg" alt="Validation status"></a>
+  <img src="https://img.shields.io/badge/Codex-Plugin-111827?style=flat-square" alt="Codex Plugin">
+  <img src="https://img.shields.io/badge/package-skills--only-B5472F?style=flat-square" alt="Skills-only package">
+  <img src="https://img.shields.io/badge/plugin-v1.4.1-D9AE5F?style=flat-square&labelColor=111827" alt="Plugin version 1.4.1">
+</p>
+
 # 玄章天工｜Xuanhuan Storyforge
 
-`write-xuanhuan-web-fiction-zh` 是面向中文玄幻、仙侠、王朝修仙和系统流网文的 Codex Skill。它覆盖从零规划、故事圣经、人物与力量体系、前三章、续写、重写、连续性审校和机械质量门禁。
+> 面向中文玄幻长篇创作的状态化写作与审校工作流。
 
-市场展示名为 **玄章天工｜Xuanhuan Storyforge**；稳定的 Skill 技术 ID 仍为 `write-xuanhuan-web-fiction-zh`，以兼容现有调用。
+`write-xuanhuan-web-fiction-zh` 是一套可复用的 Codex Skill，覆盖中文玄幻、仙侠、王朝修仙与系统流网文的规划、创作、续写、重写和审校。它把故事圣经、前三章留存设计、逐章节奏六十项硬锁、人物与力量体系、长篇连续性状态、读者正文隔离和确定性机械审计组合成一条完整工作流。
 
-## 目录
+它的目标不是替作者承诺“爆款”，而是在大规模连载中守住可验证的下限：设定不漂移、人物不凭空全知、章节篇幅不被审计文字虚增、内部规则不泄漏进读者正文。
 
-- `.agents/plugins/marketplace.json`：仓库级 Codex marketplace。
-- `plugins/xuanhuan-storyforge/.codex-plugin/plugin.json`：skills-only Plugin 清单。
-- `plugins/xuanhuan-storyforge/skills/write-xuanhuan-web-fiction-zh/`：Skill 本体。
-- `submission/`：OpenAI 公开市场的文案、测试用例和人工提交清单。
+规则 31–60 在前 30 项及既有全部合同上累积生效，不替换、不删减、不放宽旧规则。规则名、计算过程、执行报告和修订记录只进入独立 QA 侧车；机械审计只能证明其已覆盖的结构、篇幅与正文纯净门禁，不能代替人物动机、视角忠实、节奏语义、文学质量或市场表现判断。
+
+从 1.4.1 起，`SKILL.md` 只保留任务路由、统一执行流程和交付边界；完整规则语义集中在一级 Reference 中。影子规则注册表只索引规则身份、来源、路由与机械检查能力，不复制规则正文，也不让机械验证冒充文学语义判断。
+
+## 核心能力
+
+| 能力 | 解决的问题 | 可验证产物 |
+|---|---|---|
+| 全书规划 | 从题材承诺到世界、力量、人物弧、卷纲和章纲 | 故事圣经、章卡、关键帧 |
+| 开篇工程 | 前三章危机、主动性、阶段胜利、爽点与信息钩子失衡 | 逐章正文与语义检查清单 |
+| 章节节奏 | 过渡拖沓、信息过载、主角被动、规则漂移、伏笔失忆、视角漂移、物件断档、战斗对波与钩子同质化 | 六十项触发账、滚动窗口与 QA 证据 |
+| 长篇连续性 | POV、角色知情、时间、空间、物品持有和伏笔状态漂移 | 版本化 `.state.json` 状态事务 |
+| 正文审校 | 有效字数不足、编辑标签泄漏、模板化表达和标题结构异常 | 独立 `.qa.json` 报告与非零失败码 |
+| 定向重写 | 在保留正史与用户原文的前提下修复局部问题 | 同一最终正文的聊天交付与文件落盘 |
+| 本地优先 | 不把小说、状态或审计数据交给额外服务 | 无 MCP、无第三方凭据、无主动网络请求 |
+
+## 工作模型
+
+```mermaid
+flowchart LR
+    A["用户需求与已确认正史"] --> B["任务卡 / 故事圣经"]
+    B --> C["章纲 / 关键帧"]
+    C --> D["读者正文 .md"]
+    D --> E["连续性状态 .state.json"]
+    D --> F["机械审计 .qa.json"]
+    E --> G["下一章事务"]
+    F --> G
+```
+
+读者正文是事实真源。状态文件是从已接受正文派生的索引，QA 是独立审计侧车；三者不得互相混写，也不得用状态或审计文字补足默认每章 2000–3200 个净正文有效字符。
+
+## Codex 与 Harness
+
+| 运行环境 | 支持方式 | 边界 |
+|---|---|---|
+| Codex | 仓库已提供 marketplace 与 skills-only Plugin 清单 | 可按下方命令安装并调用 |
+| 独立 Skill | 直接加载 `plugins/xuanhuan-storyforge/skills/write-xuanhuan-web-fiction-zh/` | 保留 `SKILL.md`、`references/`、`assets/` 与 `scripts/` 的相对结构 |
+| Harness | 支持读取 `SKILL.md` 的 Harness 可复用同一 Skill 本体 | 本仓库不宣称适配或认证所有 Harness 实现 |
+
+## 安装
+
+当前 Codex CLI 可将此仓库加入 marketplace，再安装插件：
+
+```bash
+codex plugin marketplace add yiten885-ux/write-xuanhuan-web-fiction-zh --ref main
+codex plugin marketplace list
+codex plugin add xuanhuan-storyforge --marketplace <上一步显示的市场名>
+```
+
+若使用本地 checkout：
+
+```bash
+codex plugin marketplace add /absolute/path/to/write-xuanhuan-web-fiction-zh
+codex plugin marketplace list
+codex plugin add xuanhuan-storyforge --marketplace <上一步显示的市场名>
+```
+
+Harness 用户应按其自身的 Skill 加载方式，指向：
+
+```text
+plugins/xuanhuan-storyforge/skills/write-xuanhuan-web-fiction-zh/
+```
+
+## 调用示例
+
+从零构建长篇：
+
+```text
+使用 $write-xuanhuan-web-fiction-zh，从零设计一部中文玄幻网文；先生成故事圣经、力量体系和前三章章纲。
+```
+
+直接交付前三章：
+
+```text
+使用 $write-xuanhuan-web-fiction-zh，直接生成前三章完整正文，并把聊天中的同一份最终正文保存到指定 Markdown 文件。
+```
+
+审校既有正文：
+
+```text
+使用 $write-xuanhuan-web-fiction-zh，检查这三章的钩子、爽点、角色动机、连续性和正文净字数；只给证据、风险与改法。
+```
 
 ## 本地验证
+
+运行全部 Skill 合同与回归测试：
 
 ```bash
 python3 -m unittest discover \
@@ -19,12 +110,53 @@ python3 -m unittest discover \
   -v
 ```
 
-Codex 插件清单还应使用当前 Codex 安装自带的 `validate_plugin.py` 验证。公开市场的最终上线状态以 OpenAI 审核通过、开发者主动发布和公共详情页可安装为准。
+审计前三章的标题、逐章净正文长度与末句钩子：
 
-## 安全与隐私
+```bash
+python3 plugins/xuanhuan-storyforge/skills/write-xuanhuan-web-fiction-zh/scripts/audit_chapter.py \
+  manuscript.md \
+  --require-title \
+  --require-opening-three \
+  --json-out manuscript.qa.json
+```
 
-该插件不包含 MCP 服务，不发起网络请求，也不需要第三方凭据。正文审计脚本只读取指定正文与本地规则文件；使用 `--json-out` 时会另写 QA 报告，但默认不记录使用者的绝对文件路径。
+若任务卡明确设置单章目标净字数，可另加 `--target-effective 3000`；脚本会把目标正负 20% 与当前绝对窗口取交集，且仍逐章独立验收。
 
-## 许可
+校验长篇状态的正文哈希、来源锚、关键帧和相邻版本链：
+
+```bash
+python3 plugins/xuanhuan-storyforge/skills/write-xuanhuan-web-fiction-zh/scripts/validate_story_state.py \
+  current.state.json \
+  --prose manuscript.md \
+  --previous previous.state.json \
+  --json-out current.qa.json
+```
+
+这些检查能证明已覆盖的结构与机械门禁通过，不能单独证明文学质量、读者留存、商业成绩或所有语义连续性。
+
+## 仓库结构
+
+```text
+.
+├── .agents/plugins/marketplace.json
+├── .github/workflows/validate.yml
+├── plugins/xuanhuan-storyforge/
+│   ├── .codex-plugin/plugin.json
+│   ├── assets/
+│   └── skills/write-xuanhuan-web-fiction-zh/
+│       ├── SKILL.md
+│       ├── agents/openai.yaml
+│       ├── assets/
+│       ├── references/
+│       ├── scripts/
+│       └── tests/
+└── submission/
+```
+
+市场展示名为 **玄章天工｜Xuanhuan Storyforge**；稳定的技术 ID 仍为 `write-xuanhuan-web-fiction-zh`，以兼容既有调用。
+
+## 安全、隐私与许可
+
+插件不包含 MCP 服务，不主动发起网络请求，也不要求第三方凭据。审计脚本只读取明确指定的本地文件；使用 `--json-out` 时，报告写入独立侧车文件，默认不记录使用者的绝对路径。
 
 本仓库未授予开源许可。除非权利人另行书面授权，保留全部权利。
