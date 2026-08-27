@@ -40,6 +40,7 @@ class LeanSkillContractTests(unittest.TestCase):
             "references/language-contract.md",
             "references/auction-contract.md",
             "references/reversal-special.md",
+            "references/emotion-contract.md",
             "rules/RULES-INDEX.md",
             "rules/rule-00.md",
             "rules/rule-04.md",
@@ -67,6 +68,7 @@ class LeanSkillContractTests(unittest.TestCase):
             "rules/rule-29.md",
             "rules/rule-30.md",
             "rules/rule-31.md",
+            "rules/rule-32.md",
             "scripts/audit_chapter.py",
             "tests/test_audit_chapter.py",
             "tests/test_skill_contract.py",
@@ -87,7 +89,7 @@ class LeanSkillContractTests(unittest.TestCase):
         self.assertLess(sum(path.stat().st_size for path in markdown), 900_000)
         # v1 与 v2、v3 必须并存；上限只防无关膨胀，不能倒逼删除任一合同。
         self.assertLess((ROOT / "SKILL.md").stat().st_size, 60_000)
-        self.assertLessEqual(len(list((ROOT / "references").glob("*.md"))), 20)
+        self.assertLessEqual(len(list((ROOT / "references").glob("*.md"))), 22)
         self.assertLessEqual(len(list((ROOT / "rules").glob("*.md"))), 35)
 
     def test_frontmatter_is_minimal_and_valid(self) -> None:
