@@ -52,6 +52,7 @@ description: 中文玄幻、仙侠、王朝修仙、系统流等网文的规划�
 - 写小人物推动剧情：读 [references/minor-character-engine.md](references/minor-character-engine.md)（小1-小5：五类推动引擎、硬/软触发、人性逻辑五动机库、字数占比 8-15%、3 章内闭环）。
 - 写主角超预期表现后的旁观者反应：读 [references/reflection-mirror.md](references/reflection-mirror.md)（反1-反5：三类型轮换、触发门槛三级、旁观者叠加、视角权重、后续涟漪）。
 - 写资质测试/测灵根引发全宗震荡+抢人大战：读 [references/aptitude-test-spectacle.md](references/aptitude-test-spectacle.md)（测1-测7：三层对比锚定、感官三叠加、五级失控、抢人三大件、五重收益、快节奏延续、多宗派竞抢）。
+- 生成长篇大纲/规划主线：读 [references/genre-plot-formulas.md](references/genre-plot-formulas.md)（流1-流6+全局：六大流派主线公式、三幕结构、每流派 6 反转节点表、高潮点发布表、间隔建议、全局反转四类轮换）。
 - 爽点选型与逐点操作：读 [references/satisfaction-catalog.md](references/satisfaction-catalog.md)（八大类 39 爽点逐点公式与硬规则；全局三条：间距≥500字、结果可感知、三章三类轮换）。
 - 写女频玄幻爽文：读 [references/female-frequency-satisfaction.md](references/female-frequency-satisfaction.md)（女频 vs 男频底层逻辑对照、通用三段式+打脸四拍、七类 16 爽点逐点公式、规则 66-69：类型轮换/体面三不/情感 6:4/压抑周期）。
 - 设计开局、金手指与硬冲突：读 [references/opening-and-golden-finger.md](references/opening-and-golden-finger.md)（硬冲突 C01-C12、退婚替婚开局 T01-T14、金手指四件套与隐藏层 L0-L5、番茄爆款指标、完整 System Prompt）。
@@ -454,6 +455,13 @@ description: 中文玄幻、仙侠、王朝修仙、系统流等网文的规划�
 3. 爽点锚定：每个爽点必须有可感知结果（见血/碎物/跪地/变色/惊呼）。【R38-02】
 4. 类型轮换：连续三章至少 3 种不同类型的爽点；输出时附类型标注。【R38-03】
 5. 与 12 爽货（S 系列）叠加：S 系列管货分类与分货节奏，本目录管 39 点逐点操作；两者并用不冲突。
+
+#### T. 流派主线公式库（详见 genre-plot-formulas.md）
+
+1. 先选流派再出大纲：玄幻修仙/重生复仇/穿书自救/废柴逆袭/都市神豪/悬疑灵异六选一，按「起点→金手指→各阶段突破→反转节点→高潮点→结局」生成。【R40-01~06】
+2. 六流派各自带三幕结构与六个反转节点表（含章节位置与爽点类型）；反转类型从[底牌/身份/资源/理解]四类轮换，连续 3 章同型 ≤2 次。【R40-07】
+3. 高潮点按流派间隔模板投放：小高潮每 8-15 章、中高潮每 20-35 章、大高潮每 35-55 章、终极高潮在总篇幅 80%-90%；每个高潮点标明字数与必备元素。【R40-08】
+4. 与 EVENT-RULE-09（考核事件载体）、satisfaction-catalog.md（爽点弹药）、R38 全局三条（间距/锚定/轮换）配套使用。
 
 #### S. 女频玄幻爽点模块（详见 female-frequency-satisfaction.md）
 
