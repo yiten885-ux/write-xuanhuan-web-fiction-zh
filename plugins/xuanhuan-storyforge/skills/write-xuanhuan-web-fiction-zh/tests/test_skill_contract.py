@@ -43,6 +43,9 @@ class LeanSkillContractTests(unittest.TestCase):
             "references/emotion-contract.md",
             "references/naming-contract.md",
             "references/exam-contract.md",
+            "references/minor-character-engine.md",
+            "references/reflection-mirror.md",
+            "references/aptitude-test-spectacle.md",
             "rules/RULES-INDEX.md",
             "rules/rule-00.md",
             "rules/rule-04.md",
@@ -73,6 +76,9 @@ class LeanSkillContractTests(unittest.TestCase):
             "rules/rule-32.md",
             "rules/rule-33.md",
             "rules/rule-34.md",
+            "rules/rule-35.md",
+            "rules/rule-36.md",
+            "rules/rule-37.md",
             "scripts/audit_chapter.py",
             "tests/test_audit_chapter.py",
             "tests/test_skill_contract.py",
@@ -88,12 +94,12 @@ class LeanSkillContractTests(unittest.TestCase):
         # v3 契约：SKILL.md 保持精简，参考文档按主题按需加载，rules/ 为溯源底账（不进运行时上下文）。
         markdown = list(ROOT.rglob("*.md"))
         text_files = list(ROOT.rglob("*.txt"))
-        self.assertLessEqual(len(markdown), 60)
+        self.assertLessEqual(len(markdown), 65)
         self.assertEqual([], text_files)
         self.assertLess(sum(path.stat().st_size for path in markdown), 900_000)
         # v1 与 v2、v3 必须并存；上限只防无关膨胀，不能倒逼删除任一合同。
-        self.assertLess((ROOT / "SKILL.md").stat().st_size, 60_000)
-        self.assertLessEqual(len(list((ROOT / "references").glob("*.md"))), 24)
+        self.assertLess((ROOT / "SKILL.md").stat().st_size, 70_000)
+        self.assertLessEqual(len(list((ROOT / "references").glob("*.md"))), 28)
         self.assertLessEqual(len(list((ROOT / "rules").glob("*.md"))), 35)
 
     def test_frontmatter_is_minimal_and_valid(self) -> None:
