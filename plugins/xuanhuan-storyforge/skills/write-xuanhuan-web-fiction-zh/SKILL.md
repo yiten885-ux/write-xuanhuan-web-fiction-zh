@@ -53,6 +53,7 @@ description: 中文玄幻、仙侠、王朝修仙、系统流等网文的规划�
 - 写主角超预期表现后的旁观者反应：读 [references/reflection-mirror.md](references/reflection-mirror.md)（反1-反5：三类型轮换、触发门槛三级、旁观者叠加、视角权重、后续涟漪）。
 - 写资质测试/测灵根引发全宗震荡+抢人大战：读 [references/aptitude-test-spectacle.md](references/aptitude-test-spectacle.md)（测1-测7：三层对比锚定、感官三叠加、五级失控、抢人三大件、五重收益、快节奏延续、多宗派竞抢）。
 - 爽点选型与逐点操作：读 [references/satisfaction-catalog.md](references/satisfaction-catalog.md)（八大类 39 爽点逐点公式与硬规则；全局三条：间距≥500字、结果可感知、三章三类轮换）。
+- 写女频玄幻爽文：读 [references/female-frequency-satisfaction.md](references/female-frequency-satisfaction.md)（女频 vs 男频底层逻辑对照、通用三段式+打脸四拍、七类 16 爽点逐点公式、规则 66-69：类型轮换/体面三不/情感 6:4/压抑周期）。
 - 设计开局、金手指与硬冲突：读 [references/opening-and-golden-finger.md](references/opening-and-golden-finger.md)（硬冲突 C01-C12、退婚替婚开局 T01-T14、金手指四件套与隐藏层 L0-L5、番茄爆款指标、完整 System Prompt）。
 - 长篇记忆与连续性工程：读 [references/memory-and-continuity.md](references/memory-and-continuity.md)（四层记忆、上下文包、记忆回写协议、门禁）。
 - 规则溯源与覆盖底账：读 [rules/RULES-INDEX.md](rules/RULES-INDEX.md)（26 份源报告 → 769 条规则覆盖矩阵与去重说明）。
@@ -453,6 +454,16 @@ description: 中文玄幻、仙侠、王朝修仙、系统流等网文的规划�
 3. 爽点锚定：每个爽点必须有可感知结果（见血/碎物/跪地/变色/惊呼）。【R38-02】
 4. 类型轮换：连续三章至少 3 种不同类型的爽点；输出时附类型标注。【R38-03】
 5. 与 12 爽货（S 系列）叠加：S 系列管货分类与分货节奏，本目录管 39 点逐点操作；两者并用不冲突。
+
+#### S. 女频玄幻爽点模块（详见 female-frequency-satisfaction.md）
+
+1. 底层逻辑分频：女频核心=情感拉扯+独一份偏爱+自我成长+仇人报应（被偏爱+自我圆满）；男频 39 爽点（R 节）不直接套用于女频。【对照表】
+2. 通用公式：爽点=压抑(写具体)+蓄势(隐忍/布局)+释放(打脸四拍：嘲讽→沉默→碾压→围观)；升级铁律=同爽点必须升级对象/规模/方式（打脸同窗→…→打脸天道）。
+3. 类型轮换：七类[废柴逆袭/马甲掉马/打脸虐渣/情感爽点/身份反转/团宠/实力碾压]连续 3 章同型 ≤2 次。【规则六十六】
+4. 打脸体面三不：不脏手（姿态优雅）、不掉价（不打低级的脸）、不解气不罢休（对方彻底社死）；禁止泼妇骂街/无旁观者/打脸太轻。【规则六十七】
+5. 情感配比：实力:情感=6:4；每 3 章至少一次情感类爽点，否则判感情线缺失。【规则六十八】
+6. 压抑周期：番茄 1-2 章释放、起点 3-5 章；压抑必须写具体。【规则六十九】
+7. 烈度公式：S=压抑具体度×蓄势时长×围观人数；S<15 加强压抑或围观。核心铁律：情感线是主菜实力线是配菜；被偏爱和掌控感是女频第一爽点。
 
 #### J. 拍卖合同（详见 auction-contract.md）
 
