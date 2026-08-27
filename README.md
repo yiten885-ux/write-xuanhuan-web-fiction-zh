@@ -11,6 +11,18 @@
 - `plugins/xuanhuan-storyforge/skills/write-xuanhuan-web-fiction-zh/`：Skill 本体。
 - `submission/`：OpenAI 公开市场的文案、测试用例和人工提交清单。
 
+## 版本与规则来源
+
+- **v1/v2**：连续性工程与硬冲击章程（01–10 锁、九项留存硬锁、逐章净字数锁、审计脚本）。
+- **v3（2026-08）**：蒸馏自 26 份创作技法研究报告（`rules/` 中 26 份 rule-XX.md 为逐份溯源底账，共 769 条硬规则；覆盖矩阵见 `rules/RULES-INDEX.md`），新增 6 份主题参考：
+  - `references/climax-techniques.md`：八型高潮（C01-C08）、单元高潮（U01-U10）
+  - `references/hooks-and-chains.md`：章末八型（K01-K14）、钩子链（L01-L12）、单元咬合（B01-B04）
+  - `references/satisfaction-and-pacing.md`：12 种爽货（S01-S12）、四级爽点、铺压弹债（R01-R10）
+  - `references/reversal-anguish-meme.md`：反转（F01-F14）、虐点（N01-N14）、热梗（M01-M10）
+  - `references/opening-and-golden-finger.md`：硬冲突（C01-C12）、退婚替婚开局（T01-T14）、金手指隐藏层（L0-L5）
+  - `references/memory-and-continuity.md`：四层记忆、上下文包、记忆回写协议
+- 蒸馏规则以 SKILL.md §5.19 硬锁形式与 v1/v2 并列累积，多报告口径冲突已在 §5.19E 统一。
+
 ## 本地验证
 
 ```bash
@@ -27,4 +39,4 @@ Codex 插件清单还应使用当前 Codex 安装自带的 `validate_plugin.py` 
 
 ## 许可
 
-本仓库未授予开源许可。除非权利人另行书面授权，保留全部权利。
+MIT License（见 [LICENSE](LICENSE)）。免费公开使用：可自由使用、修改与再分发，需保留版权声明。

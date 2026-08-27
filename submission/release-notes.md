@@ -1,5 +1,13 @@
 # Release notes
 
+## 2.0.0
+
+- 蒸馏 26 份创作技法研究报告（769 条硬规则，20 份唯一内容）为 v3 创作技法合同，与 v1/v2 并列累积，不替换、不放宽任何既有锁。
+- 新增 6 份主题参考：八型高潮与单元高潮（climax-techniques）、钩链与章末八型（hooks-and-chains）、12 种爽货与铺压弹债节奏（satisfaction-and-pacing）、反转/虐点/热梗（reversal-anguish-meme）、开局/金手指/硬冲突（opening-and-golden-finger）、外置记忆与连续性（memory-and-continuity）。
+- 新增 `rules/` 溯源底账：26 份 rule-XX.md 与覆盖矩阵 RULES-INDEX.md，逐份对应源报告，任何规则修改必须回源更新。
+- SKILL.md 新增 §5.19 蒸馏硬锁与口径调和表（12 货唯一口径、L0-L5 层号、5 型↔八型映射、核心刀≤200 字等）。
+- 仓库改为 MIT 许可并公开，免费使用、修改与再分发。
+
 ## 1.0.1
 
 - 同步最新版 `write-xuanhuan-web-fiction-zh`，将前三万字留存合同由六项扩展为九项，并保持既有规则累积生效。

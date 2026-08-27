@@ -23,6 +23,40 @@ class LeanSkillContractTests(unittest.TestCase):
             "references/revision-continuity.md",
             "references/opening-retention-six-locks.md",
             "references/zh-style-watchlist.json",
+            # v3：26 份研究报告蒸馏新增（创作技法层）
+            "references/climax-techniques.md",
+            "references/hooks-and-chains.md",
+            "references/satisfaction-and-pacing.md",
+            "references/reversal-anguish-meme.md",
+            "references/memory-and-continuity.md",
+            "references/opening-and-golden-finger.md",
+            "rules/RULES-INDEX.md",
+            "rules/rule-00.md",
+            "rules/rule-01.md",
+            "rules/rule-02.md",
+            "rules/rule-03.md",
+            "rules/rule-04.md",
+            "rules/rule-05.md",
+            "rules/rule-06.md",
+            "rules/rule-07.md",
+            "rules/rule-08.md",
+            "rules/rule-09.md",
+            "rules/rule-10.md",
+            "rules/rule-11.md",
+            "rules/rule-12.md",
+            "rules/rule-13.md",
+            "rules/rule-14.md",
+            "rules/rule-15.md",
+            "rules/rule-16.md",
+            "rules/rule-17.md",
+            "rules/rule-18.md",
+            "rules/rule-19.md",
+            "rules/rule-20.md",
+            "rules/rule-21.md",
+            "rules/rule-22.md",
+            "rules/rule-23.md",
+            "rules/rule-24.md",
+            "rules/rule-25.md",
             "scripts/audit_chapter.py",
             "tests/test_audit_chapter.py",
             "tests/test_skill_contract.py",
@@ -35,14 +69,16 @@ class LeanSkillContractTests(unittest.TestCase):
         self.assertEqual(required, actual)
 
     def test_markdown_inventory_stays_lean(self) -> None:
+        # v3 契约：SKILL.md 保持精简，参考文档按主题按需加载，rules/ 为溯源底账（不进运行时上下文）。
         markdown = list(ROOT.rglob("*.md"))
         text_files = list(ROOT.rglob("*.txt"))
-        self.assertLessEqual(len(markdown), 7)
+        self.assertLessEqual(len(markdown), 45)
         self.assertEqual([], text_files)
-        self.assertLess(sum(path.stat().st_size for path in markdown), 95_000)
-        # v1 与 v2 必须并存；上限只防无关膨胀，不能倒逼删除任一合同。
-        self.assertLess((ROOT / "SKILL.md").stat().st_size, 45_000)
-        self.assertLessEqual(len(list((ROOT / "references").glob("*.md"))), 4)
+        self.assertLess(sum(path.stat().st_size for path in markdown), 800_000)
+        # v1 与 v2、v3 必须并存；上限只防无关膨胀，不能倒逼删除任一合同。
+        self.assertLess((ROOT / "SKILL.md").stat().st_size, 60_000)
+        self.assertLessEqual(len(list((ROOT / "references").glob("*.md"))), 12)
+        self.assertLessEqual(len(list((ROOT / "rules").glob("*.md"))), 30)
 
     def test_frontmatter_is_minimal_and_valid(self) -> None:
         skill = self.read("SKILL.md")
