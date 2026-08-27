@@ -41,7 +41,7 @@ description: 中文玄幻、仙侠、王朝修仙、系统流等网文的规划�
 - 写高潮章、单元高潮或章末收嘴：读 [references/climax-techniques.md](references/climax-techniques.md)（八型高潮 C01-C08、单元高潮 U01-U10、选嘴表与优先级、强嘴频率）。
 - 写章末钩子、钩链、悬念与埋伏：读 [references/hooks-and-chains.md](references/hooks-and-chains.md)（章末八型 K01-K14、钩子链 L01-L12、单元咬合 B01-B04、钩/悬念/埋伏三分类）。
 - 设计爽点货盘与节奏波形：读 [references/satisfaction-and-pacing.md](references/satisfaction-and-pacing.md)（12 种爽货 S01-S12、四级爽点密度、铺压弹债 R01-R10、平台对照）。
-- 写反转、虐点与热梗：读 [references/reversal-anguish-meme.md](references/reversal-anguish-meme.md)（反转 F01-F14 与十套公式、虐点 N01-N14、热梗 M01-M10）。
+- 写反转、虐点与热梗：读 [references/reversal-anguish-meme.md](references/reversal-anguish-meme.md)（反转 F01-F14 与十套公式、虐点 N01-N14、热梗 M01-M10）；反转揭示瞬间另叠加 [references/reversal-special.md](references/reversal-special.md)（转1-转5：类型轮换、三段式、线索密度 D≥2.0、收益即时兑现、情绪强度 E≥5.0）。
 - 套路选型与组合（96 套路库）：先读 [references/tropes-index.md](references/tropes-index.md) 选 PRIMARY_T + 可选 SUB_T（一章最多两个），再只加载 [references/tropes-001-050.md](references/tropes-001-050.md) 或 [references/tropes-051-096.md](references/tropes-051-096.md) 中对应编号条目；所有套路必须先满足 [references/global-contract.md](references/global-contract.md)（通用前置七条 + 总约束八条 + 套餐硬规则），组合按 [references/stack-recipes.md](references/stack-recipes.md)。
 - 设计打脸/结算章前：读 [references/resolution-balance.md](references/resolution-balance.md)（智武结算配比 7:2:1 锁、章结算标签、点破句模具、打戏最低配置、自检三问）。
 - 写作语言层闸门：写/改/审正文全程执行 [references/language-contract.md](references/language-contract.md)（白短冲有物、语1-语15、禁用词/慎用词表、语言指纹病表、去 AI 味五刀）。
@@ -402,6 +402,15 @@ description: 中文玄幻、仙侠、王朝修仙、系统流等网文的规划�
 4. 四种主糖四选一：穷样一口价 / 赝品变真 / 认主飞来 / 仇人拍到自家赃；真香级只放余波。【R30-12】
 5. 七拍套餐：入席被辱→拍品亮相→判没资格→出手（≤200字）→改口锤落→牌碎→金主或刑堂起身（新债/半揭收尾）。
 6. 抢夺时仍须报数字、对照物碎；点破≤一句≤20字、两百字内锤落或物到手。【R30-11/13】
+
+#### K. 反转专精模块（详见 reversal-special.md）
+
+1. 类型轮换：反转从[底牌/身份/资源/理解]四类选一，不得与上一章同型；禁止连续三章只用底牌反转。【R31-01/02】
+2. 三段式：铺垫（前 200-500 字建立默认预期）→触发（50-100 字）→揭示（100-300 字含「为什么之前没发现」的闭环）；禁止直接报答案。【R31-03/04】
+3. 线索前置：反转前 ≥500 字埋入显性≥1 + 隐性≥2（显:隐=1:2），密度 D≥2.0；禁止事后补丁。【R31-05/06/07】
+4. 收益即时：揭示后同章内兑现局势逆转/地位跃升/情绪碾压至少一项；反转后 200 字内主角仍被动=收益悬空，强制补即时效果。【R31-08/09】
+5. 情绪曲线：反转前≥3句压抑、触发≥1个爆点词、反转后≥2个旁观者震惊反应；E≥5.0。【R31-10/11】
+6. 与 R13 四拍叠加：四拍管宏观节奏，本模块管揭示瞬间微观结构与量化验收；反转若落章末仍须双钩子+客观异常。【见 reversal-special.md 嵌入节】
 
 ## 6. 从零创作流程
 
