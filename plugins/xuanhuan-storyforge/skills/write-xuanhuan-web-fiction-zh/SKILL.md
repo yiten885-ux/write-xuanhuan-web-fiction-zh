@@ -42,6 +42,7 @@ description: 中文玄幻、仙侠、王朝修仙、系统流等网文的规划�
 - 写章末钩子、钩链、悬念与埋伏：读 [references/hooks-and-chains.md](references/hooks-and-chains.md)（章末八型 K01-K14、钩子链 L01-L12、单元咬合 B01-B04、钩/悬念/埋伏三分类）。
 - 设计爽点货盘与节奏波形：读 [references/satisfaction-and-pacing.md](references/satisfaction-and-pacing.md)（12 种爽货 S01-S12、四级爽点密度、铺压弹债 R01-R10、平台对照）。
 - 写反转、虐点与热梗：读 [references/reversal-anguish-meme.md](references/reversal-anguish-meme.md)（反转 F01-F14 与十套公式、虐点 N01-N14、热梗 M01-M10）。
+- 套路选型与组合（96 套路库）：读 [references/tropes-system.md](references/tropes-system.md)（T001-T096 最小加载、套路字段 WHEN/HARD/FORMULA/BAN/STACK、模型 5 步工作流、NOSTACK 原则）。
 - 设计开局、金手指与硬冲突：读 [references/opening-and-golden-finger.md](references/opening-and-golden-finger.md)（硬冲突 C01-C12、退婚替婚开局 T01-T14、金手指四件套与隐藏层 L0-L5、番茄爆款指标、完整 System Prompt）。
 - 长篇记忆与连续性工程：读 [references/memory-and-continuity.md](references/memory-and-continuity.md)（四层记忆、上下文包、记忆回写协议、门禁）。
 - 规则溯源与覆盖底账：读 [rules/RULES-INDEX.md](rules/RULES-INDEX.md)（26 份源报告 → 769 条规则覆盖矩阵与去重说明）。
@@ -359,6 +360,16 @@ description: 中文玄幻、仙侠、王朝修仙、系统流等网文的规划�
 #### F. 溯源
 
 任何规则修改必须回到 [rules/RULES-INDEX.md](rules/RULES-INDEX.md) 对应 rule-XX.md 更新；编纂参考文档中的每条规则均标注来源编号，可按编号溯源到源报告页码。
+
+#### G. 爽文套路系统（96 套路库 · 最小加载，详见 tropes-system.md）
+
+1. 套路必须最小加载：先选 ID，再只加载该号的 HARD/FORMULA；禁止一次吞 96 条。【R26-01】
+2. 一章最多两个套路：PRIMARY_T + 可选 SUB_T；禁止超过两个。【R26-06】
+3. 必须先填套路卡再写正文；禁止跳过套路卡直接写正文。【R26-08】
+4. 撞 BAN 或全局 S/F/V 必须废章重写，禁止带病续写（S/F/V 确切含义源报告未给出，待补）。【R26-09】
+5. 每号套路必须使用统一字段：WHEN / HARD / FORMULA（PRESS→PAYOFF→HOOK→VISIBLE）/ BAN / STACK。【R26-03】
+6. 已披露套路组合：退婚开局最小加载 T002+T072；套餐用 T089；真香用 T051（禁止与 T002 同章）；T001 救美锁死为辅线（可发生、只作证人物证，禁止当主糖、禁止性过程）。【R26-04/R26-10】
+7. 本套路的 96 条全文中仅 T001/T002/T051/T072/T089 已披露，其余 91 条待补；补入时必须遵循 R26-03 字段与 R26-02 目录布局，并同步更新 tropes-system.md。
 
 ## 6. 从零创作流程
 
