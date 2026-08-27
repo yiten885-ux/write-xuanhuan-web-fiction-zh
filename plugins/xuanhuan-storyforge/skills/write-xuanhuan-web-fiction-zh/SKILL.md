@@ -52,6 +52,7 @@ description: 中文玄幻、仙侠、王朝修仙、系统流等网文的规划�
 - 写小人物推动剧情：读 [references/minor-character-engine.md](references/minor-character-engine.md)（小1-小5：五类推动引擎、硬/软触发、人性逻辑五动机库、字数占比 8-15%、3 章内闭环）。
 - 写主角超预期表现后的旁观者反应：读 [references/reflection-mirror.md](references/reflection-mirror.md)（反1-反5：三类型轮换、触发门槛三级、旁观者叠加、视角权重、后续涟漪）。
 - 写资质测试/测灵根引发全宗震荡+抢人大战：读 [references/aptitude-test-spectacle.md](references/aptitude-test-spectacle.md)（测1-测7：三层对比锚定、感官三叠加、五级失控、抢人三大件、五重收益、快节奏延续、多宗派竞抢）。
+- 爽点选型与逐点操作：读 [references/satisfaction-catalog.md](references/satisfaction-catalog.md)（八大类 39 爽点逐点公式与硬规则；全局三条：间距≥500字、结果可感知、三章三类轮换）。
 - 设计开局、金手指与硬冲突：读 [references/opening-and-golden-finger.md](references/opening-and-golden-finger.md)（硬冲突 C01-C12、退婚替婚开局 T01-T14、金手指四件套与隐藏层 L0-L5、番茄爆款指标、完整 System Prompt）。
 - 长篇记忆与连续性工程：读 [references/memory-and-continuity.md](references/memory-and-continuity.md)（四层记忆、上下文包、记忆回写协议、门禁）。
 - 规则溯源与覆盖底账：读 [rules/RULES-INDEX.md](rules/RULES-INDEX.md)（26 份源报告 → 769 条规则覆盖矩阵与去重说明）。
@@ -444,6 +445,14 @@ description: 中文玄幻、仙侠、王朝修仙、系统流等网文的规划�
 5. 五重收益清单：身份/功法/资源/人脉/信息/地位至少 5 项立即兑现；禁止空头支票。【R37-09/10】
 6. 快节奏延续：测试后 3 段内新任务/新冲突/新信息/新场地；禁止回房休息。【R37-11/12】
 7. 多宗派竞抢（如适用）：宗派≥3、每宗开价与争执、主角选择震惊全场。【R37-13/14】
+
+#### R. 爽点大全目录（详见 satisfaction-catalog.md）
+
+1. 八大类 39 爽点：尊严（01-05）/实力（06-10）/资源（11-15）/关系（16-20）/智谋（21-25）/命运（26-30）/群体反应（31-35）/爆发突破（36-39）；每点有公式与硬规则，按需查阅。【R38-04】
+2. 爽点间距：连续两个高烈度爽点间隔 ≥500 字或一个场景过渡。【R38-01】
+3. 爽点锚定：每个爽点必须有可感知结果（见血/碎物/跪地/变色/惊呼）。【R38-02】
+4. 类型轮换：连续三章至少 3 种不同类型的爽点；输出时附类型标注。【R38-03】
+5. 与 12 爽货（S 系列）叠加：S 系列管货分类与分货节奏，本目录管 39 点逐点操作；两者并用不冲突。
 
 #### J. 拍卖合同（详见 auction-contract.md）
 
