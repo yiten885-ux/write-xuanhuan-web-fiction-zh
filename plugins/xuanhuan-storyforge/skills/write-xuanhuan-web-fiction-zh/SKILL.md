@@ -42,7 +42,7 @@ description: 中文玄幻、仙侠、王朝修仙、系统流等网文的规划�
 - 写章末钩子、钩链、悬念与埋伏：读 [references/hooks-and-chains.md](references/hooks-and-chains.md)（章末八型 K01-K14、钩子链 L01-L12、单元咬合 B01-B04、钩/悬念/埋伏三分类）。
 - 设计爽点货盘与节奏波形：读 [references/satisfaction-and-pacing.md](references/satisfaction-and-pacing.md)（12 种爽货 S01-S12、四级爽点密度、铺压弹债 R01-R10、平台对照）。
 - 写反转、虐点与热梗：读 [references/reversal-anguish-meme.md](references/reversal-anguish-meme.md)（反转 F01-F14 与十套公式、虐点 N01-N14、热梗 M01-M10）。
-- 套路选型与组合（96 套路库）：读 [references/tropes-system.md](references/tropes-system.md)（T001-T096 最小加载、套路字段 WHEN/HARD/FORMULA/BAN/STACK、模型 5 步工作流、NOSTACK 原则）。
+- 套路选型与组合（96 套路库）：先读 [references/tropes-index.md](references/tropes-index.md) 选 PRIMARY_T + 可选 SUB_T（一章最多两个），再只加载 [references/tropes-001-050.md](references/tropes-001-050.md) 或 [references/tropes-051-096.md](references/tropes-051-096.md) 中对应编号条目；所有套路必须先满足 [references/global-contract.md](references/global-contract.md)（通用前置七条 + 总约束八条 + 套餐硬规则），组合按 [references/stack-recipes.md](references/stack-recipes.md)。
 - 设计开局、金手指与硬冲突：读 [references/opening-and-golden-finger.md](references/opening-and-golden-finger.md)（硬冲突 C01-C12、退婚替婚开局 T01-T14、金手指四件套与隐藏层 L0-L5、番茄爆款指标、完整 System Prompt）。
 - 长篇记忆与连续性工程：读 [references/memory-and-continuity.md](references/memory-and-continuity.md)（四层记忆、上下文包、记忆回写协议、门禁）。
 - 规则溯源与覆盖底账：读 [rules/RULES-INDEX.md](rules/RULES-INDEX.md)（26 份源报告 → 769 条规则覆盖矩阵与去重说明）。
@@ -369,7 +369,8 @@ description: 中文玄幻、仙侠、王朝修仙、系统流等网文的规划�
 4. 撞 BAN 或全局 S/F/V 必须废章重写，禁止带病续写（S/F/V 确切含义源报告未给出，待补）。【R26-09】
 5. 每号套路必须使用统一字段：WHEN / HARD / FORMULA（PRESS→PAYOFF→HOOK→VISIBLE）/ BAN / STACK。【R26-03】
 6. 已披露套路组合：退婚开局最小加载 T002+T072；套餐用 T089；真香用 T051（禁止与 T002 同章）；T001 救美锁死为辅线（可发生、只作证人物证，禁止当主糖、禁止性过程）。【R26-04/R26-10】
-7. 本套路的 96 条全文中仅 T001/T002/T051/T072/T089 已披露，其余 91 条待补；补入时必须遵循 R26-03 字段与 R26-02 目录布局，并同步更新 tropes-system.md。
+7. 96 套路全文（T001-T096）已全部入库：选型看 [tropes-index.md](references/tropes-index.md)，全文看 [tropes-001-050.md](references/tropes-001-050.md) 与 [tropes-051-096.md](references/tropes-051-096.md)，通用规则看 [global-contract.md](references/global-contract.md)，组合看 [stack-recipes.md](references/stack-recipes.md)。【R27】
+8. 套路通用公式：当众 → 损失先落地 → 爆发≤200字（对照物碎）→ 收获可视化 → 高一档露齿 → 章末更高层进场；验收标准逐条写在套路条目内。【R27-01~R27-17】
 
 ## 6. 从零创作流程
 

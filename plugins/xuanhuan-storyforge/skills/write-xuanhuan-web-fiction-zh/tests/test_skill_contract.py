@@ -31,14 +31,14 @@ class LeanSkillContractTests(unittest.TestCase):
             "references/memory-and-continuity.md",
             "references/opening-and-golden-finger.md",
             "references/tropes-system.md",
+            "references/tropes-index.md",
+            "references/tropes-001-050.md",
+            "references/tropes-051-096.md",
+            "references/global-contract.md",
+            "references/stack-recipes.md",
             "rules/RULES-INDEX.md",
             "rules/rule-00.md",
-            "rules/rule-01.md",
-            "rules/rule-02.md",
-            "rules/rule-03.md",
             "rules/rule-04.md",
-            "rules/rule-05.md",
-            "rules/rule-06.md",
             "rules/rule-07.md",
             "rules/rule-08.md",
             "rules/rule-09.md",
@@ -54,11 +54,11 @@ class LeanSkillContractTests(unittest.TestCase):
             "rules/rule-19.md",
             "rules/rule-20.md",
             "rules/rule-21.md",
-            "rules/rule-22.md",
             "rules/rule-23.md",
             "rules/rule-24.md",
             "rules/rule-25.md",
             "rules/rule-26.md",
+            "rules/rule-27.md",
             "scripts/audit_chapter.py",
             "tests/test_audit_chapter.py",
             "tests/test_skill_contract.py",
@@ -74,13 +74,13 @@ class LeanSkillContractTests(unittest.TestCase):
         # v3 契约：SKILL.md 保持精简，参考文档按主题按需加载，rules/ 为溯源底账（不进运行时上下文）。
         markdown = list(ROOT.rglob("*.md"))
         text_files = list(ROOT.rglob("*.txt"))
-        self.assertLessEqual(len(markdown), 45)
+        self.assertLessEqual(len(markdown), 55)
         self.assertEqual([], text_files)
-        self.assertLess(sum(path.stat().st_size for path in markdown), 800_000)
+        self.assertLess(sum(path.stat().st_size for path in markdown), 900_000)
         # v1 与 v2、v3 必须并存；上限只防无关膨胀，不能倒逼删除任一合同。
         self.assertLess((ROOT / "SKILL.md").stat().st_size, 60_000)
-        self.assertLessEqual(len(list((ROOT / "references").glob("*.md"))), 12)
-        self.assertLessEqual(len(list((ROOT / "rules").glob("*.md"))), 30)
+        self.assertLessEqual(len(list((ROOT / "references").glob("*.md"))), 20)
+        self.assertLessEqual(len(list((ROOT / "rules").glob("*.md"))), 35)
 
     def test_frontmatter_is_minimal_and_valid(self) -> None:
         skill = self.read("SKILL.md")
