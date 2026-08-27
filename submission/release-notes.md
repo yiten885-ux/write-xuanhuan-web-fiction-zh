@@ -56,3 +56,9 @@
 - 新增情绪合理性合同（report 32）：情1-情5 五条硬规则——九场景情绪锚定清单、三级烈度匹配（字数/动作/感官配额）、生理本能优先（先身体再心理再动作）、宣泄与克制节奏（隐忍≤2章、隐忍:宣泄=6:4）、旁观者共鸣放大器（高烈度≥2反应）。
 - 新增 references/emotion-contract.md 与 rules/rule-32.md；SKILL.md §5.19 新增 L 节；自检清单扩展至 40 项。
 - RULES-INDEX 更新至 32 来源 855 条规则；与 language-contract 语6、reversal-special 转5 同源一致。
+
+## 2.4.0
+
+- 新增玄幻命名合同（report 33）：命1-命5——丹药/功法/兵器法器三大类命名公式与词库、品阶字数映射（凡品2-4字→神品10+）、名字即线索（禁止命名欺诈）、极简神兵例外≤3次。
+- 新增 references/naming-contract.md 与 rules/rule-33.md；SKILL.md §5.19 新增 M 节；命名自检清单（品阶匹配/句式/前后缀自洽）。
+- RULES-INDEX 更新至 33 来源 860 条规则。
