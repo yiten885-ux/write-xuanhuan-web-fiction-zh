@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OpenAI Portal 投放操作手册 — 玄章天工 v2.9.3</title>
+<style>
+  :root{--bg:#0f1115;--card:#171a21;--line:#262b36;--fg:#e8eaf0;--mut:#9aa3b2;--acc:#e8a33d;--ok:#4ade80;--warn:#fbbf24;--blue:#60a5fa;--red:#f87171;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--fg);font-family:-apple-system,"PingFang SC","Noto Sans SC",sans-serif;line-height:1.7;padding:40px 20px;}
+  .wrap{max-width:920px;margin:0 auto;}
+  h1{font-size:25px;margin-bottom:6px;}
+  h2{font-size:19px;margin:34px 0 12px;padding-left:10px;border-left:4px solid var(--acc);}
+  .sub{color:var(--mut);font-size:14px;margin-bottom:22px;}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;margin:12px 0;}
+  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top;}
+  th{color:var(--mut);font-weight:600;white-space:nowrap;}
+  .ok{color:var(--ok);font-weight:600;}
+  .pend{color:var(--warn);font-weight:600;}
+  .block{color:var(--red);font-weight:600;}
+  code{background:#0d0f13;border:1px solid var(--line);border-radius:4px;padding:1px 6px;font-size:12.5px;word-break:break-all;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:12px 0;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin:14px 0;}
+  ol,ul{padding-left:22px;}
+  li{margin:6px 0;}
+  .step{display:flex;gap:14px;margin-bottom:14px;}
+  .marker{flex:0 0 28px;height:28px;border-radius:50%;background:var(--acc);color:#141414;font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .step-body{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 16px;flex:1;}
+  .step-title{font-weight:600;font-size:14px;}
+  .step-text{font-size:13px;color:var(--mut);margin-top:4px;}
+  .warnbox{background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.35);border-radius:10px;padding:12px 16px;margin:14px 0;font-size:13.5px;}
+  .okbox{background:rgba(74,222,128,.07);border:1px solid rgba(74,222,128,.3);border-radius:10px;padding:12px 16px;margin:14px 0;font-size:13.5px;}
+  .footer{margin-top:36px;color:var(--mut);font-size:12px;border-top:1px solid var(--line);padding-top:14px;}
+</style>
+</head>
+<body><div class="wrap">
+<h1>OpenAI Portal 投放操作手册</h1>
+<div class="sub">玄章天工｜write-xuanhuan-web-fiction-zh · v2.9.3 · 生成于 2026-08-27 · 状态：等待发布者登录 Portal</div>
+
+<h2>一、当前状态总览</h2>
+<table>
+<tr><th>事项</th><th>状态</th><th>说明</th></tr>
+<tr><td>仓库公开（MIT）</td><td class="ok">完成</td><td>github.com/yiten885-ux/write-xuanhuan-web-fiction-zh（v2.9.3，CI 绿）</td></tr>
+<tr><td>隐私政策公开页</td><td class="ok">完成</td><td>PRIVACY.md 已推送，HTTP 200</td></tr>
+<tr><td>服务条款公开页</td><td class="ok">完成</td><td>TERMS.md 已推送，HTTP 200</td></tr>
+<tr><td>四个表单 URL</td><td class="ok">就绪</td><td>见下方「表单字段映射」</td></tr>
+<tr><td>提交物料五件套</td><td class="ok">就绪</td><td>listing-copy / release-notes / test-cases / checklist / public-pages 全部刷新至 v2.9.3</td></tr>
+<tr><td>Codex 本机 marketplace</td><td class="ok">完成</td><td>Git 源已注册，插件可见并已安装 v2.9.3</td></tr>
+<tr><td>Portal 登录</td><td class="block">待发布者操作</td><td>可见浏览器已停在 platform.openai.com/login（需账号凭据，无法代登）</td></tr>
+<tr><td>Apps Management Write 核验</td><td class="pend">待登录后</td><td>登录后第一步核验</td></tr>
+<tr><td>身份验证状态</td><td class="pend">待登录后</td><td>登录后第二步核验；如需证件材料须发布者本人完成</td></tr>
+</table>
+
+<h2>二、登录步骤（发布者本人，约 1 分钟）</h2>
+<div class="timeline">
+  <div class="step"><div class="marker">1</div><div class="step-body"><div class="step-title">在右侧可见浏览器面板操作</div><div class="step-text">面板当前已停在 platform.openai.com/login。若显示 Cloudflare 验证框，点击勾选即可（自动脚本可能过不了，人工点一下通常秒过）。</div></div></div>
+  <div class="step"><div class="marker">2</div><div class="step-body"><div class="step-title">选择登录方式</div><div class="step-text">Google / Apple / Microsoft / 手机号 / 邮箱，任选你 codex 已登录的同一个 OpenAI 账号。完成验证码/OTP。</div></div></div>
+  <div class="step"><div class="marker">3</div><div class="step-body"><div class="step-title">登录后告知助手</div><div class="step-text">说一句「登录好了」，助手会立刻继续：核验权限 → 身份验证状态 → 填 URL → 确认政策声明。</div></div></div>
+</div>
+
+<h2>三、表单字段映射（四个 URL 直接复制）</h2>
+<div class="card">
+<table>
+<tr><th>表单字段</th><th>填入值</th></tr>
+<tr><td>Website（网站）</td><td><code>https://github.com/yiten885-ux/write-xuanhuan-web-fiction-zh</code></td></tr>
+<tr><td>Support（支持）</td><td><code>https://github.com/yiten885-ux/write-xuanhuan-web-fiction-zh/issues</code></td></tr>
+<tr><td>Privacy Policy（隐私政策）</td><td><code>https://github.com/yiten885-ux/write-xuanhuan-web-fiction-zh/blob/main/PRIVACY.md</code></td></tr>
+<tr><td>Terms of Service（服务条款）</td><td><code>https://github.com/yiten885-ux/write-xuanhuan-web-fiction-zh/blob/main/TERMS.md</code></td></tr>
+</table>
+<p style="font-size:13px;color:var(--mut);margin-top:8px;">以上 URL 均已验证公开可访问（HTTP 200）；对应页面内容见仓库 PRIVACY.md / TERMS.md / README（安全与隐私节）。</p>
+</div>
+
+<h2>四、登录后的逐项核验路径</h2>
+<div class="card">
+<table>
+<tr><th>#</th><th>核验项</th><th>在哪里看 / 怎么做</th><th>判定</th></tr>
+<tr><td>1</td><td>Apps Management Write 权限</td><td>Platform 左侧 Settings → Organization → Members/Roles；或进入 Apps/Plugins 提交入口，看是否出现「提交/发布」按钮而非只读提示</td><td>能进入提交表单并保存草稿 = 有权限；提示需要权限 = 需组织 Owner 在 Roles 里授予</td></tr>
+<tr><td>2</td><td>身份验证（Identity Verification）</td><td>Settings → General/Account 或提交表单内的 Verification 环节</td><td>显示 Verified = 通过；显示待验证 = 按表单提交材料（须发布者本人完成）</td></tr>
+<tr><td>3</td><td>网站/支持/隐私/条款 URL</td><td>提交表单对应字段，按上文映射逐项粘贴</td><td>保存草稿成功</td></tr>
+<tr><td>4</td><td>政策声明确认</td><td>提交表单底部的数据/隐私/安全/政策复选框，逐项勾选</td><td>全部勾选后「提交审核」按钮亮起</td></tr>
+<tr><td>5</td><td>发行地区</td><td>表单发行地区选择</td><td>按需选择</td></tr>
+<tr><td>6</td><td>提交审核</td><td>点击「提交审核」（Submit for Review）</td><td>进入审核状态；审核通过后由发布者主动点击发布</td></tr>
+</table>
+</div>
+
+<h2>五、常见卡点</h2>
+<div class="card">
+<table>
+<tr><th>卡点</th><th>处理</th></tr>
+<tr><td>Cloudflare 验证框反复出现</td><td>在可见面板里人工点击勾选；自动脚本可能无法通过</td></tr>
+<tr><td>提示无 Apps Management Write</td><td>需组织 Owner（可能就是你自己）在 Settings → Roles 授予该权限后重试</td></tr>
+<tr><td>身份验证要求证件/企业材料</td><td>必须发布者本人完成，助手不代提交；完成后再继续</td></tr>
+<tr><td>表单没有出现 URL 字段</td><td>该字段为「如被要求」项——未被要求时跳过，四项 URL 保持就绪即可</td></tr>
+<tr><td>审核通过后未上架</td><td>需发布者本人主动点击「发布」；发布后公共详情页可被普通用户安装才算完成</td></tr>
+</table>
+</div>
+
+<h2>六、备用分发渠道（已上线）</h2>
+<div class="card">
+<p>除 OpenAI 公开市场外，技能已可通过 Git marketplace 一行接入（任何 Codex 用户可用）：</p>
+<p><code>codex plugin marketplace add yiten885-ux/write-xuanhuan-web-fiction-zh</code></p>
+<p style="margin-top:8px;">分发文件：<a href="https://github.com/yiten885-ux/write-xuanhuan-web-fiction-zh/releases/tag/v2.9.3">GitHub Release v2.9.3（write-xuanhuan-web-fiction-zh.skill）</a> · 仓库：<a href="https://github.com/yiten885-ux/write-xuanhuan-web-fiction-zh">github.com/yiten885-ux/write-xuanhuan-web-fiction-zh</a>（MIT）</p>
+</div>
+
+<div class="footer">玄章天工｜write-xuanhuan-web-fiction-zh · v2.9.3 · 40 来源 / 947 条规则 / 94 套路 · MIT · 生成 2026-08-27</div>
+</div></body></html>
