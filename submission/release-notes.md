@@ -94,3 +94,8 @@
 - 新增流派主线公式库（report 40）：流1-流6（玄幻修仙/重生复仇/穿书自救/废柴逆袭/都市神豪/悬疑灵异）六大流派完整主线模板——核心公式、三幕结构、每流派 6 个反转节点表（含章节位置与爽点类型）、高潮点发布表（章节位置/字数/必备元素）。
 - 全局反转分类表（底牌/身份/资源/理解四类轮换）与各流派高潮点间隔建议（终极高潮在总篇幅 80%-90%）。
 - 新增 references/genre-plot-formulas.md 与 rules/rule-40.md；SKILL.md §5.19 新增 T 节；RULES-INDEX 更新至 40 来源 947 条规则。
+
+## 2.9.1
+
+- 术语清理：全库移除「三押/第三押」表述（32 处、14 个文件），统一替换为「契押（制度）/末押（押位）」，规则逻辑与爽点结构不变。
+- 涉及文件：SKILL 参考文档 8 份（tropes-051-096、tropes-index、climax-techniques、hooks-and-chains、satisfaction-and-pacing、reversal-anguish-meme、stack-recipes、language-contract）+ 溯源档案 6 份（rule-00/13/23/24/25/28）。
