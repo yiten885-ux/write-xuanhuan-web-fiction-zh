@@ -110,3 +110,10 @@
 - 按用户指令完成退婚押印机制的彻底删除（v2.9.2 只做了术语替换，本轮改为内容删除）：删除 T072（退婚缺公证印）与 T078（供奉令压空位）两个套路条目及索引行、删除 T002+T072 组合配方、删除退婚单元样例节（rule-24 第九节）、删除八嘴对比示例（rule-00/climax-techniques）、删除各规则中的押印类例句（rule-13/23/25/28、satisfaction-and-pacing、hooks-and-chains、reversal-anguish-meme、language-contract、tropes-system、rule-26、SKILL.md §5.19G）。
 - 套路库现为 94 个套路（T071-T078 批次头同步修正为 T071-T077）。
 - 全库终验：公证印/契押/末押/三押/第三押/T072/T078 = 0 残留；契约测试 82/82 通过。
+
+## 商店投放（v2.9.3 投放包）
+
+- 插件元数据升级至 2.9.3（plugin.json 版本、描述、关键词与 interface 长说明同步 40 来源/947 条规则/94 套路/双频爽点库）。
+- Codex 本机 marketplace：以 Git 源注册本仓库并完成自安装验证（plugin list 可见）。
+- GitHub Release v2.9.3 附 write-xuanhuan-web-fiction-zh.skill 分发包（453KB+）。
+- 公开市场上架仍需发布者在 OpenAI Portal 完成账号权限/验证/政策声明并主动发布（见 submission-checklist.md）。
