@@ -78,3 +78,12 @@
 
 - 编纂参考文档（references/*.md）中每条规则尾部标注来源编号（如 R00-16、C01、U09），溯源时按编号回到本目录对应 rule-XX.md，再按「来源」节的 PDF 页码回到 OCR 文本（ocr/combined-XX.txt）。
 - OCR 文本为扫描件识别结果，存在少量 [OCR存疑] 标注，引用时以标注为准。
+
+## 用户增补源（非 26 报告体系）
+
+以下增补不走 report 编号，直接进入 SKILL.md 与 references/，原文逐字存档以便溯源：
+
+| 日期 | 来源 | 落点 |
+|---|---|---|
+| 2026-08-27 | 用户增补：情绪压爆点三问/五感锚点/情感张力门禁 | SKILL.md 5.20 |
+| 2026-08-28 | 用户补充五篇：节奏与爽感（一–六）、深层规则（七–十六）、留存到付费（十七–二十六）、结构规则（二十七–三十六）、开局对齐协议（原文R01–R16→本skill对01–对16） | SKILL.md 5.21（留01–留36）+ SKILL.md 5.22（对01–对16）+ references/reader-retention-36.md + references/alignment-protocol-16.md + sources/2026-08-28-user-supplement/ |

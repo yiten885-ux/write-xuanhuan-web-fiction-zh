@@ -22,6 +22,11 @@
   - `references/opening-and-golden-finger.md`：硬冲突（C01-C12）、退婚替婚开局（T01-T14）、金手指隐藏层（L0-L5）
   - `references/memory-and-continuity.md`：四层记忆、上下文包、记忆回写协议
 - 蒸馏规则以 SKILL.md §5.19 硬锁形式与 v1/v2 并列累积，多报告口径冲突已在 §5.19E 统一。
+- **用户增补（2026-08-27 / 2026-08-28）**：
+  - SKILL.md §5.20：情绪压爆点与情感张力合同（大纲预检三问、五感锚点扩写、情感张力门禁）
+  - SKILL.md §5.21 + `references/reader-retention-36.md`：留存与付费 36 锁（留01–留36：爽感循环、抓人密度、打脸三层递进、情绪曲线、钩子链、名场面、付费转化等）
+  - SKILL.md §5.22 + `references/alignment-protocol-16.md`：开局对齐协议 16 条（对01–对16：开书契约卡、卖点主权、金手指四拍循环、先满后亏、租约四件套、F00 开局流水线、P0–P5 优先级）
+  - 五篇源文档逐字存档于 `sources/2026-08-28-user-supplement/`
 
 ## 本地验证
 
