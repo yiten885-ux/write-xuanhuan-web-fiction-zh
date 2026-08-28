@@ -1,6 +1,13 @@
-# 公开页面内容草案
+# 公开页面内容（已上线，仓库现为公开）
 
-这些内容需要由发布者放到公开 HTTPS 页面后，再把真实 URL 填入 OpenAI 提交门户。当前仓库是私有仓库，因此仓库内文件本身不能替代公开 URL。
+仓库已于 2026-08-27 转为公开（MIT），以下真实 URL 可直接填入 OpenAI 提交门户：
+
+- **网站（Website）**：https://github.com/yiten885-ux/write-xuanhuan-web-fiction-zh
+- **支持（Support）**：https://github.com/yiten885-ux/write-xuanhuan-web-fiction-zh/issues
+- **隐私政策（Privacy Policy）**：https://github.com/yiten885-ux/write-xuanhuan-web-fiction-zh/blob/main/PRIVACY.md
+- **服务条款（Terms of Service）**：https://github.com/yiten885-ux/write-xuanhuan-web-fiction-zh/blob/main/TERMS.md
+
+以上 URL 已验证可公开访问（HTTP 200）。
 
 ## 隐私说明草案
 
