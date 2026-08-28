@@ -380,7 +380,7 @@ description: 中文玄幻、仙侠、王朝修仙、系统流等网文的规划�
 3. 必须先填套路卡再写正文；禁止跳过套路卡直接写正文。【R26-08】
 4. 撞 BAN 或全局 S/F/V 必须废章重写，禁止带病续写（S/F/V 确切含义源报告未给出，待补）。【R26-09】
 5. 每号套路必须使用统一字段：WHEN / HARD / FORMULA（PRESS→PAYOFF→HOOK→VISIBLE）/ BAN / STACK。【R26-03】
-6. 已披露套路组合：退婚开局最小加载 T002+T072；套餐用 T089；真香用 T051（禁止与 T002 同章）；T001 救美锁死为辅线（可发生、只作证人物证，禁止当主糖、禁止性过程）。【R26-04/R26-10】
+6. 已披露套路组合：套餐用 T089；真香用 T051（禁止与 T002 同章）；T001 救美锁死为辅线（可发生、只作证人物证，禁止当主糖、禁止性过程）。【R26-04/R26-10】
 7. 96 套路全文（T001-T096）已全部入库：选型看 [tropes-index.md](references/tropes-index.md)，全文看 [tropes-001-050.md](references/tropes-001-050.md) 与 [tropes-051-096.md](references/tropes-051-096.md)，通用规则看 [global-contract.md](references/global-contract.md)，组合看 [stack-recipes.md](references/stack-recipes.md)。【R27】
 8. 套路通用公式：当众 → 损失先落地 → 爆发≤200字（对照物碎）→ 收获可视化 → 高一档露齿 → 章末更高层进场；验收标准逐条写在套路条目内。【R27-01~R27-17】
 
