@@ -49,6 +49,14 @@ class LeanSkillContractTests(unittest.TestCase):
             "references/satisfaction-catalog.md",
             "references/female-frequency-satisfaction.md",
             "references/genre-plot-formulas.md",
+            # v3.1 用户增补（2026-08-28）：留存与付费 36 锁 + 开局对齐协议 + 五篇源文档
+            "references/reader-retention-36.md",
+            "references/alignment-protocol-16.md",
+            "sources/2026-08-28-user-supplement/part1-节奏与爽感篇.md",
+            "sources/2026-08-28-user-supplement/part2-深层规则篇.md",
+            "sources/2026-08-28-user-supplement/part3-留存到付费篇.md",
+            "sources/2026-08-28-user-supplement/part4-结构规则篇.md",
+            "sources/2026-08-28-user-supplement/part5-开局对齐协议篇.md",
             "rules/RULES-INDEX.md",
             "rules/rule-00.md",
             "rules/rule-04.md",
@@ -100,12 +108,12 @@ class LeanSkillContractTests(unittest.TestCase):
         # v3 契约：SKILL.md 保持精简，参考文档按主题按需加载，rules/ 为溯源底账（不进运行时上下文）。
         markdown = list(ROOT.rglob("*.md"))
         text_files = list(ROOT.rglob("*.txt"))
-        self.assertLessEqual(len(markdown), 70)
+        self.assertLessEqual(len(markdown), 90)
         self.assertEqual([], text_files)
-        self.assertLess(sum(path.stat().st_size for path in markdown), 1_050_000)
+        self.assertLess(sum(path.stat().st_size for path in markdown), 1_400_000)
         # v1 与 v2、v3 必须并存；上限只防无关膨胀，不能倒逼删除任一合同。
-        self.assertLess((ROOT / "SKILL.md").stat().st_size, 70_000)
-        self.assertLessEqual(len(list((ROOT / "references").glob("*.md"))), 30)
+        self.assertLess((ROOT / "SKILL.md").stat().st_size, 100_000)
+        self.assertLessEqual(len(list((ROOT / "references").glob("*.md"))), 40)
         self.assertLessEqual(len(list((ROOT / "rules").glob("*.md"))), 40)
 
     def test_frontmatter_is_minimal_and_valid(self) -> None:
@@ -602,7 +610,7 @@ class LeanSkillContractTests(unittest.TestCase):
             "主流玄幻模式",
             "70%–80% 武力、升级与结果兑现",
             "20%–30% 智斗布局",
-            "智斗/权谋模式规划 50%–90% 智斗",
+            # "智斗/权谋模式规划 50%–90% 智斗" 已由用户 2026-08-28 本地修订移除，账本随之更新
             "至少安排 3 章",
             "一旦写成智谋翻盘，仍执行 `PLOT-MIND-02`",
             "阶段与核心反派的非纯武力交锋必须执行完整三层智斗",
