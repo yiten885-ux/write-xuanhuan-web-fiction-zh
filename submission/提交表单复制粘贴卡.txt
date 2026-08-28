@@ -1,0 +1,37 @@
+【玄章天工】OpenAI 提交表单 · 复制粘贴卡
+=============================================
+
+使用方法：在你自己的电脑浏览器（平时登录 ChatGPT 的那个）打开
+https://platform.openai.com/login 登录后，进入 Apps/Plugins 提交表单，
+遇到对应字段时，复制下面右侧内容粘贴即可。
+
+---- 表单字段 → 粘贴内容 ----
+
+【Website 网站】
+https://github.com/yiten885-ux/write-xuanhuan-web-fiction-zh
+
+【Support 支持】
+https://github.com/yiten885-ux/write-xuanhuan-web-fiction-zh/issues
+
+【Privacy Policy 隐私政策】
+https://github.com/yiten885-ux/write-xuanhuan-web-fiction-zh/blob/main/PRIVACY.md
+
+【Terms of Service 服务条款】
+https://github.com/yiten885-ux/write-xuanhuan-web-fiction-zh/blob/main/TERMS.md
+
+---- 政策声明勾选项（逐项勾选）----
+[ ] 数据收集声明：插件不收集、不存储、不共享用户个人数据
+[ ] 隐私政策已提供并公开可访问
+[ ] 服务条款已提供并公开可访问
+[ ] 内容合规：写作辅助工具，不含违规内容
+[ ] 提交审核（Submit for Review）
+
+---- 提交信息（如需填写）----
+名称：玄章天工｜Xuanhuan Storyforge
+一句话：系统规划、创作、续写与审校中文玄幻网文。
+类别：Productivity
+关键词：中文写作、玄幻、仙侠、网文、小说创作、前三章、爽点、钩链、套路库、故事圣经
+版本：v2.9.3（40 来源 · 947 条规则 · 94 套路 · 双频爽点库）
+许可：MIT（免费公开）
+仓库：https://github.com/yiten885-ux/write-xuanhuan-web-fiction-zh
+=============================================
