@@ -99,3 +99,8 @@
 
 - 术语清理：全库移除「三押/第三押」表述（32 处、14 个文件），统一替换为「契押（制度）/末押（押位）」，规则逻辑与爽点结构不变。
 - 涉及文件：SKILL 参考文档 8 份（tropes-051-096、tropes-index、climax-techniques、hooks-and-chains、satisfaction-and-pacing、reversal-anguish-meme、stack-recipes、language-contract）+ 溯源档案 6 份（rule-00/13/23/24/25/28）。
+
+## 2.9.2
+
+- 完成 v2.9.1 术语清理的第二轮：移除过渡术语（契押/末押，35 处、15 个文件），全库统一为中性表述「公证印 / 最后一道公证印 / 退婚未办结公证」。至此退婚公证机制的旧押印类术语全部清零（两轮合计 67 处）。
+- RULES-INDEX 术语规范化说明更新至 v2.9.2 终态（不再引用旧术语）。
