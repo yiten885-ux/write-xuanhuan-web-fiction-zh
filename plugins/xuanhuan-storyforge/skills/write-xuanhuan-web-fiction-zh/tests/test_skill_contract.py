@@ -57,6 +57,9 @@ class LeanSkillContractTests(unittest.TestCase):
             "sources/2026-08-28-user-supplement/part3-留存到付费篇.md",
             "sources/2026-08-28-user-supplement/part4-结构规则篇.md",
             "sources/2026-08-28-user-supplement/part5-开局对齐协议篇.md",
+            # 2026-08-29 用户增补：反衬手法合同
+            "references/foil-contrast-formulas.md",
+            "sources/2026-08-29-user-supplement/part1-反衬手法篇.md",
             "rules/RULES-INDEX.md",
             "rules/rule-00.md",
             "rules/rule-04.md",
