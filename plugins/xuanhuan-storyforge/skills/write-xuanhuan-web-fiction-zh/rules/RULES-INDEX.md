@@ -88,3 +88,4 @@
 | 2026-08-27 | 用户增补：情绪压爆点三问/五感锚点/情感张力门禁 | SKILL.md 5.20 |
 | 2026-08-28 | 用户补充五篇：节奏与爽感（一–六）、深层规则（七–十六）、留存到付费（十七–二十六）、结构规则（二十七–三十六）、开局对齐协议（原文R01–R16→本skill对01–对16） | SKILL.md 5.21（留01–留36）+ SKILL.md 5.22（对01–对16）+ references/reader-retention-36.md + references/alignment-protocol-16.md + sources/2026-08-28-user-supplement/ |
 | 2026-08-29 | 用户补充：反衬手法（核心规则1–4、核心用法公式1–6、微观A–E、宏观F–H、情感层次五型、组合公式、自检8项） | SKILL.md §5.23（衬1–衬4/衬式1–6/衬微A–E/衬宏F–H）+ references/foil-contrast-formulas.md + sources/2026-08-29-user-supplement/ |
+| 2026-08-29 | 用户补充：NPD 双标抑扬（规则1–10）与 NPD 旁白民族情怀（规则1–8），含两条总公式与情绪曲线 | SKILL.md §5.24（双1–双10/怀1–怀8）+ references/npd-villain-formulas.md + sources/2026-08-29-user-supplement/part2 |

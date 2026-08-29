@@ -60,6 +60,8 @@ class LeanSkillContractTests(unittest.TestCase):
             # 2026-08-29 用户增补：反衬手法合同
             "references/foil-contrast-formulas.md",
             "sources/2026-08-29-user-supplement/part1-反衬手法篇.md",
+            "sources/2026-08-29-user-supplement/part2-NPD双标与民族情怀篇.md",
+            "references/npd-villain-formulas.md",
             "rules/RULES-INDEX.md",
             "rules/rule-00.md",
             "rules/rule-04.md",
