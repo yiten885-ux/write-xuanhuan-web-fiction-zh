@@ -67,6 +67,9 @@ class LeanSkillContractTests(unittest.TestCase):
             "references/taboo-list.md",
             "references/mandatory-blocks.md",
             "scripts/semantic_reminder.py",
+            # 2026-08-31 用户增补：爆款生产最小合同
+            "references/hit-production-contract.md",
+            "sources/2026-08-31-user-supplement/part2-爆款生产最小合同篇.md",
             "references/npd-villain-formulas.md",
             "rules/RULES-INDEX.md",
             "rules/rule-00.md",
