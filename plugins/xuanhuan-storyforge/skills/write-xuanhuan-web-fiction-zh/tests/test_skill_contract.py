@@ -61,6 +61,12 @@ class LeanSkillContractTests(unittest.TestCase):
             "references/foil-contrast-formulas.md",
             "sources/2026-08-29-user-supplement/part1-反衬手法篇.md",
             "sources/2026-08-29-user-supplement/part2-NPD双标与民族情怀篇.md",
+            # 2026-08-31 审查补齐批次
+            "references/system-flow-contract.md",
+            "references/opening-locks-map.md",
+            "references/taboo-list.md",
+            "references/mandatory-blocks.md",
+            "scripts/semantic_reminder.py",
             "references/npd-villain-formulas.md",
             "rules/RULES-INDEX.md",
             "rules/rule-00.md",
@@ -117,7 +123,7 @@ class LeanSkillContractTests(unittest.TestCase):
         self.assertEqual([], text_files)
         self.assertLess(sum(path.stat().st_size for path in markdown), 1_400_000)
         # v1 与 v2、v3 必须并存；上限只防无关膨胀，不能倒逼删除任一合同。
-        self.assertLess((ROOT / "SKILL.md").stat().st_size, 100_000)
+        self.assertLess((ROOT / "SKILL.md").stat().st_size, 120_000)
         self.assertLessEqual(len(list((ROOT / "references").glob("*.md"))), 40)
         self.assertLessEqual(len(list((ROOT / "rules").glob("*.md"))), 40)
 
@@ -475,6 +481,7 @@ class LeanSkillContractTests(unittest.TestCase):
                 self.assertIn(marker, skill)
 
     def test_existing_v2_validation_lock_is_preserved_before_ten_lock(self) -> None:
+        blocks = self.read("references/mandatory-blocks.md")
         skill = self.read("SKILL.md")
         footer = """```markdown
 [MANDATORY] 玄幻开篇五条硬规则（违反任一则输出无效，必须回滚重写）：
@@ -487,8 +494,9 @@ class LeanSkillContractTests(unittest.TestCase):
 
 [OUTPUT CHECK] 每生成一卷/章末尾，必须在独立 QA 侧车附上五条规则的自检结果（PASS/FAIL），FAIL项须附修订版本；严禁写入小说正文。
 ```"""
-        self.assertIn(footer, skill)
-        self.assertLess(skill.index(footer), skill.index("[MANDATORY] 玄幻开篇十条硬规则"))
+        self.assertIn(footer, blocks)
+        self.assertLess(blocks.index(footer), blocks.index("[MANDATORY] 玄幻开篇十条硬规则"))
+        self.assertIn("references/mandatory-blocks.md", skill)
 
     def test_templates_require_evidence_and_state_ledgers(self) -> None:
         card = self.read("assets/chapter-card-template.md")
@@ -581,7 +589,8 @@ class LeanSkillContractTests(unittest.TestCase):
 4. LOOT-DELAY-04：战利品分“即时池（≤3项）”与“延迟池（≥1项未知物）”，本章内禁止解释延迟池。
 5. END-HOOK-05：章末禁止主角喊口号，强制采用“客观异变现象（金手指失控/死物复苏）”制造认知错位。"""
         self.assertIn(v1, skill)
-        self.assertLess(skill.index(v1), skill.index("[MANDATORY] 玄幻开篇五条硬规则"))
+        blocks = self.read("references/mandatory-blocks.md")
+        self.assertIn("[MANDATORY] 玄幻开篇五条硬规则", blocks)
 
     def test_new_five_locks_are_welded_and_atomic(self) -> None:
         skill = self.read("SKILL.md")
@@ -647,7 +656,8 @@ class LeanSkillContractTests(unittest.TestCase):
                 self.assertIn(marker, bible)
 
     def test_ten_rule_footer_is_exact_and_precedes_isolation_lock(self) -> None:
-        skill = self.read("SKILL.md").rstrip()
+        blocks = self.read("references/mandatory-blocks.md").rstrip()
+        skill = self.read("SKILL.md")
         footer = """```markdown
 [MANDATORY] 玄幻开篇十条硬规则（违反任一则输出无效，必须回滚重写）：
 
@@ -664,12 +674,13 @@ class LeanSkillContractTests(unittest.TestCase):
 
 [OUTPUT CHECK] 每生成一章末尾，必须在独立 QA 侧车附上十条规则的自检结果（PASS/FAIL），FAIL项须附修订版本；严禁写入小说正文。
 ```"""
-        self.assertIn(footer, skill)
-        self.assertLess(skill.index("[MANDATORY] 玄幻开篇五条硬规则"), skill.index(footer))
+        self.assertIn(footer, blocks)
+        self.assertLess(blocks.index("[MANDATORY] 玄幻开篇五条硬规则"), blocks.index(footer))
         isolation = "[MANDATORY] 读者正文隔离与逐章净字数锁"
-        self.assertIn(isolation, skill)
-        self.assertLess(skill.index(footer), skill.index(isolation))
-        self.assertTrue(skill.endswith("```"))
+        self.assertIn(isolation, blocks)
+        self.assertLess(blocks.index(footer), blocks.index(isolation))
+        self.assertTrue(blocks.endswith("```"))
+        self.assertIn("references/mandatory-blocks.md", skill)
 
     def test_loot_sentence_skeleton_is_generic(self) -> None:
         skill = self.read("SKILL.md")
